@@ -1,0 +1,11 @@
+name: laomodel
+title: laomodel
+account: saitheinthantun
+server: shinyapps.io
+appId: 147773
+bundleId: 666522
+url: https://saitheinthantun.shinyapps.io/laomodel/
+when: 1483338060.40009
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|~$eliminaryLaomodeloutput_18122016.docx|LorenzLaoModel17122017_forSai.R|parameters20161227.txt|PreliminaryLaomodeloutput_18122016.docx

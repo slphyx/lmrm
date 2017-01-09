@@ -1,0 +1,165 @@
+timei = input$timei,
+scalei = input$scalei,
+EDATon = input$EDATon,
+ITNon = input$ITNon,
+RCDon = input$RCDon,
+CHWon = input$CHWon,
+MASSon = input$MASSon,
+covEDATi = input$covEDATi,
+covITNi = input$covITNi,
+effITN = input$effITN,
+durITN = input$durITN,
+covRCDi = input$covRCDi,
+effRCD = input$effRCD,
+covCHWi = input$covCHWi,
+effCHW = input$effCHW,
+cm_1 = input$cm_1,
+cm_2 = input$cm_2,
+cm_3 = input$cm_3,
+
+
+tm_1 = input$tm_1,
+tm_2 = input$tm_2,
+tm_3 = input$tm_3,
+
+
+dm = input$dm,
+lossd = input$lossd,
+cmda_1 = input$cmda_1,
+cmda_2 = input$cmda_2,
+cmda_3 = input$cmda_3,
+effv_1 = input$effv_1,
+effv_2 = input$effv_2,
+effv_3 = input$effv_3,
+dv = input$dv,
+
+
+R0 = input$R0,
+eta = input$eta,
+covEDAT0 = input$covEDAT0,
+nuTr = input$nuTr,
+covITN0 = input$covITN0,
+covRCD0 = input$covRCD0,
+covCHW0 = input$covCHW0,
+amp = input$amp,
+phi = input$phi,
+muC = input$muC,
+muA = input$muA,
+muU = input$muU,
+kf = input$kf,
+
+
+omega = input$omega,
+nuC = input$nuC,
+nuA = input$nuA,
+nuU = input$nuU,
+rhoa = input$rhoa,
+rhou = input$rhou,
+ps = input$ps,
+pr = input$pr,
+mu = input$mu,
+incnm = input$incnm,
+
+
+fa = input$fa,
+ka = input$ka,
+ha = input$ha,
+fp = input$fp,
+kp = input$kp,
+hp = input$hp,
+hap = input$hap,
+hpa = input$hpa,
+fap = input$fap,
+yatoap = input$yatoap,
+
+
+
+
+numericInput(inputId="timei", label = "# timing of intervention", value = 2017.5),
+numericInput(inputId="scalei", label = "# number of years required to reach intervention targets", value = 1),
+checkboxInput(inputId="EDATon", label = "# switch on scale up of EDAT", value = TRUE),
+checkboxInput(inputId="ITNon", label = "# switch on scale up of ITN", value = TRUE),
+checkboxInput(inputId="RCDon", label = "# switch on scale up of RCD    ", value = TRUE),
+checkboxInput(inputId="CHWon", label = "# switch on scale up of CHW  ", value = TRUE),
+checkboxInput(inputId="MASSon", label = "# switch on MDA plus mass RTS,S", value = TRUE),
+
+
+sliderInput(inputId="covEDATi", label = "# intervention proportion of all clinical cases that receive treatment", value = 0.7, min=0,max=1),
+sliderInput(inputId="covITNi", label = "# intervention coverage of ITN", value = 0.9, min=0,max=1),
+sliderInput(inputId="effITN", label = "# efficacy of ITN in reducing force of infection", value = 0.15, min=0,max=1),
+numericInput(inputId="durITN", label = "# duration of efficay of ITN", value = 3),
+sliderInput(inputId="covRCDi", label = "# intervention coverage of RCD", value = 0.75, min=0,max=1),
+sliderInput(inputId="effRCD", label = "# efficacy of RCD measured as the avereage number of additional clinical cases detected per clinical case reported ", value = 1.0, min=0,max=1),
+sliderInput(inputId="covCHWi", label = "# intervention coverage of extended role VMWs", value = 0.9, min=0,max=1),
+sliderInput(inputId="effCHW", label = "# efficacy of f extended role VMWs in reducing fatigue ", value = 0.9, min=0,max=1),
+sliderInput(inputId="cm_1", label = "# coverage of first mass intervention round ", value = 0.8, min=0,max=1),
+sliderInput(inputId="cm_2", label = "# coverage of second mass intervention round", value = 0.95, min=0,max=1),
+sliderInput(inputId="cm_3", label = "# coverage of third mass intervention round", value = 0.95, min=0,max=1),
+
+
+#leave as it is
+Input(inputId="tm_1", label = "# timing of first round", value = 0/12),
+Input(inputId="tm_2", label = "# timing of second round", value = 1/12),
+Input(inputId="tm_3", label = "# timing of third round", value = 2/12),
+
+
+numericInput(inputId="dm", label = "# time taken to reach coverage in each round: coverage means screening and vaccination coverage NOT population MDA coverage", value = 1/12),
+numericInput(inputId="lossd", label = "# rate of loss of profilactic effect following MDA", value = 365/10),
+sliderInput(inputId="cmda_1", label = "# effective population coverage of focal MDA in round 1 - means the proportion of the ENTIRE pop covered with MDA if focal MDA deployed in around 30% of the villages", value = 0.5, min=0,max=1),
+sliderInput(inputId="cmda_2", label = "# effective population coverage of focal MDA in round 2", value = 0.5, min=0,max=1),
+sliderInput(inputId="cmda_3", label = "# effective population coverage of focal MDA in round 3", value = 0.5, min=0,max=1),
+sliderInput(inputId="effv_1", label = "# protective efficacy of a single dose of RTS,S", value = 0.05, min=0,max=1),
+sliderInput(inputId="effv_2", label = "# protective efficacy of two doses of RTS,S", value = 0.2, min=0,max=1),
+sliderInput(inputId="effv_3", label = "# protective efficacy of three doses of RTS,S", value = 0.5, min=0,max=1),
+numericInput(inputId="dv", label = "# duration of vaccine protection", value = 1),
+
+
+
+numericInput(inputId="R0", label = "# basic reproduction number", value = 3.0),
+sliderInput(inputId="eta", label = "# proportion of all infections that are caught in the forrest", value = 0.5, min=0,max=1),
+sliderInput(inputId="covEDAT0", label = "# baseline proportion of all clinical cases that receive treatment", value = 0.3, min=0,max=1),
+numericInput(inputId="nuTr", label = "# recovery under successful treatement with ACT #1", value = 365/3),
+sliderInput(inputId="covITN0", label = "# baseline coverage of ITN", value = 0.5, min=0,max=1),
+sliderInput(inputId="covRCD0", label = "# baseline coverage of RCD (reactive case detection)", value = 0.0, min=0,max=1),
+sliderInput(inputId="covCHW0", label = "# baseline coverage of extended role VMWs", value = 0.0, min=0,max=1),
+numericInput(inputId="amp", label = "# relative amplitude seasonality", value = 0.7),
+numericInput(inputId="phi", label = "# phase angle seasonality", value = 0.5),
+numericInput(inputId="muC", label = "# rate of in-migration of clincial cases = number of cases per person (in current pop) per year", value = 0.00),
+numericInput(inputId="muA", label = "# rate of in-migration of super-microscopic asymptomatic infections = number of new people per person (in current pop) per year", value = 0.0),
+numericInput(inputId="muU", label = "# rate of in-migration of sub-microscopic asymptomatic infections = number of new people per person (in current pop) per year", value = 0.0),
+numericInput(inputId="kf", label = "# maximum fatigue due to low proportion testing positive (0 to 1)", value = 0.9),
+
+
+
+numericInput(inputId="omega", label = "# rate of loss of immunity = 1/(average duration of immunity)", value = 1/2),
+numericInput(inputId="nuC", label = "# rate of loss of symptoms in the absence of treatment", value = 365/10),
+numericInput(inputId="nuA", label = "# 1/(duration of super-microscopic asymtomatic infection)", value = 365/30),
+numericInput(inputId="nuU", label = "# 1/(duration of sub-microscopic asymtomatic infection)", value = 365/120),
+numericInput(inputId="rhoa", label = "# relative infectivity of super-microscopic asymptomatic infections compared with clinical infections", value = 0.7),
+numericInput(inputId="rhou", label = "# relative infectivity of sub-microscopic asymptomatic infections compared with clinical infections", value = 0.3),
+sliderInput(inputId="ps", label = "# proportion of all non-immune new infections that are clinical", value = 0.9, min=0,max=1),
+sliderInput(inputId="pr", label = "# proportion of all immune new infections that are clinical", value = 0.2, min=0,max=1),
+numericInput(inputId="mu", label = "# birth/death", value = 1/50),
+numericInput(inputId="incnm", label = "# incidence of non-malaria febrile illness", value = 2),
+
+
+
+sliderInput(inputId="fa", label = "# proportion of artemisinin resistant cases that fail", value = 0.1, min=0,max=1),
+numericInput(inputId="ka", label = "# speed of fixation of artemisinin resistance with respect to cumulative exposure", value = 5),
+numericInput(inputId="ha", label = "# number of exposures to artemisinin mono therapy required for a selective sweeep for artemisinin resistance", value = 1),
+sliderInput(inputId="fp", label = "# proportion of partner drug 1 resistant cases that fail", value = 0.3, min=0,max=1),
+numericInput(inputId="kp", label = "# speed of fixation of partner drug 1 resistance", value = 5),
+numericInput(inputId="hp", label = "# number of exposures to ACT 1 required for a selective sweeep for partner drug 1 resistance", value = 1),
+numericInput(inputId="hap", label = "# number of exposures to ACT 1 required for a selective sweeep for double resistance given artemisnin resistance", value = 1),
+numericInput(inputId="hpa", label = "# number of exposures to ACT 1 required for a selective sweeep for double resistance given partner drug 1 resistance", value = 1),
+sliderInput(inputId="fap", label = "# proportion of ACT1 resistant cases that fail ", value = 0.9, min=0,max=1),
+numericInput(inputId="yatoap", label = "# timing of switch from mono to ACT1", value = 2000),
+
+
+
+presa = input$presa,
+presp = input$presp,
+double = input$double,
+numericInput(inputId="presa", label = "# proportion of all infections resistant to artemisin at start of simulation", value = 0.025),
+numericInput(inputId="presp", label = "# proportion of all infections resistant to partner drug 1 at start of simulation must be less than presa if double resisatnce", value = 0.0025),
+checkboxInput(inputId="double", label = "# is the partner drug 1 resistance double resistance? y=1, n=0 ", value = TRUE),
