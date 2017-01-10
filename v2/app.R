@@ -11,7 +11,7 @@ ui <- fluidPage(
     tabPanel(title = strong("Process Indicators"),
              column(3,
                     #sliderInput(inputId="timei", label = "timing of intervention ", value = 2018, min=2017, max=2020),
-                    checkboxInput(inputId="EDATon", label = "switch on scale up of EDAT ", value = FALSE),
+                    checkboxInput(inputId="EDATon", label = "EDAT", value = FALSE),
                     checkboxInput(inputId="primon", label = "ACT+primaquine for EDAT and MDA ", value = FALSE), #under EDAT checkbox
                     sliderInput(inputId="EDATscale", label = "years to scale up EDAT ", value = 3, min=.25, max=3, step=.25),
                     sliderInput(inputId="covEDATi", label = "new % of all villages covered by VMW ", value = 90, min=0, max=100),
@@ -31,7 +31,7 @@ ui <- fluidPage(
              ),
              column(3,
                     sliderInput(inputId="covRCDi", label = "new coverage of RCD (%)", value = 50, min=0, max=100),
-                    sliderInput(inputId="effRCD", label = "no. of people investigated per new clinical index case", value = 20, min=0, max=1000),
+                    sliderInput(inputId="effRCD", label = "no. of people investigated per new clinical index case", value = 20, min=0, max=1000), #RCD impact: additional clinical cases detected @L
                     #sliderInput(inputId="dRCD", label = "number of weeks for each investigation ", value = 4, min=1, max=8),
                     sliderInput(inputId="clustRCD", label = "% increased likelihood of finding cases with radial search given village transmission", value = 20, min=0, max=100)
                     
@@ -59,7 +59,7 @@ ui <- fluidPage(
                     sliderInput(inputId="dm", label = "months to complete each round ", value = 6, min=1, max=24)
              ),
              column(3,
-                    sliderInput(inputId="lossd", label = "days prophylaxis provided by the ACT", value = 30, min=7, max=30),
+                    sliderInput(inputId="lossd", label = "duration of protection MVDA (days)", value = 30, min=7, max=30),
                     sliderInput(inputId="cm_1", label = "% population coverage of 1st MDA round", value = 80, min=0, max=100),
                     sliderInput(inputId="cm_2", label = "% of 1st MDA round population to get 2nd", value = 95, min=0, max=100),
                     sliderInput(inputId="cm_3", label = "% of 2nd MDA round population to get 3rd", value = 95, min=0, max=100)
@@ -76,7 +76,7 @@ ui <- fluidPage(
     tabPanel(title = strong("Typology Parameters"),
              column(3,
                     numericInput(inputId="R0", label = "basic reproduction number", value = 2.20, min=NA, max=NA),
-                    sliderInput(inputId="eta", label = "% of all infections that are caught outside the village (forest)", value = 50, min=0, max=100),
+                    sliderInput(inputId="eta", label = "% proportion of infections transmitted in the forest", value = 50, min=0, max=100),
                     sliderInput(inputId="covEDAT0", label = "baseline % of all villages with VMW", value = 30, min=0, max=100)
              ),
              column(3,
@@ -107,14 +107,14 @@ ui <- fluidPage(
              ),
              column(3,
                     sliderInput(inputId="nuU", label = "days of sub-microscopic asymtomatic infection ", value = 60, min=30, max=365),
-                    sliderInput(inputId="rhoa", label = "relative infectivity of super-microscopic asymptomatic infections compared with clinical infections (%) ", value = 70, min=0, max=100)
+                    sliderInput(inputId="rhoa", label = "relative infectivity of patent asymptomatic infections compared with clinical infections (%) ", value = 70, min=0, max=100)
              ),
              column(3,
                     sliderInput(inputId="rhou", label = "relative infectivity of sub-microscopic asymptomatic infections compared with clinical infections (%) ", value = 30, min=0, max=100),
-                    sliderInput(inputId="ps", label = "% of all non-immune new infections that are clinical ", value = 90, min=0, max=100)
+                    sliderInput(inputId="ps", label = "% of all new infections in non-immune hosts that are clinical", value = 90, min=0, max=100)
              ),
              column(3,
-                    sliderInput(inputId="pr", label = "% of all immune new infections that are clinical ", value = 20, min=0, max=100),
+                    sliderInput(inputId="pr", label = "% of all new infections in immune  hosts that are clinical", value = 20, min=0, max=100),
                     sliderInput(inputId="mu", label = "life expectancy (years) ", value = 50, min=45, max=95)
              )
     )
