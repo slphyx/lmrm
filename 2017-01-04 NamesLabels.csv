@@ -1,67 +1,67 @@
-"","V1","V2"
-"1","timei","# timing of intervention"
-"2","scalei","# number of years required to reach intervention targets"
-"3","EDATon","# switch on scale up of EDAT"
-"4","ITNon","# switch on scale up of ITN"
-"5","RCDon","# switch on scale up of RCD"
-"6","CHWon","# switch on scale up of CHW"
-"7","MASSon","# switch on MDA plus mass RTS,S"
-"8","covEDATi","# intervention proportion of all clinical cases that receive treatment"
-"9","covITNi","# intervention coverage of ITN"
-"10","effITN","# efficacy of ITN in reducing force of infection"
-"11","durITN","# duration of efficay of ITN"
-"12","covRCDi","# intervention coverage of RCD"
-"13","effRCD","# efficacy of RCD measured as the avereage number of additional clinical cases detected per clinical case reported"
-"14","covCHWi","# intervention coverage of extended role VMWs"
-"15","effCHW","# efficacy of f extended role VMWs in reducing fatigue"
-"16","cm_1","# coverage of first mass intervention round"
-"17","cm_2","# coverage of second mass intervention round"
-"18","cm_3","# coverage of third mass intervention round"
-"19","tm_1","# timing of first round"
-"20","tm_2","# timing of second round"
-"21","tm_3","# timing of third round"
-"22","dm","# time taken to reach coverage in each round: coverage means screening and vaccination coverage NOT population MDA coverage"
-"23","lossd","# rate of loss of profilactic effect following MDA"
-"24","cmda_1","# effective population coverage of focal MDA in round 1 - means the proportion of the ENTIRE pop covered with MDA if focal MDA deployed in around 30% of the villages"
-"25","cmda_2","# effective population coverage of focal MDA in round 2"
-"26","cmda_3","# effective population coverage of focal MDA in round 3"
-"27","effv_1","# protective efficacy of a single dose of RTS,S"
-"28","effv_2","# protective efficacy of two doses of RTS,S"
-"29","effv_3","# protective efficacy of three doses of RTS,S"
-"30","dv","# duration of vaccine protection"
-"31","R0","# basic reproduction number"
-"32","eta","# proportion of all infections that are caught in the forrest"
-"33","covEDAT0","# baseline proportion of all clinical cases that receive treatment"
-"34","nuTr","# recovery under successful treatement with ACT #1"
-"35","covITN0","# baseline coverage of ITN"
-"36","covRCD0","# baseline coverage of RCD (reactive case detection)"
-"37","covCHW0","# baseline coverage of extended role VMWs"
-"38","amp","# relative amplitude seasonality"
-"39","phi","# phase angle seasonality"
-"40","muC","# rate of in-migration of clincial cases = number of cases per person (in current pop) per year"
-"41","muA","# rate of in-migration of super-microscopic asymptomatic infections = number of new people per person (in current pop) per year"
-"42","muU","# rate of in-migration of sub-microscopic asymptomatic infections = number of new people per person (in current pop) per year"
-"43","kf","# maximum fatigue due to low proportion testing positive (0 to 1)"
-"44","omega","# rate of loss of immunity = 1/(average duration of immunity)"
-"45","nuC","# rate of loss of symptoms in the absence of treatment"
-"46","nuA","# 1/(duration of super-microscopic asymtomatic infection)"
-"47","nuU","# 1/(duration of sub-microscopic asymtomatic infection)"
-"48","rhoa","# relative infectivity of super-microscopic asymptomatic infections compared with clinical infections"
-"49","rhou","# relative infectivity of sub-microscopic asymptomatic infections compared with clinical infections"
-"50","ps","# proportion of all non-immune new infections that are clinical"
-"51","pr","# proportion of all immune new infections that are clinical"
-"52","mu","# birth/death"
-"53","incnm","# incidence of non-malaria febrile illness"
-"54","fa","# proportion of artemisinin resistant cases that fail"
-"55","ka","# speed of fixation of artemisinin resistance with respect to cumulative exposure"
-"56","ha","# number of exposures to artemisinin mono therapy required for a selective sweeep for artemisinin resistance"
-"57","fp","# proportion of partner drug 1 resistant cases that fail"
-"58","kp","# speed of fixation of partner drug 1 resistance"
-"59","hp","# number of exposures to ACT 1 required for a selective sweeep for partner drug 1 resistance"
-"60","hap","# number of exposures to ACT 1 required for a selective sweeep for double resistance given artemisnin resistance"
-"61","hpa","# number of exposures to ACT 1 required for a selective sweeep for double resistance given partner drug 1 resistance"
-"62","fap","# proportion of ACT1 resistant cases that fail"
-"63","yatoap","# timing of switch from mono to ACT1"
-"64","presa","# proportion of all infections resistant to artemisin at start of simulation"
-"65","presp","# proportion of all infections resistant to partner drug 1 at start of simulation must be less than presa if double resisatnce"
-"66","double","# is the partner drug 1 resistance double resistance? y=1, n=0"
+,varname,label
+1,timei,timing of intervention
+2,scalei,number of years required to reach intervention targets
+3,EDATon,switch on scale up of EDAT
+4,ITNon,switch on scale up of ITN
+5,RCDon,switch on scale up of RCD
+6,CHWon,switch on scale up of CHW
+7,MASSon,"switch on MDA plus mass RTS,S"
+8,covEDATi,intervention proportion of all clinical cases that receive treatment
+9,covITNi,intervention coverage of ITN
+10,effITN,efficacy of ITN in reducing force of infection
+11,durITN,duration of efficay of ITN
+12,covRCDi,intervention coverage of RCD
+13,effRCD,efficacy of RCD measured as the avereage number of additional clinical cases detected per clinical case reported
+14,covCHWi,intervention coverage of extended role VMWs
+15,effCHW,efficacy of f extended role VMWs in reducing fatigue
+16,cm_1,coverage of first mass intervention round
+17,cm_2,coverage of second mass intervention round
+18,cm_3,coverage of third mass intervention round
+19,tm_1,timing of first round
+20,tm_2,timing of second round
+21,tm_3,timing of third round
+22,dm,time taken to reach coverage in each round: coverage means screening and vaccination coverage NOT population MDA coverage
+23,lossd,rate of loss of profilactic effect following MDA
+24,cmda_1,effective population coverage of focal MDA in round 1 - means the proportion of the ENTIRE pop covered with MDA if focal MDA deployed in around 30% of the villages
+25,cmda_2,effective population coverage of focal MDA in round 2
+26,cmda_3,effective population coverage of focal MDA in round 3
+27,effv_1,"protective efficacy of a single dose of RTS,S"
+28,effv_2,"protective efficacy of two doses of RTS,S"
+29,effv_3,"protective efficacy of three doses of RTS,S"
+30,dv,duration of vaccine protection
+31,R0,basic reproduction number
+32,eta,proportion of all infections that are caught in the forrest
+33,covEDAT0,baseline proportion of all clinical cases that receive treatment
+34,nuTr,recovery under successful treatement with ACT #1
+35,covITN0,baseline coverage of ITN
+36,covRCD0,baseline coverage of RCD (reactive case detection)
+37,covCHW0,baseline coverage of extended role VMWs
+38,amp,relative amplitude seasonality
+39,phi,phase angle seasonality
+40,muC,rate of in-migration of clincial cases = number of cases per person (in current pop) per year
+41,muA,rate of in-migration of super-microscopic asymptomatic infections = number of new people per person (in current pop) per year
+42,muU,rate of in-migration of sub-microscopic asymptomatic infections = number of new people per person (in current pop) per year
+43,kf,maximum fatigue due to low proportion testing positive (0 to 1)
+44,omega,rate of loss of immunity = 1/(average duration of immunity)
+45,nuC,rate of loss of symptoms in the absence of treatment
+46,nuA,1/(duration of super-microscopic asymtomatic infection)
+47,nuU,1/(duration of sub-microscopic asymtomatic infection)
+48,rhoa,relative infectivity of super-microscopic asymptomatic infections compared with clinical infections
+49,rhou,relative infectivity of sub-microscopic asymptomatic infections compared with clinical infections
+50,ps,proportion of all non-immune new infections that are clinical
+51,pr,proportion of all immune new infections that are clinical
+52,mu,birth/death
+53,incnm,incidence of non-malaria febrile illness
+54,fa,proportion of artemisinin resistant cases that fail
+55,ka,speed of fixation of artemisinin resistance with respect to cumulative exposure
+56,ha,number of exposures to artemisinin mono therapy required for a selective sweeep for artemisinin resistance
+57,fp,proportion of partner drug 1 resistant cases that fail
+58,kp,speed of fixation of partner drug 1 resistance
+59,hp,number of exposures to ACT 1 required for a selective sweeep for partner drug 1 resistance
+60,hap,number of exposures to ACT 1 required for a selective sweeep for double resistance given artemisnin resistance
+61,hpa,number of exposures to ACT 1 required for a selective sweeep for double resistance given partner drug 1 resistance
+62,fap,proportion of ACT1 resistant cases that fail
+63,yatoap,timing of switch from mono to ACT1
+64,presa,proportion of all infections resistant to artemisin at start of simulation
+65,presp,proportion of all infections resistant to partner drug 1 at start of simulation must be less than presa if double resisatnce
+66,double,"is the partner drug 1 resistance double resistance? y=1, n=0"

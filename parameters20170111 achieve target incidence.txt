@@ -1,0 +1,54 @@
+parameters that achieve incidence close to 0
+
+covEDATi = 0.7,      # intervention proportion of all clinical cases that receive treatment
+    covITNi = 0.9,       # intervention coverage of ITN
+    effITN = 0.15,       # efficacy of ITN in reducing force of infection
+    durITN = 3,          # duration of efficay of ITN
+    covRCDi = 0.75,      # intervention coverage of RCD
+    effRCD = 1.0,        # efficacy of RCD measured as the avereage number of additional clinical cases detected per clinical case reported 
+    covCHWi = 0.9,       # intervention coverage of extended role VMWs
+    effCHW = 0.9,        # efficacy of f extended role VMWs in reducing fatigue 
+    
+    cm_1 = 0.8,           # coverage of first mass intervention round 
+    cm_2 = 0.95,          # coverage of second mass intervention round
+    cm_3 = 0.95,          # coverage of third mass intervention round
+    tm_1 = scenario[1]+(0/12),   # timing of first round
+    tm_2 = scenario[1]+(1/12),   # timing of second round
+    tm_3 = scenario[1]+(2/12),   # timing of third round
+    dm = 1/12,            # time taken to reach coverage in each round: coverage means screening and vaccination coverage NOT population MDA coverage
+    
+    lossd = 365/10,       # rate of loss of profilactic effect following MDA
+    cmda_1 = 0.5,         # effective population coverage of focal MDA in round 1 - means the proportion of the ENTIRE pop covered with MDA if focal MDA deployed in around 30% of the villages
+    cmda_2 = 0.5,         # effective population coverage of focal MDA in round 2
+    cmda_3 = 0.5,         # effective population coverage of focal MDA in round 3
+    
+    effv_1 = 0.05,        # protective efficacy of a single dose of RTS,S
+    effv_2 = 0.2,         # protective efficacy of two doses of RTS,S
+    effv_3 = 0.5,         # protective efficacy of three doses of RTS,S
+    dv = 1,               # duration of vaccine protection
+    
+    # setting typology parameters
+    R0 =  3.0,           # basic reproduction number
+    eta = 0.5,           # proportion of all infections that are caught in the forrest
+    covEDAT0 = 0.3,      # baseline proportion of all clinical cases that receive treatment
+    nuTr = 365/3,        # recovery under successful treatement with ACT #1
+    covITN0 = 0.5,       # baseline coverage of ITN
+    covRCD0 = 0.0,       # baseline coverage of RCD (reactive case detection)
+    covCHW0 = 0.0,       # baseline coverage of extended role VMWs
+    amp = 0.7,           # relative amplitude seasonality
+    phi = 0.5,           # phase angle seasonality
+    muC = 0.00,          # rate of in-migration of clincial cases = number of cases per person (in current pop) per year
+    muA = 0.0,           # rate of in-migration of super-microscopic asymptomatic infections = number of new people per person (in current pop) per year
+    muU = 0.0,           # rate of in-migration of sub-microscopic asymptomatic infections = number of new people per person (in current pop) per year
+    kf = 0.9,            # maximum fatigue due to low proportion testing positive (0 to 1)
+    # biological parameters
+    omega = 1/2,         # rate of loss of immunity = 1/(average duration of immunity)
+    nuC = 365/10,        # rate of loss of symptoms in the absence of treatment
+    nuA = 365/30,        # 1/(duration of super-microscopic asymtomatic infection)
+    nuU = 365/120,       # 1/(duration of sub-microscopic asymtomatic infection)
+    rhoa = 0.7,          # relative infectivity of super-microscopic asymptomatic infections compared with clinical infections
+    rhou = 0.3,          # relative infectivity of sub-microscopic asymptomatic infections compared with clinical infections
+    ps = 0.9,            # proportion of all non-immune new infections that are clinical
+    pr = 0.2,            # proportion of all immune new infections that are clinical
+    mu = (1/50),         # birth/death
+    incnm = 2,           # incidence of non-malaria febrile illness

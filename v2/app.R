@@ -9,21 +9,29 @@ ui <- fluidPage(
   tabsetPanel(
     id="panels",
     tabPanel(title = strong("Process Indicators"),
+             HTML("Preset Scenarios"),
+             actionButton("allOn","Turn On all interventions"), 
+             actionButton("allOff","Turn Off all interventions"),
+             actionButton("low","Low Transmission"),
+             actionButton("hi","High Transmission"),
+             HTML(" etcetera..."),
+             hr(),
              column(3,
                     #sliderInput(inputId="timei", label = "timing of intervention ", value = 2018, min=2017, max=2020),
+                    numericInput(inputId="initprev", label = "Initial Prevalence (%)", value = 10, min=NA, max=NA),
                     checkboxInput(inputId="EDATon", label = "EDAT", value = FALSE),
                     checkboxInput(inputId="primon", label = "ACT+primaquine for EDAT and MDA ", value = FALSE), #under EDAT checkbox
-                    sliderInput(inputId="EDATscale", label = "years to scale up EDAT ", value = 3, min=.25, max=3, step=.25),
+                    sliderInput(inputId="EDATscale", label = "years to scale up EDAT ", value = 3, min=0.25, max=3, step=.25),
                     sliderInput(inputId="covEDATi", label = "new % of all villages covered by VMW ", value = 90, min=0, max=100),
                     #hr(),
-                    checkboxInput(inputId="ITNon", label = "switch on scale up of ITN ", value = FALSE),
-                    sliderInput(inputId="ITNscale", label = "years to scale up ITN ", value = 0.5, min=.25, max=3, step=.25),
+                    checkboxInput(inputId="ITNon", label = "ITN ", value = FALSE),
+                    sliderInput(inputId="ITNscale", label = "years to scale up ITN ", value = 0.5, min=0.25, max=3, step=.25),
                     sliderInput(inputId="covITNi", label = "new coverage of ITN (%) ", value = 90, min=0, max=90),
                     sliderInput(inputId="effITN", label = "% of new infections averted due to owenership of ITN ", value = 30, min=0, max=50)
                     
              ),
              column(3,
-                    sliderInput(inputId="RCDscale", label = "years to scale up RCD ", value = 2, min=.25, max=3, step=.25), #.25 timesteps
+                    sliderInput(inputId="RCDscale", label = "years to scale up RCD ", value = 2, min=0.25, max=3, step=.25), #.25 timesteps
                     checkboxInput(inputId="RCDcoex", label = "change RCD to co-exposure search   ", value = FALSE),
                     sliderInput(inputId="RCDsensC", label = "sensitivity of RCD test used for clinical infection ", value = 95, min=0, max=100),
                     sliderInput(inputId="RCDsensA", label = "sensitivity of RCD test used for super-microscopic asymtomatic infection", value = 60, min=0, max=100),
@@ -37,10 +45,10 @@ ui <- fluidPage(
                     
              ),
              column(3,
-                    checkboxInput(inputId="RCDon", label = "switch on scale up of RCD default radial search", value = FALSE),
+                    checkboxInput(inputId="RCDon", label = "RCD default radial search", value = FALSE),
                     sliderInput(inputId="clustRCDcoex", label = "% increased likelihood of finding cases with coexposure search given outside-village transmission ", value = 90, min=0, max=100),
-                    checkboxInput(inputId="IRSon", label = "switch on scale up of IRS ", value = FALSE),
-                    sliderInput(inputId="IRSscale", label = "years to scale up IRS ", value = 1, min=.25, max=3, step=.25),
+                    checkboxInput(inputId="IRSon", label = "IRS ", value = FALSE),
+                    sliderInput(inputId="IRSscale", label = "years to scale up IRS ", value = 1, min=0.25, max=3, step=.25),
                     sliderInput(inputId="covIRSi", label = "new coverage of IRS (%) ", value = 90, min=0, max=90),
                     sliderInput(inputId="effIRS", label = "% reduction in biting rate due to IRS ", value = 15, min=0, max=25)
              )
@@ -145,8 +153,146 @@ ui <- fluidPage(
   
 )
 
-server <- function(input, output) {
+server <- function(input, output, clientData, session) {
   output$MODEL <- renderPlot({
+    observeEvent(input$allOff,{
+      updateCheckboxInput(session, "EDATon", value = FALSE)
+      updateCheckboxInput(session, "primon", value = FALSE)
+      updateCheckboxInput(session, "ITNon", value = FALSE)
+      updateCheckboxInput(session, "RCDcoex", value = FALSE)
+      updateCheckboxInput(session, "RCDon", value = FALSE)
+      updateCheckboxInput(session, "IRSon", value = FALSE)
+      updateCheckboxInput(session, "MDAon", value = FALSE)
+
+    })
+    
+    observeEvent(input$allOn,{
+      updateCheckboxInput(session, "EDATon", value = TRUE)
+      updateCheckboxInput(session, "primon", value = TRUE)
+      updateCheckboxInput(session, "ITNon", value = TRUE)
+      updateCheckboxInput(session, "RCDcoex", value = TRUE)
+      updateCheckboxInput(session, "RCDon", value = TRUE)
+      updateCheckboxInput(session, "IRSon", value = TRUE)
+      updateCheckboxInput(session, "MDAon", value = TRUE)
+    })
+
+    observeEvent(input$low,{
+      updateCheckboxInput(session, "EDATon", value = TRUE)
+      updateCheckboxInput(session, "primon", value = FALSE)
+      updateCheckboxInput(session, "ITNon", value = TRUE)
+      updateCheckboxInput(session, "RCDcoex", value = FALSE)
+      updateCheckboxInput(session, "RCDon", value = FALSE)
+      updateCheckboxInput(session, "IRSon", value = FALSE)
+      updateCheckboxInput(session, "MDAon", value = FALSE)
+
+      updateSliderInput(session, "EDATscale", value = 1)
+      updateSliderInput(session, "covEDATi", value = 90)
+      updateSliderInput(session, "ITNscale", value = 1)
+      updateSliderInput(session, "covITNi", value = 90)
+      updateSliderInput(session, "effITN", value = 30)
+      updateSliderInput(session, "RCDscale", value = 0.25)
+      updateSliderInput(session, "RCDsenseC", value = 0)
+      updateSliderInput(session, "RCDsenseA", value = 0)
+      updateSliderInput(session, "RCDsenseU", value = 0)
+      updateSliderInput(session, "covRCDi", value = 0)
+      updateSliderInput(session, "effRCD", value = 0)
+      updateSliderInput(session, "clustRCD", value = 0)
+      updateSliderInput(session, "clustRCDcoex", value = 0)
+      updateSliderInput(session, "IRSscale", value = 0.25)
+      updateSliderInput(session, "covIRSi", value = 0)
+      updateSliderInput(session, "effIRS", value = 0)
+
+      updateSliderInput(session, "R0", value = 2.2)
+      updateSliderInput(session, "eta", value = 30)
+      updateSliderInput(session, "covEDAT0", value = 30)
+      updateSliderInput(session, "covITN0", value = 60)
+      updateSliderInput(session, "covRCD0", value = 0)
+      updateSliderInput(session, "covIRS0", value = 0)
+      updateSliderInput(session, "muC", value = 1)
+      updateSliderInput(session, "muA", value = 10)
+      updateSliderInput(session, "muU", value = 20)
+      updateSliderInput(session, "percfail2018", value = 5)
+      updateSliderInput(session, "percfail2019", value = 8)
+      updateSliderInput(session, "percfail2020", value = 10)
+
+      updateSliderInput(session, "omega", value = 2)
+      updateSliderInput(session, "nuC", value = 9)
+      updateSliderInput(session, "nuA", value = 30)
+      updateSliderInput(session, "nuU", value = 60)
+      updateSliderInput(session, "rhoa", value = 70)
+      updateSliderInput(session, "rhou", value = 30)
+      updateSliderInput(session, "ps", value = 90)
+      updateSliderInput(session, "pr", value = 20)
+      updateSliderInput(session, "mu", value = 50)
+
+    })
+
+    observeEvent(input$hi,{
+      updateCheckboxInput(session, "EDATon", value = TRUE)
+      updateCheckboxInput(session, "primon", value = TRUE)
+      updateCheckboxInput(session, "ITNon", value = TRUE)
+      updateCheckboxInput(session, "RCDcoex", value = FALSE)
+      updateCheckboxInput(session, "RCDon", value = FALSE)
+      updateCheckboxInput(session, "IRSon", value = FALSE)
+      updateCheckboxInput(session, "MDAon", value = TRUE)
+
+      updateSliderInput(session, "EDATscale", value = 1)
+      updateSliderInput(session, "covEDATi", value = 90)
+      updateSliderInput(session, "ITNscale", value = 1)
+      updateSliderInput(session, "covITNi", value = 90)
+      updateSliderInput(session, "effITN", value = 30)
+      updateSliderInput(session, "RCDscale", value = 0.25)
+      updateSliderInput(session, "RCDsenseC", value = 0)
+      updateSliderInput(session, "RCDsenseA", value = 0)
+      updateSliderInput(session, "RCDsenseU", value = 0)
+      updateSliderInput(session, "covRCDi", value = 0)
+      updateSliderInput(session, "effRCD", value = 0)
+      updateSliderInput(session, "clustRCD", value = 0)
+      updateSliderInput(session, "clustRCDcoex", value = 0)
+      updateSliderInput(session, "IRSscale", value = 0.25)
+      updateSliderInput(session, "covIRSi", value = 0)
+      updateSliderInput(session, "effIRS", value = 0)
+
+      updateSliderInput(session, "cmda_1", value = 50)
+      updateSliderInput(session, "cmda_2", value = 50)
+      updateSliderInput(session, "cmda_3", value = 50)
+      updateSliderInput(session, "tm_1", value = 12)
+      updateSliderInput(session, "tm_2", value = 13)
+      updateSliderInput(session, "tm_3", value = 14)
+      updateSliderInput(session, "dm", value = 1)
+      updateSliderInput(session, "lossd", value = 30)
+      updateSliderInput(session, "cm_1", value = 90)
+      updateSliderInput(session, "cm_2", value = 80)
+      updateSliderInput(session, "cm_3", value = 85)
+      updateSliderInput(session, "effv_1", value = 10)
+      updateSliderInput(session, "effv_2", value = 20)
+      updateSliderInput(session, "effv_3", value = 50)
+      updateSliderInput(session, "dv", value = 1)
+
+      updateSliderInput(session, "R0", value = 2.8)
+      updateSliderInput(session, "eta", value = 30)
+      updateSliderInput(session, "covEDAT0", value = 30)
+      updateSliderInput(session, "covITN0", value = 60)
+      updateSliderInput(session, "covRCD0", value = 0)
+      updateSliderInput(session, "covIRS0", value = 0)
+      updateSliderInput(session, "muC", value = 1)
+      updateSliderInput(session, "muA", value = 10)
+      updateSliderInput(session, "muU", value = 20)
+      updateSliderInput(session, "percfail2018", value = 5)
+      updateSliderInput(session, "percfail2019", value = 8)
+      updateSliderInput(session, "percfail2020", value = 10)
+
+      updateSliderInput(session, "omega", value = 2)
+      updateSliderInput(session, "nuC", value = 9)
+      updateSliderInput(session, "nuA", value = 30)
+      updateSliderInput(session, "nuU", value = 60)
+      updateSliderInput(session, "rhoa", value = 70)
+      updateSliderInput(session, "rhou", value = 30)
+      updateSliderInput(session, "ps", value = 90)
+      updateSliderInput(session, "pr", value = 20)
+      updateSliderInput(session, "mu", value = 50)
+    })
+    
     # define the number of weeks to run the model
     dt<-1/12
     startyear<-2015
@@ -156,7 +302,8 @@ server <- function(input, output) {
     tsteps<-length(times)
     
     # initial prevalence
-    initprev<-0.1
+    initprev = input$initprev/100
+    #initprev<-0.1
     
     # ENTER COUNTERFACTUAL AND INTERVENTION SCENARIOS
     # 1 = include EDAT scaleup 1-yes, 0-no
@@ -416,10 +563,10 @@ server <- function(input, output) {
                
                timei<-timei-startyear
                
-               wsiEDAT<-(1-(Y<=timei))*(Y<=(timei+EDATscale))*((Y-timei)/EDATscale)+1*(Y>=(timei+EDATscale))
-               wsiITN<-(1-(Y<=timei))*(Y<=(timei+ITNscale))*((Y-timei)/ITNscale)+1*(Y>=(timei+ITNscale))
-               wsiRCD<-(1-(Y<=timei))*(Y<=(timei+RCDscale))*((Y-timei)/RCDscale)+1*(Y>=(timei+RCDscale))
-               wsiIRS<-(1-(Y<=timei))*(Y<=(timei+IRSscale))*((Y-timei)/IRSscale)+1*(Y>=(timei+IRSscale))
+               wsiEDAT<-(1-(Y<=timei))*(Y<=(timei+EDATscale))*((Y-timei)/EDATscale)+1*(Y>(timei+EDATscale))
+               wsiITN<-(1-(Y<=timei))*(Y<=(timei+ITNscale))*((Y-timei)/ITNscale)+1*(Y>(timei+ITNscale))
+               wsiRCD<-(1-(Y<=timei))*(Y<=(timei+RCDscale))*((Y-timei)/RCDscale)+1*(Y>(timei+RCDscale))
+               wsiIRS<-(1-(Y<=timei))*(Y<=(timei+IRSscale))*((Y-timei)/IRSscale)+1*(Y>(timei+IRSscale))
                covEDAT<-(1-wsiEDAT)*covEDAT0+wsiEDAT*covEDATi
                covITN<-(1-wsiITN)*covITN0+wsiITN*covITNi
                covRCD<-(1-wsiRCD)*covRCD0+wsiRCD*covRCDi
@@ -567,7 +714,7 @@ server <- function(input, output) {
     lines(c(2021,2021),c(-maxy,2*maxy),col="dark grey",lty=3,lwd=2)
     abline(h=1/12,col="dark grey",lty=3,lwd=2)
     maxy<-20
-    matplot(times,prevalence, type='l',lty=1,xlab = "Time",ylab="% prevalence",main="Predicted population prevalence by U-PCR",ylim=c(0,maxy),lwd=2)
+    matplot(times,prevalence, type='l',lty=1,xlab = "Time",ylab="% prevalence",main="Predicted population prevalence by U-PCR",ylim=c(0,max(prevalence)+5),lwd=2) #ylim=c(0,maxy)
     lines(c(2018,2018),c(-maxy,2*maxy),col="dark grey",lty=3,lwd=2)
     lines(c(2021,2021),c(-maxy,2*maxy),col="dark grey",lty=3,lwd=2)
   })
