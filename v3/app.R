@@ -182,7 +182,7 @@ maxt<-stopyear-startyear
 times <- seq(0, maxt, by = dt)
 tsteps<-length(times)
 
-ParLabel <- read.table('ParLabel.csv', sep=",", as.is=TRUE)
+ParLabel <- read.table('ParLabel_savannaket.csv', sep=",", as.is=TRUE)
 
 #non-reactive function runGMS is now outside of the server function
 runGMS<-function(initprev, scenario, param) 
