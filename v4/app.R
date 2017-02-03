@@ -83,12 +83,12 @@ ui <- fluidPage(
              )
              
     ),
-    tabPanel(title = strong("Focal MDA Indicators"),
+    tabPanel(title = strong("Focal MVDA Indicators"),
              column(3,
-                    checkboxInput(inputId="MDAon", label = "switch on MDA", value = FALSE), #6
-                    sliderInput(inputId="cmda_1", label = "effective population coverage of focal MDA in round 1 ", value = 50, min=0, max=100),
-                    sliderInput(inputId="cmda_2", label = "effective population coverage of focal MDA in round 2 ", value = 50, min=0, max=100),
-                    sliderInput(inputId="cmda_3", label = "effective population coverage of focal MDA in round 3 ", value = 50, min=0, max=100)
+                    checkboxInput(inputId="MDAon", label = "switch on MVDA", value = FALSE), #6
+                    sliderInput(inputId="cmda_1", label = "effective population coverage of focal MVDA in round 1 ", value = 50, min=0, max=100),
+                    sliderInput(inputId="cmda_2", label = "effective population coverage of focal MVDA in round 2 ", value = 50, min=0, max=100),
+                    sliderInput(inputId="cmda_3", label = "effective population coverage of focal MVDA in round 3 ", value = 50, min=0, max=100)
              ),
              column(3,
                     sliderInput(inputId="tm_1", label = "timing of 1st round [2018+ no. of month, 1 means Jan'2018, 13 means Jan'2019]", value = 12, min=1, max=36),
@@ -98,9 +98,9 @@ ui <- fluidPage(
              ),
              column(3,
                     sliderInput(inputId="lossd", label = "days prophylaxis provided by the ACT", value = 30, min=7, max=30),
-                    sliderInput(inputId="cm_1", label = "% population coverage of 1st MDA round", value = 90, min=0, max=100),
-                    sliderInput(inputId="cm_2", label = "% of 1st MDA round population to get 2nd", value = 80, min=0, max=100),
-                    sliderInput(inputId="cm_3", label = "% of 2nd MDA round population to get 3rd", value = 85, min=0, max=100)
+                    sliderInput(inputId="cm_1", label = "% MVDA sub-population coverage of 1st MVDA round", value = 90, min=0, max=100),
+                    sliderInput(inputId="cm_2", label = "% of 1st round MVDA sub-population to get 2nd", value = 80, min=0, max=100),
+                    sliderInput(inputId="cm_3", label = "% of 2nd round MVDA sub-population to get 3rd", value = 85, min=0, max=100)
              ),
              column(3,
                     sliderInput(inputId="effv_1", label = "% protective efficacy of RTS,S with 1st dose", value = 10, min=0, max=100),
@@ -123,12 +123,14 @@ ui <- fluidPage(
     ),
     tabPanel(title= strong("Download"),
              downloadButton("downloadTable", "Download current values of parameters"),
-             downloadButton("downloadplot","Download high resolution figure")) #,
-    # tabPanel(title= strong("Preset Scenarios"),
-    #          actionButton("allOn","Turn On all interventions"), 
-    #          actionButton("allOff","Turn Off all interventions"),
-    #          actionButton("low","Low Transmission"),
-    #          actionButton("hi","High Transmission"))
+             downloadButton("downloadplot","Download high resolution figure")),
+    tabPanel(title= strong("Upload & restore your previous parameters"),
+             wellPanel(
+               fileInput(inputId = "file", label ="Your input file:", accept = c(".csv"))
+             )
+             #,
+             #tableOutput(outputId = "table")
+             )
     # tabPanel(title = strong("Biological Parameters"), #not remove
     #          column(3,
     #                 sliderInput(inputId="omega", label = "average duration of immunity (years) ", value = 2, min=0, max=10),
@@ -285,6 +287,9 @@ runGMS<-function(initprev, scenario, param)
            eta<-eta/100
            # convert time scales
            dm<-dm/12
+           tm_1 <- 2018+(tm_1/12) #new
+           tm_2 <- 2018+(tm_2/12) #new
+           tm_3 <- 2018+(tm_3/12) #new
            # convert durations to rates
            lossd<-365/lossd
            omega<-1/omega
@@ -518,9 +523,9 @@ server <- function(input, output, session) {
     cmda_1 = input$cmda_1,
     cmda_2 = input$cmda_2,
     cmda_3 = input$cmda_3,
-    tm_1 = 2018+(input$tm_1/12),          # timing of 1st round [2018 to 2021 - 1 month steps]
-    tm_2 = 2018+(input$tm_2/12),          # timing of 2nd round [2018+(1/12) to 2021 - 1 month steps]
-    tm_3 = 2018+(input$tm_3/12),          # timing of 3rd round [2018+(2/12) to 2021 - 1 month steps]
+    tm_1 = input$tm_1,          # timing of 1st round [2018 to 2021 - 1 month steps]
+    tm_2 = input$tm_2,          # timing of 2nd round [2018+(1/12) to 2021 - 1 month steps]
+    tm_3 = input$tm_3,          # timing of 3rd round [2018+(2/12) to 2021 - 1 month steps]
     dm = input$dm,
     lossd = input$lossd,
     cm_1 = input$cm_1,
@@ -540,146 +545,72 @@ server <- function(input, output, session) {
     MSATsensU = input$MSATsensU
   ))
   
-  #preset scenarios
-  # observeEvent(input$allOff,{
-  #   updateCheckboxInput(session, "EDATon", value = FALSE)
-  #   updateCheckboxInput(session, "primon", value = FALSE)
-  #   updateCheckboxInput(session, "ITNon", value = FALSE)
-  #   updateCheckboxInput(session, "RCDcoex", value = FALSE)
-  #   updateCheckboxInput(session, "RCDon", value = FALSE)
-  #   updateCheckboxInput(session, "IRSon", value = FALSE)
-  #   updateCheckboxInput(session, "MDAon", value = FALSE)
-  #   
-  # })
-  # 
-  # observeEvent(input$allOn,{
-  #   updateCheckboxInput(session, "EDATon", value = TRUE)
-  #   updateCheckboxInput(session, "primon", value = TRUE)
-  #   updateCheckboxInput(session, "ITNon", value = TRUE)
-  #   updateCheckboxInput(session, "RCDcoex", value = TRUE)
-  #   updateCheckboxInput(session, "RCDon", value = TRUE)
-  #   updateCheckboxInput(session, "IRSon", value = TRUE)
-  #   updateCheckboxInput(session, "MDAon", value = TRUE)
-  # })
-  # 
-  # observeEvent(input$low,{
-  #   updateNumericInput(session, "initprev", value = 2)
-  #   updateCheckboxInput(session, "EDATon", value = TRUE)
-  #   updateCheckboxInput(session, "primon", value = FALSE)
-  #   updateCheckboxInput(session, "ITNon", value = TRUE)
-  #   updateCheckboxInput(session, "RCDcoex", value = FALSE)
-  #   updateCheckboxInput(session, "RCDon", value = FALSE)
-  #   updateCheckboxInput(session, "IRSon", value = FALSE)
-  #   updateCheckboxInput(session, "MDAon", value = FALSE)
-  #   
-  #   updateSliderInput(session, "EDATscale", value = 1)
-  #   updateSliderInput(session, "covEDATi", value = 90)
-  #   updateSliderInput(session, "ITNscale", value = 1)
-  #   updateSliderInput(session, "covITNi", value = 90)
-  #   updateSliderInput(session, "effITN", value = 30)
-  #   updateSliderInput(session, "RCDscale", value = 0.25)
-  #   updateSliderInput(session, "RCDsensC", value = 0)
-  #   updateSliderInput(session, "RCDsensA", value = 0)
-  #   updateSliderInput(session, "RCDsensU", value = 0)
-  #   updateSliderInput(session, "covRCDi", value = 0)
-  #   updateSliderInput(session, "effRCD", value = 0)
-  #   updateSliderInput(session, "clustRCD", value = 0)
-  #   updateSliderInput(session, "clustRCDcoex", value = 0)
-  #   updateSliderInput(session, "IRSscale", value = 0.25)
-  #   updateSliderInput(session, "covIRSi", value = 0)
-  #   updateSliderInput(session, "effIRS", value = 0)
-  #   
-  #   updateSliderInput(session, "R0", value = 2.2)
-  #   updateSliderInput(session, "eta", value = 30)
-  #   updateSliderInput(session, "covEDAT0", value = 30)
-  #   updateSliderInput(session, "covITN0", value = 60)
-  #   updateSliderInput(session, "covRCD0", value = 0)
-  #   updateSliderInput(session, "covIRS0", value = 0)
-  #   updateSliderInput(session, "muC", value = 1)
-  #   updateSliderInput(session, "muA", value = 10)
-  #   updateSliderInput(session, "muU", value = 20)
-  #   updateSliderInput(session, "percfail2018", value = 5)
-  #   updateSliderInput(session, "percfail2019", value = 8)
-  #   updateSliderInput(session, "percfail2020", value = 10)
-  #   
-  #   updateSliderInput(session, "omega", value = 2)
-  #   updateSliderInput(session, "nuC", value = 9)
-  #   updateSliderInput(session, "nuA", value = 30)
-  #   updateSliderInput(session, "nuU", value = 60)
-  #   updateSliderInput(session, "rhoa", value = 70)
-  #   updateSliderInput(session, "rhou", value = 30)
-  #   updateSliderInput(session, "ps", value = 90)
-  #   updateSliderInput(session, "pr", value = 20)
-  #   updateSliderInput(session, "mu", value = 50)
-  #   
-  # })
-  # 
-  # observeEvent(input$hi,{
-  #   updateNumericInput(session, "initprev", value = 10)
-  #   updateCheckboxInput(session, "EDATon", value = TRUE)
-  #   updateCheckboxInput(session, "primon", value = TRUE)
-  #   updateCheckboxInput(session, "ITNon", value = TRUE)
-  #   updateCheckboxInput(session, "RCDcoex", value = FALSE)
-  #   updateCheckboxInput(session, "RCDon", value = FALSE)
-  #   updateCheckboxInput(session, "IRSon", value = FALSE)
-  #   updateCheckboxInput(session, "MDAon", value = TRUE)
-  #   
-  #   updateSliderInput(session, "EDATscale", value = 1)
-  #   updateSliderInput(session, "covEDATi", value = 90)
-  #   updateSliderInput(session, "ITNscale", value = 1)
-  #   updateSliderInput(session, "covITNi", value = 90)
-  #   updateSliderInput(session, "effITN", value = 30)
-  #   updateSliderInput(session, "RCDscale", value = 0.25)
-  #   updateSliderInput(session, "RCDsensC", value = 0)
-  #   updateSliderInput(session, "RCDsensA", value = 0)
-  #   updateSliderInput(session, "RCDsensU", value = 0)
-  #   updateSliderInput(session, "covRCDi", value = 0)
-  #   updateSliderInput(session, "effRCD", value = 0)
-  #   updateSliderInput(session, "clustRCD", value = 0)
-  #   updateSliderInput(session, "clustRCDcoex", value = 0)
-  #   updateSliderInput(session, "IRSscale", value = 0.25)
-  #   updateSliderInput(session, "covIRSi", value = 0)
-  #   updateSliderInput(session, "effIRS", value = 0)
-  #   
-  #   updateSliderInput(session, "cmda_1", value = 50)
-  #   updateSliderInput(session, "cmda_2", value = 50)
-  #   updateSliderInput(session, "cmda_3", value = 50)
-  #   updateSliderInput(session, "tm_1", value = 12)
-  #   updateSliderInput(session, "tm_2", value = 13)
-  #   updateSliderInput(session, "tm_3", value = 14)
-  #   updateSliderInput(session, "dm", value = 1)
-  #   updateSliderInput(session, "lossd", value = 30)
-  #   updateSliderInput(session, "cm_1", value = 90)
-  #   updateSliderInput(session, "cm_2", value = 80)
-  #   updateSliderInput(session, "cm_3", value = 85)
-  #   updateSliderInput(session, "effv_1", value = 10)
-  #   updateSliderInput(session, "effv_2", value = 20)
-  #   updateSliderInput(session, "effv_3", value = 50)
-  #   updateSliderInput(session, "dv", value = 1)
-  #   
-  #   updateSliderInput(session, "R0", value = 2.8)
-  #   updateSliderInput(session, "eta", value = 30)
-  #   updateSliderInput(session, "covEDAT0", value = 30)
-  #   updateSliderInput(session, "covITN0", value = 60)
-  #   updateSliderInput(session, "covRCD0", value = 0)
-  #   updateSliderInput(session, "covIRS0", value = 0)
-  #   updateSliderInput(session, "muC", value = 1)
-  #   updateSliderInput(session, "muA", value = 10)
-  #   updateSliderInput(session, "muU", value = 20)
-  #   updateSliderInput(session, "percfail2018", value = 5)
-  #   updateSliderInput(session, "percfail2019", value = 8)
-  #   updateSliderInput(session, "percfail2020", value = 10)
-  #   
-  #   updateSliderInput(session, "omega", value = 2)
-  #   updateSliderInput(session, "nuC", value = 9)
-  #   updateSliderInput(session, "nuA", value = 30)
-  #   updateSliderInput(session, "nuU", value = 60)
-  #   updateSliderInput(session, "rhoa", value = 70)
-  #   updateSliderInput(session, "rhou", value = 30)
-  #   updateSliderInput(session, "ps", value = 90)
-  #   updateSliderInput(session, "pr", value = 20)
-  #   updateSliderInput(session, "mu", value = 50)
-  # })
+  #getting back previous parameters
+  data <- reactive({read.csv(input$file$datapath)})
+  datavalue <- reactive(data()[,2])
+  observeEvent(input$file,{
+    updateCheckboxInput(session, "EDATon", value = datavalue()[1])
+    updateCheckboxInput(session, "ITNon", value = datavalue()[2])
+    updateCheckboxInput(session, "RCDon", value = datavalue()[3])
+    updateRadioButtons(session, "RCDcoex", selected = datavalue()[4])
+    updateCheckboxInput(session, "IRSon", value = datavalue()[5])
+    updateCheckboxInput(session, "MDAon", value = datavalue()[6])
+    updateCheckboxInput(session, "primon", value = datavalue()[7])
+    updateCheckboxInput(session, "MSATon", value = datavalue()[8])
+    
+    updateSliderInput(session, "API", value = datavalue()[9])
+    
+    updateSliderInput(session, "bh", value = datavalue()[10])
+    updateSliderInput(session, "eta", value = datavalue()[11])
+    updateSliderInput(session, "covEDAT0", value = datavalue()[12])
+    updateSliderInput(session, "covITN0", value = datavalue()[13])
+    updateSliderInput(session, "effITN", value = datavalue()[14])
+    updateSliderInput(session, "covIRS0", value = datavalue()[15])
+    updateSliderInput(session, "effIRS", value = datavalue()[16])
+    updateSliderInput(session, "muC", value = datavalue()[17])
+    updateSliderInput(session, "muA", value = datavalue()[18])
+    updateSliderInput(session, "muU", value = datavalue()[19])
+    updateSliderInput(session, "percfail2018", value = datavalue()[20])
+    updateSliderInput(session, "percfail2019", value = datavalue()[21])
+    updateSliderInput(session, "percfail2020", value = datavalue()[22])
+    updateSliderInput(session, "EDATscale", value = datavalue()[23])
+    updateSliderInput(session, "covEDATi", value = datavalue()[24])
+    updateSliderInput(session, "ITNscale", value = datavalue()[25])
+    updateSliderInput(session, "covITNi", value = datavalue()[26])
+    updateSliderInput(session, "RCDscale", value = datavalue()[27])
+    updateSliderInput(session, "covRCDi", value = datavalue()[28])
+    updateSliderInput(session, "effRCD", value = datavalue()[29])
+    updateSliderInput(session, "clustRCD", value = datavalue()[30])
+    updateSliderInput(session, "clustRCDcoex", value = datavalue()[31])
+    updateSliderInput(session, "RCDsensC", value = datavalue()[32])
+    updateSliderInput(session, "RCDsensA", value = datavalue()[33])
+    updateSliderInput(session, "RCDsensU", value = datavalue()[34])
+    updateSliderInput(session, "IRSscale", value = datavalue()[35])
+    updateSliderInput(session, "covIRSi", value = datavalue()[36])
+    updateSliderInput(session, "cmda_1", value = datavalue()[37])
+    updateSliderInput(session, "cmda_2", value = datavalue()[38])
+    updateSliderInput(session, "cmda_3", value = datavalue()[39])
+    updateSliderInput(session, "tm_1", value = datavalue()[40])
+    updateSliderInput(session, "tm_2", value = datavalue()[41])
+    updateSliderInput(session, "tm_3", value = datavalue()[42])
+    updateSliderInput(session, "dm", value = datavalue()[43])
+    updateSliderInput(session, "lossd", value = datavalue()[44])
+    updateSliderInput(session, "cm_1", value = datavalue()[45])
+    updateSliderInput(session, "cm_2", value = datavalue()[46])
+    updateSliderInput(session, "cm_3", value = datavalue()[47])
+    updateSliderInput(session, "effv_1", value = datavalue()[48])
+    updateSliderInput(session, "effv_2", value = datavalue()[49])
+    updateSliderInput(session, "effv_3", value = datavalue()[50])
+    updateSliderInput(session, "dv", value = datavalue()[51])
+    updateSliderInput(session, "MSATscale", value = datavalue()[52])
+    updateSliderInput(session, "covMSATi", value = datavalue()[53])
+    updateSliderInput(session, "MSATsensC", value = datavalue()[54])
+    updateSliderInput(session, "MSATsensA", value = datavalue()[55])
+    updateSliderInput(session, "MSATsensU", value = datavalue()[56])
+  })
+  
+  #testing
+  #output$table <- renderTable(datavalue()[1:8])
   
   # initial prevalence
   initprevR <- reactive(0.001*input$API)
