@@ -12,7 +12,7 @@ ui <- fluidPage(
              column(3,
                     sliderInput(inputId="API", label = "baseline API", value = 25, min=1, max=100,step=.5),
                     sliderInput(inputId="bh", label = "number of mosquito bites per human per day (average)", value = 8, min=0, max=30,step=1),
-                    sliderInput(inputId="eta", label = "% of all infections that are caught outside the village (forest)", value = 30, min=0, max=100),
+                    sliderInput(inputId="eta", label = "% of all infections that are caught outside the village (forest)", value = 30, min=0, max=100,step=10),
                     sliderInput(inputId="covEDAT0", label = "baseline % of all clinical cases treated", value = 30, min=0, max=100)
              ),
              column(3,
@@ -21,20 +21,18 @@ ui <- fluidPage(
                     sliderInput(inputId="covITN0", label = "baseline coverage of ITN (%) ", value = 60, min=0, max=90,step=.5),
                     sliderInput(inputId="effITN", label = "% of infections averted due to owenership of ITN ", value = 30, min=0, max=50),
                     # sliderInput(inputId="covRCD0", label = "baseline coverage of RCD (%) ", value = 0, min=0, max=90),
-                    sliderInput(inputId="covIRS0", label = "baseline coverage of IRS (%) ", value = 0, min=0, max=90),
-                    sliderInput(inputId="effIRS", label = "% reduction in biting rate due to IRS ", value = 15, min=0, max=25)
+                    sliderInput(inputId="covIRS0", label = "baseline coverage of IRS (%) ", value = 0, min=0, max=90,step=10),
+                    sliderInput(inputId="effIRS", label = "% reduction in biting rate due to IRS ", value = 15, min=0, max=25,step=5)
              ),
              column(3,
-                    #sliderInput(inputId="amp", label = "relative amplitude seasonality ", value = 0.7, min=0, max=2), #remove
-                    #sliderInput(inputId="phi", label = "phase angle seasonality ", value = 0.5, min=0, max=1), #remove
-                    sliderInput(inputId="muC", label = "imported clinical cases per 1000 population per year ", value = 1, min=0, max=10),
-                    sliderInput(inputId="muA", label = "imported asymptomatic microscopically detectable carriers per 1000 population per year ", value = 10, min=0, max=100),
-                    sliderInput(inputId="muU", label = "imported asymptomatic microscopically undetectable carriers per 1000 population per year ", value = 20, min=0, max=100)
+                    sliderInput(inputId="muC", label = "imported clinical cases per 1000 population per year ", value = 1, min=0, max=10,step=1),
+                    sliderInput(inputId="muA", label = "imported asymptomatic microscopically detectable carriers per 1000 population per year ", value = 10, min=0, max=100,step=1),
+                    sliderInput(inputId="muU", label = "imported asymptomatic microscopically undetectable carriers per 1000 population per year ", value = 10, min=0, max=100,step=1)
              ),
              column(3,
-                    sliderInput(inputId="percfail2018", label = "% of cases failing treatment in 2018 and before ", value = 10, min=0, max=100),
-                    sliderInput(inputId="percfail2019", label = "% of cases failing treatment in 2019  ", value = 10, min=0, max=100),
-                    sliderInput(inputId="percfail2020", label = "% of cases failing treatment in 2020 and after  ", value = 10, min=0, max=100)
+                    sliderInput(inputId="percfail2018", label = "% of cases failing treatment in 2018 and before ", value = 10, min=0, max=100,step=5),
+                    sliderInput(inputId="percfail2019", label = "% of cases failing treatment in 2019  ", value = 10, min=0, max=100,step=5),
+                    sliderInput(inputId="percfail2020", label = "% of cases failing treatment in 2020 and after  ", value = 10, min=0, max=100,step=5)
              )
     ),
     
@@ -46,13 +44,12 @@ ui <- fluidPage(
                     checkboxInput(inputId="EDATon", label = "switch on scale up of EDAT ", value = FALSE),
                     checkboxInput(inputId="primon", label = "ACT+primaquine for EDAT and MDA ", value = FALSE), #under EDAT checkbox
                     sliderInput(inputId="EDATscale", label = "years to scale up EDAT ", value = 1, min=.25, max=3, step=.25),
-                    sliderInput(inputId="covEDATi", label = "new % of all clinical cases treated", value = 90, min=0, max=100)
+                    sliderInput(inputId="covEDATi", label = "new % of all clinical cases treated", value = 90, min=0, max=100,step=5)
                     ), wellPanel(
                     h3("Insecticide Treated Net"),
                     checkboxInput(inputId="ITNon", label = "switch on scale up of ITN ", value = FALSE),
                     sliderInput(inputId="ITNscale", label = "years to scale up ITN ", value = 1, min=.25, max=3, step=.25),
-                    sliderInput(inputId="covITNi", label = "new coverage of ITN (%) ", value = 90, min=0, max=90)
-                    # sliderInput(inputId="effITN", label = "new % of infections averted due to owenership of ITN ", value = 30, min=0, max=50)
+                    sliderInput(inputId="covITNi", label = "new coverage of ITN (%) ", value = 90, min=0, max=90,step=5)
                     )
                     
              ),
@@ -60,24 +57,24 @@ ui <- fluidPage(
                h3("Reactive Case Detection"),
                     checkboxInput(inputId="RCDon", label = "switch on scale up of RCD", value = FALSE),
                     sliderInput(inputId="RCDscale", label = "years to scale up RCD ", value = 2, min=.25, max=3, step=.25), #.25 timesteps
-                    sliderInput(inputId="covRCDi", label = "new coverage of RCD (%)", value = 50, min=0, max=100),
-                    sliderInput(inputId="effRCD", label = "no. people screened per clinical case", value = 20, min=0, max=1000),
+                    sliderInput(inputId="covRCDi", label = "new coverage of RCD (%)", value = 50, min=0, max=100,step=10),
+                    sliderInput(inputId="effRCD", label = "no. people screened per clinical case", value = 20, min=0, max=1000,step=5),
                radioButtons(inputId="RCDcoex", label = "RCD Search Type: ", choices = c("Radial search"=0, "Co-exposure search"=1), selected = 0, inline=TRUE),
-               sliderInput(inputId="clustRCD", label = "% increased likelihood of finding cases with radial search", value = 20, min=0, max=100),
-               sliderInput(inputId="clustRCDcoex", label = "% increased likelihood of finding cases with co-exposure search", value = 90, min=0, max=100)
+               sliderInput(inputId="clustRCD", label = "% increased likelihood of finding cases with radial search", value = 20, min=0, max=100,step=10),
+               sliderInput(inputId="clustRCDcoex", label = "% increased likelihood of finding cases with co-exposure search", value = 90, min=0, max=100,step=10)
              )
              ),
              column(4, wellPanel(
                h3("Sensitivity of RCD"),
-                    sliderInput(inputId="RCDsensC", label = "sensitivity RCD test (clinical) ", value = 95, min=0, max=100),
-                    sliderInput(inputId="RCDsensA", label = "sensitivity RCD test (micro detectable, asym)", value = 60, min=0, max=100),
-                    sliderInput(inputId="RCDsensU", label = "sensitivity RCD test (micro undetectable, asym)", value = 0, min=0, max=100)
+                    sliderInput(inputId="RCDsensC", label = "sensitivity RCD test (clinical) ", value = 95, min=0, max=100,step=5),
+                    sliderInput(inputId="RCDsensA", label = "sensitivity RCD test (micro detectable, asym)", value = 60, min=0, max=100,step=5),
+                    sliderInput(inputId="RCDsensU", label = "sensitivity RCD test (micro undetectable, asym)", value = 0, min=0, max=100,step=5)
              ),
              wellPanel(
                        h3("Indoor Residual Spray"),
                     checkboxInput(inputId="IRSon", label = "switch on scale up of IRS ", value = FALSE),
                     sliderInput(inputId="IRSscale", label = "years to scale up IRS ", value = 1, min=.25, max=3, step=.25),
-                    sliderInput(inputId="covIRSi", label = "new coverage of IRS (%) ", value = 90, min=0, max=90)
+                    sliderInput(inputId="covIRSi", label = "new coverage of IRS (%) ", value = 90, min=0, max=90,step=5)
                     # sliderInput(inputId="effIRS", label = "% reduction in biting rate due to IRS ", value = 15, min=0, max=25)
              )
              )
@@ -86,21 +83,21 @@ ui <- fluidPage(
     tabPanel(title = strong("Focal MVDA Indicators"),
              column(3,
                     checkboxInput(inputId="MDAon", label = "switch on MVDA", value = FALSE), #6
-                    sliderInput(inputId="cmda_1", label = "effective population coverage of focal MVDA in round 1 ", value = 50, min=0, max=100),
-                    sliderInput(inputId="cmda_2", label = "effective population coverage of focal MVDA in round 2 ", value = 50, min=0, max=100),
-                    sliderInput(inputId="cmda_3", label = "effective population coverage of focal MVDA in round 3 ", value = 50, min=0, max=100)
+                    sliderInput(inputId="cmda_1", label = "effective population coverage of focal MVDA in round 1 ", value = 50, min=0, max=100,step=10),
+                    sliderInput(inputId="cmda_2", label = "effective population coverage of focal MVDA in round 2 ", value = 50, min=0, max=100,step=10),
+                    sliderInput(inputId="cmda_3", label = "effective population coverage of focal MVDA in round 3 ", value = 50, min=0, max=100,step=10)
              ),
              column(3,
-                    sliderInput(inputId="tm_1", label = "timing of 1st round [2018+ no. of month, 1 means Jan'2018, 13 means Jan'2019]", value = 12, min=1, max=36),
-                    sliderInput(inputId="tm_2", label = "timing of 2nd round [2018+ no. of month]", value = 13, min=2, max=36),
-                    sliderInput(inputId="tm_3", label = "timing of 3rd round [2018+ no. of month]", value = 14, min=3, max=36),
-                    sliderInput(inputId="dm", label = "months to complete each round ", value = 1, min=1, max=24)
+                    sliderInput(inputId="tm_1", label = "timing of 1st round [2018+ no. of month, 1 means Jan'2018, 13 means Jan'2019]", value = 12, min=1, max=36,step=1),
+                    sliderInput(inputId="tm_2", label = "timing of 2nd round [2018+ no. of month]", value = 13, min=2, max=36,step=1),
+                    sliderInput(inputId="tm_3", label = "timing of 3rd round [2018+ no. of month]", value = 14, min=3, max=36,step=1),
+                    sliderInput(inputId="dm", label = "months to complete each round ", value = 1, min=1, max=24,step=0.5)
              ),
              column(3,
-                    sliderInput(inputId="lossd", label = "days prophylaxis provided by the ACT", value = 30, min=7, max=30),
-                    sliderInput(inputId="cm_1", label = "% MVDA sub-population coverage of 1st MVDA round", value = 90, min=0, max=100),
-                    sliderInput(inputId="cm_2", label = "% of 1st round MVDA sub-population to get 2nd", value = 80, min=0, max=100),
-                    sliderInput(inputId="cm_3", label = "% of 2nd round MVDA sub-population to get 3rd", value = 85, min=0, max=100)
+                    sliderInput(inputId="lossd", label = "days prophylaxis provided by the ACT", value = 30, min=7, max=30,step=1),
+                    sliderInput(inputId="cm_1", label = "% MVDA sub-population coverage of 1st MVDA round", value = 90, min=0, max=100,step=10),
+                    sliderInput(inputId="cm_2", label = "% of 1st round MVDA sub-population to get 2nd", value = 80, min=0, max=100,step=10),
+                    sliderInput(inputId="cm_3", label = "% of 2nd round MVDA sub-population to get 3rd", value = 85, min=0, max=100,step=10)
              ),
              column(3,
                     sliderInput(inputId="effv_1", label = "% protective efficacy of RTS,S with 1st dose", value = 10, min=0, max=100),
@@ -113,15 +110,16 @@ ui <- fluidPage(
              column(3,
                     checkboxInput(inputId="MSATon", label = "switch on MSAT for imported cases", value = FALSE),
                     sliderInput(inputId="MSATscale", label = "years to scale up MSAT ", value = 2, min=.25, max=3, step=.25), 
-                    sliderInput(inputId="covMSATi", label = "new coverage of MSAT (%)", value = 80, min=0, max=100)
+                    sliderInput(inputId="covMSATi", label = "new coverage of MSAT (%)", value = 80, min=0, max=100,step=10)
               ),
              column(3,
-                    sliderInput(inputId="MSATsensC", label = "sensitivity MSAT test (clinical) ", value = 95, min=0, max=100),
-                    sliderInput(inputId="MSATsensA", label = "sensitivity MSAT test (micro detectable, asym)", value = 60, min=0, max=100),
-                    sliderInput(inputId="MSATsensU", label = "sensitivity MSAT test (micro undetectable, asym)", value = 0, min=0, max=100)
+                    sliderInput(inputId="MSATsensC", label = "sensitivity MSAT test (clinical) ", value = 95, min=0, max=100,step=5),
+                    sliderInput(inputId="MSATsensA", label = "sensitivity MSAT test (micro detectable, asym)", value = 60, min=0, max=100,step=5),
+                    sliderInput(inputId="MSATsensU", label = "sensitivity MSAT test (micro undetectable, asym)", value = 0, min=0, max=100,step=5)
              )
     ),
     tabPanel(title= strong("Download"),
+             br(),
              downloadButton("downloadTable", "Download current values of parameters"),
              downloadButton("downloadplot","Download high resolution figure")),
     tabPanel(title= strong("Restore your parameters"),
@@ -176,7 +174,7 @@ ui <- fluidPage(
   fluidRow(h4("          Legend")),
   fluidRow(h4("          Grey solid line: baseline scenario. Blue solid line: elimination strategy scenario.")), 
   fluidRow(h4("          Dark blue solid line: target baseline API. Grey dashed lines: start and end of elimination activities.")),
-  fluidRow(h4("          Red dashed line: pre-elimniation threshold (API = 1 per 1000 per year)"))
+  fluidRow(h4("          Red dashed line: pre-elimination threshold (API = 1 per 1000 per year)"))
   
 )
 
@@ -237,7 +235,7 @@ runGMS<-function(initprev, scenario, param)
   initR_0<-0.5*(1-initprev)*initP
   initTr_0<-0
   
-  state <- c(Y = 0, Cinc = 0,  
+  state <- c(Y = 0, Cinc_det = 0, Cinc_tot = 0, 
              S_0 = initS_0, IC_0 = initIC_0, IA_0 = initIA_0, IU_0 = initIU_0, R_0 = initR_0, Tr_0 = initTr_0, Sm_0 = 0, Rm_0 = 0,
              S_1 = 0, IC_1 = 0, IA_1 = 0, IU_1 = 0, R_1 = 0, Tr_1 = 0, Sm_1 = 0, Rm_1 = 0,
              S_2 = 0, IC_2 = 0, IA_2 = 0, IU_2 = 0, R_2 = 0, Tr_2 = 0, Sm_2 = 0, Rm_2 = 0,
@@ -324,7 +322,6 @@ runGMS<-function(initprev, scenario, param)
            P <- (sS+sR+sIC+sIA+sIU+sTr+sSm+sRm)
            seas<-1+amp*cos(2*3.14159*(Y-phi))
            nu <- 1/((1/nuC)+(1/nuA)+(1/nuU))
-           # beta<-R0*(mu+nu)*seas
            beta<-seas*b*epsilonh*epsilonm*bh/((bh*epsilonh+deltam)*(gammam/(gammam+deltam)))
            mu_out <- mu+muC+muA+muU
            
@@ -341,7 +338,6 @@ runGMS<-function(initprev, scenario, param)
            covIRS<-(1-wsiIRS)*covIRS0+wsiIRS*covIRSi
            covMSAT<-(1-wsiMSAT)*covMSAT0+wsiMSAT*covMSATi
            
-           # nuTr<- primon*((Y<3)*nTr+(Y>3)*nTrp)+(1-primon)*nTr
            nuTr<- primon*((Y<timei)*nTr+(Y>timei)*nTrp)+(1-primon)*nTr
            lossd<-1/((1/lossd)-(1/nuTr))
            
@@ -359,13 +355,11 @@ runGMS<-function(initprev, scenario, param)
            
            tau <- covEDAT
            
-           #fail <- (Y<2019)*(percfail2018/100)+(Y>=2019)*(Y<2020)*(percfail2019/100)+(Y>=2020)*(percfail2020/100)
            fail <- ((Y+startyear)<2019)*(percfail2018/100)+((Y+startyear)>=2019)*((Y+startyear)<2020)*(percfail2019/100)+((Y+startyear)>=2020)*(percfail2020/100)
            
            
            # set up treatment rate for RCD
            incm<-ps*tau*lam*sS+pr*tau*lam*sR+pr*tau*lam*sIU+pr*tau*lam*sIA
-           #rateRCD<-((1-eta)*(1+(1-RCDcoex)*clustRCD)+eta*(1+RCDcoex*clustRCDcoex))*(effRCD/P)*incm*covRCD*dRCD
            rateRCD<-((1-eta)*(1+(1-RCDcoex)*clustRCD)+eta*(1+RCDcoex*clustRCDcoex))*(effRCD/P)*incm*covRCD
            tauRCD<-1/((1/rateRCD)+(1/nuTr))
            
@@ -388,49 +382,53 @@ runGMS<-function(initprev, scenario, param)
            muU <- (1-MSATon*MSATsensU*covMSAT)*muU
            
            
+           
+           
            # rate of change
            dY <- 1
            
-           dCinc <-   treat                                                                                                                                       #3
-           dS_0 <- mu*P-mu_out*S_0+omega*R_0-lam*S_0+lossd*Sm_0-m_1*S_0                                                                                           #4
-           dIC_0 <- muC*P-mu_out*IC_0+ps*(1-tau)*lam*S_0+pr*(1-tau)*lam*R_0+pr*(1-tau)*lam*IU_0+pr*(1-tau)*lam*IA_0-nuC*IC_0-m_1*IC_0-RCDsensC*tauRCD*IC_0        #5 
-           dIA_0 <- muA*P-mu_out*IA_0+(1-ps)*lam*S_0+(1-pr)*lam*R_0+(1-pr)*lam*IU_0-pr*lam*IA_0+nuC*IC_0-nuA*IA_0+fail*nuTr*Tr_0-m_1*IA_0-RCDsensA*tauRCD*IA_0    #6
-           dIU_0 <- muU*P-mu_out*IU_0-lam*IU_0-nuU*IU_0+nuA*IA_0-m_1*IU_0-RCDsensU*tauRCD*IU_0                                                                    #7
-           dR_0 <- -mu_out*R_0-omega*R_0-lam*R_0+nuU*IU_0+lossd*Rm_0-m_1*R_0                                                                                      #8
-           dTr_0 <- -mu_out*Tr_0+ps*tau*lam*S_0+pr*tau*lam*R_0+pr*tau*lam*IU_0+pr*tau*lam*IA_0-nuTr*Tr_0-m_1*Tr_0+tauRCD*(RCDsensC*IC_0+RCDsensA*IA_0+RCDsensU*IU_0)                                                 #9
-           dSm_0 <- -mu_out*Sm_0+omega*Rm_0-lossd*Sm_0-m_1*Sm_0                                                                                                   #10
-           dRm_0 <- -mu_out*Rm_0-omega*Rm_0+(1-fail)*nuTr*Tr_0-lossd*Rm_0-m_1*Rm_0                                                                                #11
+           #dCinc_det <- ((ps*tau*lam*sS+pr*tau*lam*sR+pr*tau*lam*sIU+pr*tau*lam*sIA)+tauRCD*(RCDsensC*sIC+RCDsensA*sIA+RCDsensU*sIU))                             #3
+           dCinc_det <- ps*tau*lam*sS+pr*tau*lam*sR+pr*tau*lam*sIU+pr*tau*lam*sIA                             #3
+           dCinc_tot <- ps*lam*sS+pr*lam*sR+pr*lam*sIU+pr*lam*sIA                                                                                                 #4
+           dS_0 <- mu*P-mu_out*S_0+omega*R_0-lam*S_0+lossd*Sm_0-m_1*S_0                                                                                           #5
+           dIC_0 <- muC*P-mu_out*IC_0+ps*(1-tau)*lam*S_0+pr*(1-tau)*lam*R_0+pr*(1-tau)*lam*IU_0+pr*(1-tau)*lam*IA_0-nuC*IC_0-m_1*IC_0-RCDsensC*tauRCD*IC_0        #6 
+           dIA_0 <- muA*P-mu_out*IA_0+(1-ps)*lam*S_0+(1-pr)*lam*R_0+(1-pr)*lam*IU_0-pr*lam*IA_0+nuC*IC_0-nuA*IA_0+fail*nuTr*Tr_0-m_1*IA_0-RCDsensA*tauRCD*IA_0    #7
+           dIU_0 <- muU*P-mu_out*IU_0-lam*IU_0-nuU*IU_0+nuA*IA_0-m_1*IU_0-RCDsensU*tauRCD*IU_0                                                                    #8
+           dR_0 <- -mu_out*R_0-omega*R_0-lam*R_0+nuU*IU_0+lossd*Rm_0-m_1*R_0                                                                                      #9
+           dTr_0 <- -mu_out*Tr_0+ps*tau*lam*S_0+pr*tau*lam*R_0+pr*tau*lam*IU_0+pr*tau*lam*IA_0-nuTr*Tr_0-m_1*Tr_0+tauRCD*(RCDsensC*IC_0+RCDsensA*IA_0+RCDsensU*IU_0) #10
+           dSm_0 <- -mu_out*Sm_0+omega*Rm_0-lossd*Sm_0-m_1*Sm_0                                                                                                   #11
+           dRm_0 <- -mu_out*Rm_0-omega*Rm_0+(1-fail)*nuTr*Tr_0-lossd*Rm_0-m_1*Rm_0                                                                                #12
            
            
-           dS_1 <- -mu_out*S_1+omega*R_1-lam_1*S_1+lossd*Sm_1+(1-cmda_1)*m_1*S_0-m_2*S_1                                                                          #12
-           dIC_1 <- -mu_out*IC_1+ps*(1-tau)*lam_1*S_1+pr*(1-tau)*lam_1*R_1+pr*(1-tau)*lam_1*IU_1+pr*(1-tau)*lam_1*IA_1-nuC*IC_1+(1-cmda_1)*m_1*IC_0-m_2*IC_1      #13
-           dIA_1 <- -mu_out*IA_1+(1-ps)*lam_1*S_1+(1-pr)*lam_1*R_1+(1-pr)*lam_1*IU_1-pr*lam_1*IA_1+nuC*IC_1-nuA*IA_1+fail*nuTr*Tr_1+(1-cmda_1)*m_1*IA_0-m_2*IA_1  #14
-           dIU_1 <- -mu_out*IU_1-lam_1*IU_1-nuU*IU_1+nuA*IA_1+(1-cmda_1)*m_1*IU_0-m_2*IU_1                                                                        #15
-           dR_1 <- -mu_out*R_1-omega*R_1-lam_1*R_1+nuU*IU_1 +lossd*Rm_1+(1-cmda_1)*m_1*R_0-m_2*R_1                                                                #16
-           dTr_1 <- -mu_out*Tr_1+ps*tau*lam_1*S_1+pr*tau*lam_1*R_1+pr*tau*lam_1*IU_1+pr*tau*lam_1*IA_1-nuTr*Tr_1+m_1*(cmda_1*(IC_0+IA_0+IU_0)+Tr_0)-m_2*Tr_1      #17
-           dSm_1 <- -mu_out*Sm_1+omega*Rm_1-lossd*Sm_1+m_1*(cmda_1*S_0+Sm_0)-m_2*Sm_1                                                                             #18
-           dRm_1 <- -mu_out*Rm_1-omega*Rm_1+(1-fail)*nuTr*Tr_1-lossd*Rm_1+m_1*(cmda_1*R_0+Rm_0)-m_2*Rm_1                                                          #19
+           dS_1 <- -mu_out*S_1+omega*R_1-lam_1*S_1+lossd*Sm_1+(1-cmda_1)*m_1*S_0-m_2*S_1                                                                          #13
+           dIC_1 <- -mu_out*IC_1+ps*(1-tau)*lam_1*S_1+pr*(1-tau)*lam_1*R_1+pr*(1-tau)*lam_1*IU_1+pr*(1-tau)*lam_1*IA_1-nuC*IC_1+(1-cmda_1)*m_1*IC_0-m_2*IC_1      #14
+           dIA_1 <- -mu_out*IA_1+(1-ps)*lam_1*S_1+(1-pr)*lam_1*R_1+(1-pr)*lam_1*IU_1-pr*lam_1*IA_1+nuC*IC_1-nuA*IA_1+fail*nuTr*Tr_1+(1-cmda_1)*m_1*IA_0-m_2*IA_1  #15
+           dIU_1 <- -mu_out*IU_1-lam_1*IU_1-nuU*IU_1+nuA*IA_1+(1-cmda_1)*m_1*IU_0-m_2*IU_1                                                                        #16
+           dR_1 <- -mu_out*R_1-omega*R_1-lam_1*R_1+nuU*IU_1 +lossd*Rm_1+(1-cmda_1)*m_1*R_0-m_2*R_1                                                                #17
+           dTr_1 <- -mu_out*Tr_1+ps*tau*lam_1*S_1+pr*tau*lam_1*R_1+pr*tau*lam_1*IU_1+pr*tau*lam_1*IA_1-nuTr*Tr_1+m_1*(cmda_1*(IC_0+IA_0+IU_0)+Tr_0)-m_2*Tr_1      #18
+           dSm_1 <- -mu_out*Sm_1+omega*Rm_1-lossd*Sm_1+m_1*(cmda_1*S_0+Sm_0)-m_2*Sm_1                                                                             #19
+           dRm_1 <- -mu_out*Rm_1-omega*Rm_1+(1-fail)*nuTr*Tr_1-lossd*Rm_1+m_1*(cmda_1*R_0+Rm_0)-m_2*Rm_1                                                          #20
            
-           dS_2 <- -mu_out*S_2+omega*R_2-lam_2*S_2+lossd*Sm_2+(1-cmda_2)*m_2*S_1-m_3*S_2                                                                          #20
-           dIC_2 <- -mu_out*IC_2+ps*(1-tau)*lam_2*S_2+pr*(1-tau)*lam_2*R_2+pr*(1-tau)*lam_2*IU_2+pr*(1-tau)*lam_2*IA_2-nuC*IC_2+(1-cmda_2)*m_2*IC_1-m_3*IC_2      #21
-           dIA_2 <- -mu_out*IA_2+(1-ps)*lam_2*S_2+(1-pr)*lam_2*R_2+(1-pr)*lam_2*IU_2-pr*lam_2*IA_2+nuC*IC_2-nuA*IA_2+fail*nuTr*Tr_2+(1-cmda_2)*m_2*IA_1-m_3*IA_2  #22
-           dIU_2 <- -mu_out*IU_2-lam_2*IU_2-nuU*IU_2+nuA*IA_2+(1-cmda_2)*m_2*IU_1-m_3*IU_2                                                                        #23
-           dR_2 <- -mu_out*R_2-omega*R_2-lam_2*R_2+nuU*IU_2 +lossd*Rm_2+(1-cmda_2)*m_2*R_1-m_3*R_2                                                                #24
-           dTr_2 <- -mu_out*Tr_2+ps*tau*lam_2*S_2+pr*tau*lam_2*R_2+pr*tau*lam_2*IU_2+pr*tau*lam_2*IA_2-nuTr*Tr_2+m_2*(cmda_2*(IC_1+IA_1+IU_1)+Tr_1)-m_3*Tr_2      #25
-           dSm_2 <- -mu_out*Sm_2+omega*Rm_2-lossd*Sm_2+m_2*(cmda_2*S_1+Sm_1)-m_3*Sm_2                                                                             #26
-           dRm_2 <- -mu_out*Rm_2-omega*Rm_2+(1-fail)*nuTr*Tr_2-lossd*Rm_2+m_2*(cmda_2*R_1+Rm_1)-m_3*Rm_2                                                          #27
+           dS_2 <- -mu_out*S_2+omega*R_2-lam_2*S_2+lossd*Sm_2+(1-cmda_2)*m_2*S_1-m_3*S_2                                                                          #21
+           dIC_2 <- -mu_out*IC_2+ps*(1-tau)*lam_2*S_2+pr*(1-tau)*lam_2*R_2+pr*(1-tau)*lam_2*IU_2+pr*(1-tau)*lam_2*IA_2-nuC*IC_2+(1-cmda_2)*m_2*IC_1-m_3*IC_2      #22
+           dIA_2 <- -mu_out*IA_2+(1-ps)*lam_2*S_2+(1-pr)*lam_2*R_2+(1-pr)*lam_2*IU_2-pr*lam_2*IA_2+nuC*IC_2-nuA*IA_2+fail*nuTr*Tr_2+(1-cmda_2)*m_2*IA_1-m_3*IA_2  #23
+           dIU_2 <- -mu_out*IU_2-lam_2*IU_2-nuU*IU_2+nuA*IA_2+(1-cmda_2)*m_2*IU_1-m_3*IU_2                                                                        #24
+           dR_2 <- -mu_out*R_2-omega*R_2-lam_2*R_2+nuU*IU_2 +lossd*Rm_2+(1-cmda_2)*m_2*R_1-m_3*R_2                                                                #25
+           dTr_2 <- -mu_out*Tr_2+ps*tau*lam_2*S_2+pr*tau*lam_2*R_2+pr*tau*lam_2*IU_2+pr*tau*lam_2*IA_2-nuTr*Tr_2+m_2*(cmda_2*(IC_1+IA_1+IU_1)+Tr_1)-m_3*Tr_2      #26
+           dSm_2 <- -mu_out*Sm_2+omega*Rm_2-lossd*Sm_2+m_2*(cmda_2*S_1+Sm_1)-m_3*Sm_2                                                                             #27
+           dRm_2 <- -mu_out*Rm_2-omega*Rm_2+(1-fail)*nuTr*Tr_2-lossd*Rm_2+m_2*(cmda_2*R_1+Rm_1)-m_3*Rm_2                                                          #28
            
-           dS_3 <- -mu_out*S_3+omega*R_3-lam_3*S_3+lossd*Sm_3+(1-cmda_3)*m_3*S_2-m_4*S_3                                                                          #28
-           dIC_3 <- -mu_out*IC_3+ps*(1-tau)*lam_3*S_3+pr*(1-tau)*lam_3*R_3+pr*(1-tau)*lam_3*IU_3+pr*(1-tau)*lam_3*IA_3-nuC*IC_3+(1-cmda_3)*m_3*IC_2-m_4*IC_3      #29
-           dIA_3 <- -mu_out*IA_3+(1-ps)*lam_3*S_3+(1-pr)*lam_3*R_3+(1-pr)*lam_3*IU_3-pr*lam_3*IA_3+nuC*IC_3-nuA*IA_3+fail*nuTr*Tr_3+(1-cmda_3)*m_3*IA_2-m_4*IA_3  #30
-           dIU_3 <- -mu_out*IU_3-lam_3*IU_3-nuU*IU_3+nuA*IA_3+(1-cmda_3)*m_3*IU_2-m_4*IU_3                                                                        #31
-           dR_3 <- -mu_out*R_3-omega*R_3-lam_3*R_3+nuU*IU_3 +lossd*Rm_3+(1-cmda_3)*m_3*R_2-m_4*R_3                                                                #32
-           dTr_3 <- -mu_out*Tr_3+ps*tau*lam_3*S_3+pr*tau*lam_3*R_3+pr*tau*lam_3*IU_3+pr*tau*lam_3*IA_3-nuTr*Tr_3+m_3*(cmda_3*(IC_2+IA_2+IU_2)+Tr_2)-m_4*Tr_3      #33
-           dSm_3 <- -mu_out*Sm_3+omega*Rm_3-lossd*Sm_3+m_3*(cmda_3*S_2+Sm_2)-m_4*Sm_3                                                                             #34
-           dRm_3 <- -mu_out*Rm_3-omega*Rm_3+(1-fail)*nuTr*Tr_3-lossd*Rm_3+m_3*(cmda_3*R_2+Rm_2)-m_4*Rm_3                                                          #35
+           dS_3 <- -mu_out*S_3+omega*R_3-lam_3*S_3+lossd*Sm_3+(1-cmda_3)*m_3*S_2-m_4*S_3                                                                          #29
+           dIC_3 <- -mu_out*IC_3+ps*(1-tau)*lam_3*S_3+pr*(1-tau)*lam_3*R_3+pr*(1-tau)*lam_3*IU_3+pr*(1-tau)*lam_3*IA_3-nuC*IC_3+(1-cmda_3)*m_3*IC_2-m_4*IC_3      #30
+           dIA_3 <- -mu_out*IA_3+(1-ps)*lam_3*S_3+(1-pr)*lam_3*R_3+(1-pr)*lam_3*IU_3-pr*lam_3*IA_3+nuC*IC_3-nuA*IA_3+fail*nuTr*Tr_3+(1-cmda_3)*m_3*IA_2-m_4*IA_3  #31
+           dIU_3 <- -mu_out*IU_3-lam_3*IU_3-nuU*IU_3+nuA*IA_3+(1-cmda_3)*m_3*IU_2-m_4*IU_3                                                                        #32
+           dR_3 <- -mu_out*R_3-omega*R_3-lam_3*R_3+nuU*IU_3 +lossd*Rm_3+(1-cmda_3)*m_3*R_2-m_4*R_3                                                                #33
+           dTr_3 <- -mu_out*Tr_3+ps*tau*lam_3*S_3+pr*tau*lam_3*R_3+pr*tau*lam_3*IU_3+pr*tau*lam_3*IA_3-nuTr*Tr_3+m_3*(cmda_3*(IC_2+IA_2+IU_2)+Tr_2)-m_4*Tr_3      #34
+           dSm_3 <- -mu_out*Sm_3+omega*Rm_3-lossd*Sm_3+m_3*(cmda_3*S_2+Sm_2)-m_4*Sm_3                                                                             #35
+           dRm_3 <- -mu_out*Rm_3-omega*Rm_3+(1-fail)*nuTr*Tr_3-lossd*Rm_3+m_3*(cmda_3*R_2+Rm_2)-m_4*Rm_3                                                          #36
            
            # return the rate of change
-           list(c(dY,dCinc, 
+           list(c(dY,dCinc_det,dCinc_tot, 
                   dS_0, dIC_0, dIA_0, dIU_0, dR_0, dTr_0, dSm_0, dRm_0, 
                   dS_1, dIC_1, dIA_1, dIU_1, dR_1, dTr_1, dSm_1, dRm_1,
                   dS_2, dIC_2, dIA_2, dIU_2, dR_2, dTr_2, dSm_2, dRm_2,
@@ -444,28 +442,36 @@ runGMS<-function(initprev, scenario, param)
   out <- ode(y = state, times = times, func = modGMS, parms = parameters)
   
   # MODEL OUTPUTS
-  ipop <- 4:35
-  iinc <- 3
-  iprev <- c(7,8,9,11,15,16,17,19,23,24,25,27,31,32,33,35)
-  iprev <- c(5,6,7,9,13,14,15,17,21,22,23,25,29,30,31,33)
+  ipop <- 5:35
+  iinc_det <- 3
+  iinc_tot <- 4
+  iprev <- c(6,  7,  8, 10, 14, 15, 16, 18, 22, 23, 24, 26, 30, 31, 32, 34)
   
   # population
   times<-out[,1]+startyear
   pop<-rowSums(out[,ipop])
   
   
-  # clinical incidence per 1000 per month
-  tci <- out[,iinc]
-  clinmonth <- tci
-  clinmonth[1] <- 0
-  clinmonth[2:length(times)] <- 1000*(tci[2:length(times)] - tci[1:(length(times)-1)])/pop[2:length(times)]
+  # clinical incidence detected per 1000 per month
+  tci_det <- out[,iinc_det]
+  clinmonth_det <- tci_det
+  clinmonth_det[1] <- 0
+  clinmonth_det[2:length(times)] <- 1000*(tci_det[2:length(times)] - tci_det[1:(length(times)-1)])/pop[2:length(times)]
+  
+  # clinical incidence total per 1000 per month
+  tci_tot <- out[,iinc_tot]
+  clinmonth_tot <- tci_tot
+  clinmonth_tot[1] <- 0
+  clinmonth_tot[2:length(times)] <- 1000*(tci_tot[2:length(times)] - tci_tot[1:(length(times)-1)])/pop[2:length(times)]
+  
+  
   # % prevalence
   prevalence <- 100*rowSums(out[,iprev])/pop
-  
-  GMSout<-matrix(NA,nrow=length(times),ncol=3)
+  GMSout<-matrix(NA,nrow=length(times),ncol=4)
   GMSout[,1]<-times
-  GMSout[,2]<-clinmonth
-  GMSout[,3]<-prevalence
+  GMSout[,2]<-clinmonth_det
+  GMSout[,3]<-clinmonth_tot
+  GMSout[,4]<-prevalence
   
   return(GMSout)
 }
@@ -626,27 +632,43 @@ server <- function(input, output, session) {
     GMSouti<-GMSoutiR()
     
     times<-GMSout0[,1]
-    clinmonth<-cbind(GMSout0[,2],GMSouti[,2])
-    prevalence<-cbind(GMSout0[,3],GMSouti[,3])
+    clinmonth_det<-cbind(GMSout0[,2],GMSouti[,2])
+    clinmonth_tot<-cbind(GMSout0[,3],GMSouti[,3])
+    prevalence<-cbind(GMSout0[,4],GMSouti[,4])
     
     runin<-(2017-startyear)/dt
     
-    finclin<-max(clinmonth[(runin:length(clinmonth[,1])),])
+    finclin<-max(clinmonth_tot[(runin:length(clinmonth_det[,1])),])
     finprev<-max(prevalence[(runin:length(prevalence[,1])),])
     
     
     # PLOTTING
     par(mfrow=c(1,2))
+    
     maxy<-max(finclin,input$API/12)
-    plot(times[(runin:length(clinmonth[,1]))],clinmonth[runin:length(clinmonth[,1]),1], type='l',lty=1,col="dark grey",xlab = "Time",ylab="incidence per 1000 per month",main="Confirmed cases per month per 1000 population",ylim=c(0,maxy),lwd=2)
-    lines(times[(runin:length(clinmonth[,1]))],clinmonth[runin:length(clinmonth[,1]),2], type='l',lty=1,col="blue",xlab = "Time",ylab="incidence per 1000 per month",main="Confirmed cases per month per 1000 population",ylim=c(0,maxy),lwd=2)
+    x<-times[(runin:length(clinmonth_det[,1]))]
+    y1<-clinmonth_det[runin:length(clinmonth_det[,1]),1]
+    y2<-clinmonth_tot[runin:length(clinmonth_tot[,1]),1]
+    
+    plot(x,y1, type='l',lty=1,col=rgb(0,0,0,alpha=0.1),xlab = "Time",ylab="incidence per 1000 per month",main="Monthly cases per 1000 population",ylim=c(0,maxy),lwd=2)
+    lines(x,y2, type='l',lty=1,col=rgb(0,0,0,alpha=0.1),lwd=2)
+    
+    polygon(c(x,rev(x)),c(y2,rev(y1)),col=rgb(0,0,0,alpha=0.1),border=NA)
+    
+    y1<-clinmonth_det[runin:length(clinmonth_det[,1]),2]
+    y2<-clinmonth_tot[runin:length(clinmonth_tot[,1]),2]
+    lines(x,y1, type='l',lty=1,col=rgb(0,0,1,alpha=0.4),lwd=2)
+    lines(x,y2, type='l',lty=1,col=rgb(0,0,1,alpha=0.4),lwd=2)
+    
+    polygon(c(x,rev(x)),c(y2,rev(y1)),col=rgb(0,0,1,alpha=0.4),border=NA)
+    
     lines(c(2018,2018),c(-maxy,2*maxy),col="dark grey",lty=3,lwd=2)
     lines(c(2021,2021),c(-maxy,2*maxy),col="dark grey",lty=3,lwd=2)
     abline(h=input$API/12,col="dark blue",lty=1,lwd=1)
     abline(h=1/12,col="red",lty=3,lwd=3)
     maxy<-finprev
-    plot(times[(runin:length(prevalence[,1]))],prevalence[(runin:length(prevalence[,1])),1], type='l',lty=1,col="dark grey",xlab = "Time",ylab="% prevalence",main="Predicted true prevalence",ylim=c(0,maxy),lwd=2)
-    lines(times[(runin:length(prevalence[,1]))],prevalence[(runin:length(prevalence[,1])),2], type='l',lty=1,col="blue",xlab = "Time",ylab="% prevalence",main="Predicted true prevalence",ylim=c(0,maxy),lwd=2)
+    plot(times[(runin:length(prevalence[,1]))],prevalence[(runin:length(prevalence[,1])),1], type='l',lty=1,col=rgb(0,0,0,alpha=0.25),xlab = "Time",ylab="% prevalence",main="Predicted true prevalence",ylim=c(0,maxy),lwd=6)
+    lines(times[(runin:length(prevalence[,1]))],prevalence[(runin:length(prevalence[,1])),2], type='l',lty=1,col=rgb(0,0,1,alpha=0.6),xlab = "Time",ylab="% prevalence",main="Predicted true prevalence",ylim=c(0,maxy),lwd=6)
     lines(c(2018,2018),c(-maxy,2*maxy),col="dark grey",lty=3,lwd=2)
     lines(c(2021,2021),c(-maxy,2*maxy),col="dark grey",lty=3,lwd=2)
   }
