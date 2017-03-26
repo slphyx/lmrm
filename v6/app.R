@@ -12,26 +12,26 @@ ui <- fluidPage(
     id="panels",
     tabPanel(title = strong("Baseline"),
              column(3,
-                    sliderInput(inputId="API", label = "baseline API", value = 2.5, min=1, max=100,step=0.5),
-                    sliderInput(inputId="bh_max", label = "number of mosquito bites per human per night (peak season)", value = 11, min=0, max=80,step=1), #change range 0-80, Dan's data
-                    sliderInput(inputId="eta", label = "% of all infections that are caught outside the village (forest)", value = 50, min=0, max=100,step=10),
+                    sliderInput(inputId="API", label = "baseline API", value = 46, min=1, max=100,step=0.5),
+                    sliderInput(inputId="bh_max", label = "number of mosquito bites per human per night (peak season)", value = 10, min=0, max=80,step=1), #change range 0-80, Dan's data
+                    sliderInput(inputId="eta", label = "% of all infections that are caught outside the village (forest)", value = 30, min=0, max=100,step=10),
                     sliderInput(inputId="covEDAT0", label = "baseline % of all clinical cases treated", value = 30, min=0, max=100)
              ),
              column(3,
-                    sliderInput(inputId="covITN0", label = "baseline coverage of ITN (%) ", value = 75, min=0, max=90,step=.5),
+                    sliderInput(inputId="covITN0", label = "baseline coverage of ITN (%) ", value = 60, min=0, max=90,step=.5),
                     sliderInput(inputId="effITN", label = "% of infections averted due to ownership of ITN ", value = 30, min=0, max=50), 
                     sliderInput(inputId="covIRS0", label = "baseline coverage of IRS (%) ", value = 0, min=0, max=90,step=10),
                     sliderInput(inputId="effIRS", label = "% reduction in biting rate due to IRS ", value = 15, min=0, max=25,step=5)
              ),
              column(3,
                     sliderInput(inputId="muC", label = "imported clinical cases per 1000 population per year ", value = 1, min=0, max=10,step=1),
-                    sliderInput(inputId="muA", label = "imported asymptomatic microscopically detectable carriers per 1000 population per year ", value = 1, min=0, max=100,step=1),
-                    sliderInput(inputId="muU", label = "imported asymptomatic microscopically undetectable carriers per 1000 population per year ", value = 1, min=0, max=100,step=1)
+                    sliderInput(inputId="muA", label = "imported asymptomatic microscopically detectable carriers per 1000 population per year ", value = 10, min=0, max=100,step=1),
+                    sliderInput(inputId="muU", label = "imported asymptomatic microscopically undetectable carriers per 1000 population per year ", value = 10, min=0, max=100,step=1)
              ),
              column(3,
-                    sliderInput(inputId="percfail2018", label = "% of cases failing treatment in 2018 and before ", value = 30, min=0, max=100,step=5),
+                    sliderInput(inputId="percfail2018", label = "% of cases failing treatment in 2018 and before ", value = 5, min=0, max=100,step=5),
                     sliderInput(inputId="percfail2019", label = "% of cases failing treatment in 2019  ", value = 10, min=0, max=100,step=5),
-                    sliderInput(inputId="percfail2020", label = "% of cases failing treatment in 2020 and after  ", value = 20, min=0, max=100,step=5)
+                    sliderInput(inputId="percfail2020", label = "% of cases failing treatment in 2020 and after  ", value = 15, min=0, max=100,step=5)
              )
     ),
     
@@ -42,13 +42,13 @@ ui <- fluidPage(
                       checkboxInput(inputId="EDATon", label = "switch on scale up of EDAT ", value = FALSE),
                       checkboxInput(inputId="primon", label = "ACT+primaquine for EDAT and MDA ", value = FALSE), #under EDAT checkbox
                       sliderInput(inputId="EDATscale", label = "years to scale up EDAT ", value = 1, min=.25, max=3, step=.25),
-                      sliderInput(inputId="covEDATi", label = "new % of all clinical cases treated", value = 90, min=0, max=100,step=5)
+                      sliderInput(inputId="covEDATi", label = "new % of all clinical cases treated", value = 50, min=0, max=100,step=5)
                     )), 
              column(4,wellPanel(
                       h3("Insecticide Treated Net"),
                       checkboxInput(inputId="ITNon", label = "switch on scale up of ITN ", value = FALSE),
-                      sliderInput(inputId="ITNscale", label = "years to scale up ITN ", value = 0.5, min=.25, max=3, step=.25),
-                      sliderInput(inputId="covITNi", label = "new coverage of ITN (%) ", value = 90, min=0, max=90,step=5)
+                      sliderInput(inputId="ITNscale", label = "years to scale up ITN ", value = 1, min=.25, max=3, step=.25),
+                      sliderInput(inputId="covITNi", label = "new coverage of ITN (%) ", value = 80, min=0, max=90,step=5)
                     )),
              column(4,wellPanel(
                h3("Indoor Residual Spray"),
@@ -77,11 +77,11 @@ ui <- fluidPage(
               sliderInput(inputId="RCDsensA", label = "sensitivity RCD test (micro detectable, asym)", value = 60, min=0, max=100,step=5),
               sliderInput(inputId="RCDsensU", label = "sensitivity RCD test (micro undetectable, asym)", value = 0, min=0, max=100,step=5)
             )),
-            tabPanel(title = strong("Interventions under trial: Focal MDA (hotspot)"),
+            tabPanel(title = strong("Interventions under trial: Focal MVDA (hotspot)"),
                      column(3,
                             checkboxInput(inputId="MDAon", label = "switch on MDA", value = FALSE), #6
                             sliderInput(inputId="lossd", label = "days prophylaxis provided by the ACT", value = 30, min=15, max=30,step=1),
-                            sliderInput(inputId="dm", label = "months to complete each round ", value = 6, min=1, max=24,step=0.5)
+                            sliderInput(inputId="dm", label = "months to complete each round ", value = 1, min=1, max=24,step=0.5)
                             
                      ),
                      column(3,
@@ -91,9 +91,15 @@ ui <- fluidPage(
                      ),
                      
                      column(3,
-                            sliderInput(inputId="tm_1", label = "timing of 1st round [2018+ no. of month, 1 means Jan'2018, 13 means Jan'2019]", value = 1, min=1, max=36,step=1),
-                            sliderInput(inputId="tm_2", label = "timing of 2nd round [2018+ no. of month]", value = 2, min=2, max=36,step=1),
-                            sliderInput(inputId="tm_3", label = "timing of 3rd round [2018+ no. of month]", value = 3, min=3, max=36,step=1)
+                            sliderInput(inputId="tm_1", label = "timing of 1st round [2018+ no. of month, 1 means Jan'2018, 13 means Jan'2019]", value = 12, min=1, max=36,step=1),
+                            sliderInput(inputId="tm_2", label = "timing of 2nd round [2018+ no. of month]", value = 13, min=2, max=36,step=1),
+                            sliderInput(inputId="tm_3", label = "timing of 3rd round [2018+ no. of month]", value = 14, min=3, max=36,step=1)
+                     ),
+                     column(3,
+                            sliderInput(inputId="effv_1", label = "% protective efficacy of RTS,S with 1st dose", value = 76, min=0, max=100),
+                            sliderInput(inputId="effv_2", label = "% protective efficacy of RTS,S with 2nd dose", value = 83, min=0, max=100),
+                            sliderInput(inputId="effv_3", label = "% protective efficacy of RTS,S with 3rd dose", value = 92, min=0, max=100),
+                            sliderInput(inputId="dv", label = "years of protective effect of RTS,S", value = .75, min=0.5, max=3,step=.25)
                      )
                      # column(3,
                      #        sliderInput(inputId="cm_1", label = "% population coverage of 1st MDA round", value = 80, min=0, max=100,step=10),
@@ -105,12 +111,12 @@ ui <- fluidPage(
                      column(3,
                             checkboxInput(inputId="MSATon", label = "switch on MSAT for imported cases", value = FALSE),
                             sliderInput(inputId="MSATscale", label = "years to scale up MSAT ", value = 2, min=.25, max=3, step=.25), 
-                            sliderInput(inputId="covMSATi", label = "new coverage of MSAT (%)", value = 80, min=0, max=100,step=10)
+                            sliderInput(inputId="covMSATi", label = "new coverage of MSAT (%)", value = 90, min=0, max=100,step=10)
                      ),
                      column(3,
                             sliderInput(inputId="MSATsensC", label = "sensitivity MSAT test (clinical) ", value = 95, min=0, max=100,step=5),
-                            sliderInput(inputId="MSATsensA", label = "sensitivity MSAT test (micro detectable, asym)", value = 60, min=0, max=100,step=5),
-                            sliderInput(inputId="MSATsensU", label = "sensitivity MSAT test (micro undetectable, asym)", value = 0, min=0, max=100,step=5)
+                            sliderInput(inputId="MSATsensA", label = "sensitivity MSAT test (micro detectable, asym)", value = 80, min=0, max=100,step=5),
+                            sliderInput(inputId="MSATsensU", label = "sensitivity MSAT test (micro undetectable, asym)", value = 80, min=0, max=100,step=5)
                      )
             ),
             tabPanel(title= strong("Download"),
@@ -174,7 +180,7 @@ ui <- fluidPage(
 # define the number of weeks to run the model
 dt<-1/12
 startyear<-2007
-stopyear<-2025
+stopyear<-2022
 maxt<-stopyear-startyear
 times <- seq(0, maxt, by = dt)
 tsteps<-length(times)
@@ -186,10 +192,10 @@ runGMS<-function(initprev, scenario, param)
 {
   #MODEL PARAMETERS
   parameters <- c(scenario,
-                  effv_1 = 0,                  # protective efficacy of a single dose of RTS,S [N]
-                  effv_2 = 0,                 # protective efficacy of two doses of RTS,S [N]
-                  effv_3 = 0,                 # protective efficacy of three doses of RTS,S [N]
-                  dv = 1,                      # duration of vaccine protection [N]
+                  # effv_1 = 0,                  # protective efficacy of a single dose of RTS,S [N]
+                  # effv_2 = 0,                 # protective efficacy of two doses of RTS,S [N]
+                  # effv_3 = 0,                 # protective efficacy of three doses of RTS,S [N]
+                  # dv = 1,                      # duration of vaccine protection [N]
                   timei = 2018,
                   dRCD = 4,
                   nuTr = 14,                   # days of infectiosness after treatment ACT [N]
@@ -358,7 +364,12 @@ server <- function(input, output, session) {
     
     RCDrad = input$RCDrad,
     RCDs = input$RCDs,
-    RCDthresh = input$RCDthresh
+    RCDthresh = input$RCDthresh,
+    
+    effv_1 = input$effv_1,
+    effv_2 = input$effv_2,
+    effv_3 = input$effv_3,
+    dv = input$dv
   ))
   
   #getting back previous parameters
@@ -419,6 +430,10 @@ server <- function(input, output, session) {
     updateSliderInput(session, "RCDrad", value = datavalue()[50])
     updateSliderInput(session, "RCDs", value = datavalue()[51])
     updateSliderInput(session, "RCDthresh", value = datavalue()[52])
+    updateSliderInput(session, "effv_1", value = datavalue()[53])
+    updateSliderInput(session, "effv_2", value = datavalue()[54])
+    updateSliderInput(session, "effv_3", value = datavalue()[55])
+    updateSliderInput(session, "dv", value = datavalue()[56])
   })
   
   #testing
