@@ -57,26 +57,26 @@ ui <- fluidPage(
                sliderInput(inputId="covIRSi", label = "new coverage of IRS (%) ", value = 90, min=0, max=90,step=5)
              ))
   ),
-  tabPanel(title = strong("Reactive case detection"),
-            column(4, 
-              checkboxInput(inputId="RCDon", label = "switch on scale up of RCD", value = FALSE),
-              sliderInput(inputId="RCDscale", label = "years to scale up RCD", value = 2, min=.25, max=3, step=.25), #.25 timesteps
-              sliderInput(inputId="RCDthresh", label = "upper limit on annual incidence per 1000 for RCD", value = 1, min=1, max=12,step=1),
-              sliderInput(inputId="covRCDi", label = "new coverage of RCD (%)", value = 50, min=0, max=100,step=10),
-              sliderInput(inputId="delayRCD", label = "reaction time (weeks)", value = 4, min=1, max=8,step=1)
-            ),
-           column(4, 
-                  radioButtons(inputId="RCDcoex", label = "RCD Search Type: ", choices = c("Radial search"=0, "Co-exposure search"=1), selected = 0, inline=TRUE),
-                  sliderInput(inputId="RCDrad", label = "radius for radial search (m)", value = 50, min=5, max=150,step=5), #value = 20, min=5, max=200,step=5),
-                  sliderInput(inputId="clustRCDrad", label = "added value of radial targeting (%)", value = 40, min=0, max=100,step=10),
-                  sliderInput(inputId="RCDs", label = "sample size for co-exposure search (% of village)", value = 5, min=1, max=50,step=1),
-                  sliderInput(inputId="clustRCDcoex", label = "added value of co-exposure targeting (%)", value = 50, min=0, max=100,step=10)  
-           ),
-            column(4, 
-              sliderInput(inputId="RCDsensC", label = "sensitivity RCD test (clinical) ", value = 95, min=0, max=100,step=5),
-              sliderInput(inputId="RCDsensA", label = "sensitivity RCD test (micro detectable, asym)", value = 60, min=0, max=100,step=5),
-              sliderInput(inputId="RCDsensU", label = "sensitivity RCD test (micro undetectable, asym)", value = 0, min=0, max=100,step=5)
-            )),
+  # tabPanel(title = strong("Reactive case detection"),
+  #           column(4, 
+  #             checkboxInput(inputId="RCDon", label = "switch on scale up of RCD", value = FALSE),
+  #             sliderInput(inputId="RCDscale", label = "years to scale up RCD", value = 2, min=.25, max=3, step=.25), #.25 timesteps
+  #             sliderInput(inputId="RCDthresh", label = "upper limit on annual incidence per 1000 for RCD", value = 1, min=1, max=12,step=1),
+  #             sliderInput(inputId="covRCDi", label = "new coverage of RCD (%)", value = 50, min=0, max=100,step=10),
+  #             sliderInput(inputId="delayRCD", label = "reaction time (weeks)", value = 4, min=1, max=8,step=1)
+  #           ),
+  #          column(4, 
+  #                 radioButtons(inputId="RCDcoex", label = "RCD Search Type: ", choices = c("Radial search"=0, "Co-exposure search"=1), selected = 0, inline=TRUE),
+  #                 sliderInput(inputId="RCDrad", label = "radius for radial search (m)", value = 50, min=5, max=150,step=5), #value = 20, min=5, max=200,step=5),
+  #                 sliderInput(inputId="clustRCDrad", label = "added value of radial targeting (%)", value = 40, min=0, max=100,step=10),
+  #                 sliderInput(inputId="RCDs", label = "sample size for co-exposure search (% of village)", value = 5, min=1, max=50,step=1),
+  #                 sliderInput(inputId="clustRCDcoex", label = "added value of co-exposure targeting (%)", value = 50, min=0, max=100,step=10)  
+  #          ),
+  #           column(4, 
+  #             sliderInput(inputId="RCDsensC", label = "sensitivity RCD test (clinical) ", value = 95, min=0, max=100,step=5),
+  #             sliderInput(inputId="RCDsensA", label = "sensitivity RCD test (micro detectable, asym)", value = 60, min=0, max=100,step=5),
+  #             sliderInput(inputId="RCDsensU", label = "sensitivity RCD test (micro undetectable, asym)", value = 0, min=0, max=100,step=5)
+  #           )),
             tabPanel(title = strong("Interventions under trial: Focal MVDA (hotspot)"),
                      column(3,
                             checkboxInput(inputId="MDAon", label = "switch on MDA", value = FALSE), #6
@@ -199,6 +199,17 @@ runGMS<-function(initprev, scenario, param)
                   # effv_3 = 0,                 # protective efficacy of three doses of RTS,S [N]
                   # dv = 1,                      # duration of vaccine protection [N]
                   timei = 2018,
+                  RCDscale	=3,
+                  covRCDi	=90,
+                  delayRCD=	4,
+                  clustRCDrad	=40,
+                  clustRCDcoex	=50,
+                  RCDsensC	=95,
+                  RCDsensA	=85,
+                  RCDsensU	=50,
+                  RCDrad=	50,
+                  RCDs	=10,
+                  RCDthresh=	5,
                   dRCD = 4,
                   nuTr = 14,                   # days of infectiosness after treatment ACT [N]
                   nuTrp = 7,                   # days of infectiosness after treatment ACT+primaquine [N]
@@ -308,8 +319,8 @@ server <- function(input, output, session) {
   
   scenario_iR<-reactive(c(EDATon = input$EDATon,
                           ITNon = input$ITNon,
-                          RCDon = input$RCDon,
-                          RCDcoex = as.numeric(input$RCDcoex),
+                          RCDon = 0,
+                          RCDcoex = 0,
                           IRSon = input$IRSon,
                           MDAon = input$MDAon,
                           primon = input$primon,
@@ -408,37 +419,37 @@ server <- function(input, output, session) {
     updateSliderInput(session, "covEDATi", value = datavalue()[24])
     updateSliderInput(session, "ITNscale", value = datavalue()[25])
     updateSliderInput(session, "covITNi", value = datavalue()[26])
-    updateSliderInput(session, "RCDscale", value = datavalue()[27])
-    updateSliderInput(session, "covRCDi", value = datavalue()[28])
-    updateSliderInput(session, "delayRCD", value = datavalue()[29])
-    updateSliderInput(session, "clustRCDrad", value = datavalue()[30])
-    updateSliderInput(session, "clustRCDcoex", value = datavalue()[31])
-    updateSliderInput(session, "RCDsensC", value = datavalue()[32])
-    updateSliderInput(session, "RCDsensA", value = datavalue()[33])
-    updateSliderInput(session, "RCDsensU", value = datavalue()[34])
-    updateSliderInput(session, "IRSscale", value = datavalue()[35])
-    updateSliderInput(session, "covIRSi", value = datavalue()[36])
-    updateSliderInput(session, "cmda_1", value = datavalue()[37])
-    updateSliderInput(session, "cmda_2", value = datavalue()[38])
-    updateSliderInput(session, "cmda_3", value = datavalue()[39])
-    updateSliderInput(session, "tm_1", value = datavalue()[40])
-    updateSliderInput(session, "tm_2", value = datavalue()[41])
-    updateSliderInput(session, "tm_3", value = datavalue()[42])
-    updateSliderInput(session, "dm", value = datavalue()[43])
-    updateSliderInput(session, "lossd", value = datavalue()[44])
-    updateSliderInput(session, "MSATscale", value = datavalue()[45])
-    updateSliderInput(session, "covMSATi", value = datavalue()[46])
-    updateSliderInput(session, "MSATsensC", value = datavalue()[47])
-    updateSliderInput(session, "MSATsensA", value = datavalue()[48])
-    updateSliderInput(session, "MSATsensU", value = datavalue()[49])
-    updateSliderInput(session, "RCDrad", value = datavalue()[50])
-    updateSliderInput(session, "RCDs", value = datavalue()[51])
-    updateSliderInput(session, "RCDthresh", value = datavalue()[52])
-    updateSliderInput(session, "effv_1", value = datavalue()[53])
-    updateSliderInput(session, "effv_2", value = datavalue()[54])
-    updateSliderInput(session, "effv_3", value = datavalue()[55])
-    updateSliderInput(session, "dv", value = datavalue()[56])
-    updateSliderInput(session, "VACon", value = datavalue()[57])
+    # updateSliderInput(session, "RCDscale", value = datavalue()[27])
+    # updateSliderInput(session, "covRCDi", value = datavalue()[28])
+    # updateSliderInput(session, "delayRCD", value = datavalue()[29])
+    # updateSliderInput(session, "clustRCDrad", value = datavalue()[30])
+    # updateSliderInput(session, "clustRCDcoex", value = datavalue()[31])
+    # updateSliderInput(session, "RCDsensC", value = datavalue()[32])
+    # updateSliderInput(session, "RCDsensA", value = datavalue()[33])
+    # updateSliderInput(session, "RCDsensU", value = datavalue()[34])
+    updateSliderInput(session, "IRSscale", value = datavalue()[27])
+    updateSliderInput(session, "covIRSi", value = datavalue()[28])
+    updateSliderInput(session, "cmda_1", value = datavalue()[29])
+    updateSliderInput(session, "cmda_2", value = datavalue()[30])
+    updateSliderInput(session, "cmda_3", value = datavalue()[31])
+    updateSliderInput(session, "tm_1", value = datavalue()[32])
+    updateSliderInput(session, "tm_2", value = datavalue()[33])
+    updateSliderInput(session, "tm_3", value = datavalue()[34])
+    updateSliderInput(session, "dm", value = datavalue()[35])
+    updateSliderInput(session, "lossd", value = datavalue()[36])
+    updateSliderInput(session, "MSATscale", value = datavalue()[37])
+    updateSliderInput(session, "covMSATi", value = datavalue()[38])
+    updateSliderInput(session, "MSATsensC", value = datavalue()[39])
+    updateSliderInput(session, "MSATsensA", value = datavalue()[40])
+    updateSliderInput(session, "MSATsensU", value = datavalue()[41])
+    # updateSliderInput(session, "RCDrad", value = datavalue()[50])
+    # updateSliderInput(session, "RCDs", value = datavalue()[51])
+    # updateSliderInput(session, "RCDthresh", value = datavalue()[52])
+    updateSliderInput(session, "effv_1", value = datavalue()[42])
+    updateSliderInput(session, "effv_2", value = datavalue()[43])
+    updateSliderInput(session, "effv_3", value = datavalue()[44])
+    updateSliderInput(session, "dv", value = datavalue()[45])
+    updateSliderInput(session, "VACon", value = datavalue()[46])
   })
   
   #testing
