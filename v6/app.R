@@ -12,26 +12,26 @@ ui <- fluidPage(
     id="panels",
     tabPanel(title = strong("Baseline"),
              column(3,
-                    sliderInput(inputId="API", label = "baseline API", value = 46, min=1, max=100,step=0.5),
-                    sliderInput(inputId="bh_max", label = "number of mosquito bites per human per night (peak season)", value = 10, min=0, max=80,step=1), #change range 0-80, Dan's data
+                    sliderInput(inputId="API", label = "baseline API", value = 10, min=1, max=100,step=0.5),
+                    sliderInput(inputId="bh_max", label = "number of mosquito bites per human per night (peak season)", value = 20, min=0, max=80,step=1), #change range 0-80, Dan's data
                     sliderInput(inputId="eta", label = "% of all infections that are caught outside the village (forest)", value = 30, min=0, max=100,step=10),
-                    sliderInput(inputId="covEDAT0", label = "baseline % of all clinical cases treated", value = 30, min=0, max=100)
+                    sliderInput(inputId="covEDAT0", label = "baseline % of all clinical cases treated", value = 25, min=0, max=100)
              ),
              column(3,
-                    sliderInput(inputId="covITN0", label = "baseline coverage of ITN (%) ", value = 60, min=0, max=90,step=.5),
+                    sliderInput(inputId="covITN0", label = "baseline coverage of ITN (%) ", value = 70, min=0, max=90,step=.5),
                     sliderInput(inputId="effITN", label = "% of infections averted due to ownership of ITN ", value = 30, min=0, max=50), 
                     sliderInput(inputId="covIRS0", label = "baseline coverage of IRS (%) ", value = 0, min=0, max=90,step=10),
                     sliderInput(inputId="effIRS", label = "% reduction in biting rate due to IRS ", value = 15, min=0, max=25,step=5)
              ),
              column(3,
                     sliderInput(inputId="muC", label = "imported clinical cases per 1000 population per year ", value = 1, min=0, max=10,step=1),
-                    sliderInput(inputId="muA", label = "imported asymptomatic microscopically detectable carriers per 1000 population per year ", value = 10, min=0, max=100,step=1),
-                    sliderInput(inputId="muU", label = "imported asymptomatic microscopically undetectable carriers per 1000 population per year ", value = 10, min=0, max=100,step=1)
+                    sliderInput(inputId="muA", label = "imported asymptomatic microscopically detectable carriers per 1000 population per year ", value = 1, min=0, max=100,step=1),
+                    sliderInput(inputId="muU", label = "imported asymptomatic microscopically undetectable carriers per 1000 population per year ", value = 1, min=0, max=100,step=1)
              ),
              column(3,
                     sliderInput(inputId="percfail2018", label = "% of cases failing treatment in 2018 and before ", value = 5, min=0, max=100,step=5),
-                    sliderInput(inputId="percfail2019", label = "% of cases failing treatment in 2019  ", value = 10, min=0, max=100,step=5),
-                    sliderInput(inputId="percfail2020", label = "% of cases failing treatment in 2020 and after  ", value = 15, min=0, max=100,step=5)
+                    sliderInput(inputId="percfail2019", label = "% of cases failing treatment in 2019  ", value = 15, min=0, max=100,step=5),
+                    sliderInput(inputId="percfail2020", label = "% of cases failing treatment in 2020 and after  ", value = 30, min=0, max=100,step=5)
              )
     ),
     
@@ -42,13 +42,13 @@ ui <- fluidPage(
                       checkboxInput(inputId="EDATon", label = "switch on scale up of EDAT ", value = FALSE),
                       checkboxInput(inputId="primon", label = "ACT+primaquine for EDAT and MDA ", value = FALSE), #under EDAT checkbox
                       sliderInput(inputId="EDATscale", label = "years to scale up EDAT ", value = 1, min=.25, max=3, step=.25),
-                      sliderInput(inputId="covEDATi", label = "new % of all clinical cases treated", value = 50, min=0, max=100,step=5)
+                      sliderInput(inputId="covEDATi", label = "new % of all clinical cases treated", value = 70, min=0, max=100,step=5)
                     )), 
              column(4,wellPanel(
                       h3("Insecticide Treated Net"),
                       checkboxInput(inputId="ITNon", label = "switch on scale up of ITN ", value = FALSE),
                       sliderInput(inputId="ITNscale", label = "years to scale up ITN ", value = 1, min=.25, max=3, step=.25),
-                      sliderInput(inputId="covITNi", label = "new coverage of ITN (%) ", value = 80, min=0, max=90,step=5)
+                      sliderInput(inputId="covITNi", label = "new coverage of ITN (%) ", value = 90, min=0, max=90,step=5)
                     )),
              column(4,wellPanel(
                h3("Indoor Residual Spray"),
@@ -91,15 +91,15 @@ ui <- fluidPage(
                      ),
                      
                      column(3,
-                            sliderInput(inputId="tm_1", label = "timing of 1st round [2018+ no. of month, 1 means Jan'2018, 13 means Jan'2019]", value = 12, min=1, max=36,step=1),
-                            sliderInput(inputId="tm_2", label = "timing of 2nd round [2018+ no. of month]", value = 13, min=2, max=36,step=1),
-                            sliderInput(inputId="tm_3", label = "timing of 3rd round [2018+ no. of month]", value = 14, min=3, max=36,step=1)
+                            sliderInput(inputId="tm_1", label = "timing of 1st round [2018+ no. of month, 1 means Jan'2018, 13 means Jan'2019]", value = 1, min=1, max=36,step=1),
+                            sliderInput(inputId="tm_2", label = "timing of 2nd round [2018+ no. of month]", value = 2, min=2, max=36,step=1),
+                            sliderInput(inputId="tm_3", label = "timing of 3rd round [2018+ no. of month]", value = 3, min=3, max=36,step=1)
                      ),
                      column(3,
                             radioButtons(inputId="VACon", label = "With vaccination: ", choices = c("No"=0, "Yes"=1), selected = 0, inline=TRUE),
                             #checkboxInput(inputId="VACon", label = "switch on vaccination", value = FALSE), 
-                            sliderInput(inputId="effv_1", label = "% protective efficacy of RTS,S with 1st dose", value = 76, min=0, max=100),
-                            sliderInput(inputId="effv_2", label = "% protective efficacy of RTS,S with 2nd dose", value = 83, min=0, max=100),
+                            sliderInput(inputId="effv_1", label = "% protective efficacy of RTS,S with 1st dose", value = 75, min=0, max=100),
+                            sliderInput(inputId="effv_2", label = "% protective efficacy of RTS,S with 2nd dose", value = 80, min=0, max=100),
                             sliderInput(inputId="effv_3", label = "% protective efficacy of RTS,S with 3rd dose", value = 92, min=0, max=100),
                             sliderInput(inputId="dv", label = "years of protective effect of RTS,S", value = .75, min=0.5, max=3,step=.25)
                      )
@@ -112,13 +112,13 @@ ui <- fluidPage(
             tabPanel(title = strong("Interventions under trial: Focal MSAT (mobile)"),
                      column(3,
                             checkboxInput(inputId="MSATon", label = "switch on MSAT for imported cases", value = FALSE),
-                            sliderInput(inputId="MSATscale", label = "years to scale up MSAT ", value = 2, min=.25, max=3, step=.25), 
+                            sliderInput(inputId="MSATscale", label = "years to scale up MSAT ", value = 1, min=.25, max=3, step=.25), 
                             sliderInput(inputId="covMSATi", label = "new coverage of MSAT (%)", value = 90, min=0, max=100,step=10)
                      ),
                      column(3,
-                            sliderInput(inputId="MSATsensC", label = "sensitivity MSAT test (clinical) ", value = 95, min=0, max=100,step=5),
-                            sliderInput(inputId="MSATsensA", label = "sensitivity MSAT test (micro detectable, asym)", value = 80, min=0, max=100,step=5),
-                            sliderInput(inputId="MSATsensU", label = "sensitivity MSAT test (micro undetectable, asym)", value = 80, min=0, max=100,step=5)
+                            sliderInput(inputId="MSATsensC", label = "sensitivity MSAT test (clinical) ", value = 99, min=0, max=100,step=5),
+                            sliderInput(inputId="MSATsensA", label = "sensitivity MSAT test (micro detectable, asym)", value = 87, min=0, max=100,step=5),
+                            sliderInput(inputId="MSATsensU", label = "sensitivity MSAT test (micro undetectable, asym)", value = 4, min=0, max=100,step=5)
                      )
             ),
             tabPanel(title= strong("Download"),
@@ -235,8 +235,8 @@ runGMS<-function(initprev, scenario, param)
                   nuC = 3,                     # days of symptoms in the absence of treatment [N], #change 9 -> 3
                   nuA = 60,                    # days of asymptomatic microscopically detectable carriage [N]
                   nuU = 100,                    # days of asymptomatic microscopically undetectable carriage [N], #change 60 -> 100, Mean duration of a malaria untreated infection: 160 days, 
-                  rhoa = 70,                   # relative infectivity of asymptomatic microscopically detectable carriers compared with clinical infections (%) [N]
-                  rhou = 30,                   # relative infectivity of asymptomatic microscopically undetectable carriers compared with clinical infections (%) [N]
+                  rhoa = 55,                   # relative infectivity of asymptomatic microscopically detectable carriers compared with clinical infections (%) [N]
+                  rhou = 17,                   # relative infectivity of asymptomatic microscopically undetectable carriers compared with clinical infections (%) [N]
                   ps = 90,                     # % of all non-immune new infections that are clinical [N]
                   pr = 20,                     # % of all immune new infections that are clinical [N]
                   mu = 50,                      # life expectancy (years) [N]
