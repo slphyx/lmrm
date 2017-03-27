@@ -54,3 +54,4 @@ monthly incidence threshold for RCD,case
 "% protective efficacy of RTS,S with 2nd dose",%
 "% protective efficacy of RTS,S with 3rd dose",%
 "years of protective effect of RTS,S",year
+switch on vaccination,"1: On, 0: Off"
