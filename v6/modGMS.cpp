@@ -14,6 +14,7 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   double MDAon = parameters["MDAon"];
   double primon = parameters["primon"];
   double MSATon = parameters["MSATon"];
+  double VACon = parameters["VACon"];
   // convert %s to proportions
   double covEDATi=parameters["covEDATi"];
         covEDATi = 0.9*covEDATi/100;
@@ -262,9 +263,9 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   
   // vaccine effects
   
-  double v_1= MDAon*(Y>(tm_1-startyear))*(Y<=(tm_1+dv-startyear))*effv_1;
-  double v_2= MDAon*(Y>(tm_2-startyear))*(Y<=(tm_2+dv-startyear))*effv_2;
-  double v_3= MDAon*(Y>(tm_3-startyear))*(Y<=(tm_3+dv-startyear))*effv_3;
+  double v_1= VACon*(Y>(tm_1-startyear))*(Y<=(tm_1+dv-startyear))*effv_1;
+  double v_2= VACon*(Y>(tm_2-startyear))*(Y<=(tm_2+dv-startyear))*effv_2;
+  double v_3= VACon*(Y>(tm_3-startyear))*(Y<=(tm_3+dv-startyear))*effv_3;
   
   double lam_1 = (1-v_1)*lam;
   double lam_2 = (1-v_2)*lam;

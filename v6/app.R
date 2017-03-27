@@ -96,6 +96,7 @@ ui <- fluidPage(
                             sliderInput(inputId="tm_3", label = "timing of 3rd round [2018+ no. of month]", value = 14, min=3, max=36,step=1)
                      ),
                      column(3,
+                            checkboxInput(inputId="VACon", label = "switch on vaccination", value = FALSE), 
                             sliderInput(inputId="effv_1", label = "% protective efficacy of RTS,S with 1st dose", value = 76, min=0, max=100),
                             sliderInput(inputId="effv_2", label = "% protective efficacy of RTS,S with 2nd dose", value = 83, min=0, max=100),
                             sliderInput(inputId="effv_3", label = "% protective efficacy of RTS,S with 3rd dose", value = 92, min=0, max=100),
@@ -301,7 +302,8 @@ server <- function(input, output, session) {
                 IRSon = 0,
                 MDAon = 0,
                 primon = 0,
-                MSATon = 0)
+                MSATon = 0,
+                VACon = 0)
   
   scenario_iR<-reactive(c(EDATon = input$EDATon,
                           ITNon = input$ITNon,
@@ -310,7 +312,8 @@ server <- function(input, output, session) {
                           IRSon = input$IRSon,
                           MDAon = input$MDAon,
                           primon = input$primon,
-                          MSATon = input$MSATon))
+                          MSATon = input$MSATon,
+                          VACon = input$VACon))
   
   parametersR <- reactive(c(
     bh_max = input$bh_max,                 # bites per human per night
@@ -434,6 +437,7 @@ server <- function(input, output, session) {
     updateSliderInput(session, "effv_2", value = datavalue()[54])
     updateSliderInput(session, "effv_3", value = datavalue()[55])
     updateSliderInput(session, "dv", value = datavalue()[56])
+    updateSliderInput(session, "VACon", value = datavalue()[57])
   })
   
   #testing
