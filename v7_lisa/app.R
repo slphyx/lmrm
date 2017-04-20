@@ -218,8 +218,8 @@ runGMS<-function(initprev, scenario, param)
                   epsilonh=0.23,                 # per bite probability of an infectious mosquito infecting a human
                   epsilonm=0.5,                  # per bite probability of an infectious human infecting a mosquito
                   b=365/3,                       # per mosquito rate of biting
-                  deltam=365/14,                 
-                  gammam=365/10,
+                  deltam=365/14,                 #
+                  gammam=365/10,#Rate of becoming infectious from the latent phase for mosquitos, Kai Matuschewski: Getting infectious
                   covRCD0 = 0,
                   kRCD = 0.017,                
                   cRCD = 105,                
