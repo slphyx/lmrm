@@ -346,16 +346,16 @@ server <- function(input, output, session) {
     covEDATi = input$covEDATi,
     ITNscale = input$ITNscale,
     covITNi = input$covITNi,
-    RCDscale = input$RCDscale,
-    covRCDi = input$covRCDi,
-    delayRCD = input$delayRCD,
+    # RCDscale = input$RCDscale,
+    # covRCDi = input$covRCDi,
+    # delayRCD = input$delayRCD,
     #RCDrad = input$RCDrad,
-    clustRCDrad = input$clustRCDrad,
+    #clustRCDrad = input$clustRCDrad,
     #RCDs = input$RCDs,
-    clustRCDcoex = input$clustRCDcoex,
-    RCDsensC = input$RCDsensC,
-    RCDsensA = input$RCDsensA,
-    RCDsensU = input$RCDsensU,
+    # clustRCDcoex = input$clustRCDcoex,
+    # RCDsensC = input$RCDsensC,
+    # RCDsensA = input$RCDsensA,
+    # RCDsensU = input$RCDsensU,
     IRSscale = input$IRSscale,
     covIRSi = input$covIRSi,
     
@@ -377,9 +377,9 @@ server <- function(input, output, session) {
     MSATsensA = input$MSATsensA,
     MSATsensU = input$MSATsensU,
     
-    RCDrad = input$RCDrad,
-    RCDs = input$RCDs,
-    RCDthresh = input$RCDthresh,
+    #RCDrad = input$RCDrad,
+    #RCDs = input$RCDs,
+    #RCDthresh = input$RCDthresh,
     
     effv_1 = input$effv_1,
     effv_2 = input$effv_2,
@@ -399,26 +399,27 @@ server <- function(input, output, session) {
     updateCheckboxInput(session, "MDAon", value = datavalue()[6])
     updateCheckboxInput(session, "primon", value = datavalue()[7])
     updateCheckboxInput(session, "MSATon", value = datavalue()[8])
+    updateSliderInput(session, "VACon", value = datavalue()[9])
     
-    updateSliderInput(session, "API", value = datavalue()[9])
+    updateSliderInput(session, "API", value = datavalue()[10])
     
-    updateSliderInput(session, "bh_max", value = datavalue()[10])
-    updateSliderInput(session, "eta", value = datavalue()[11])
-    updateSliderInput(session, "covEDAT0", value = datavalue()[12])
-    updateSliderInput(session, "covITN0", value = datavalue()[13])
-    updateSliderInput(session, "effITN", value = datavalue()[14])
-    updateSliderInput(session, "covIRS0", value = datavalue()[15])
-    updateSliderInput(session, "effIRS", value = datavalue()[16])
-    updateSliderInput(session, "muC", value = datavalue()[17])
-    updateSliderInput(session, "muA", value = datavalue()[18])
-    updateSliderInput(session, "muU", value = datavalue()[19])
-    updateSliderInput(session, "percfail2018", value = datavalue()[20])
-    updateSliderInput(session, "percfail2019", value = datavalue()[21])
-    updateSliderInput(session, "percfail2020", value = datavalue()[22])
-    updateSliderInput(session, "EDATscale", value = datavalue()[23])
-    updateSliderInput(session, "covEDATi", value = datavalue()[24])
-    updateSliderInput(session, "ITNscale", value = datavalue()[25])
-    updateSliderInput(session, "covITNi", value = datavalue()[26])
+    updateSliderInput(session, "bh_max", value = datavalue()[11])
+    updateSliderInput(session, "eta", value = datavalue()[12])
+    updateSliderInput(session, "covEDAT0", value = datavalue()[13])
+    updateSliderInput(session, "covITN0", value = datavalue()[14])
+    updateSliderInput(session, "effITN", value = datavalue()[15])
+    updateSliderInput(session, "covIRS0", value = datavalue()[16])
+    updateSliderInput(session, "effIRS", value = datavalue()[17])
+    updateSliderInput(session, "muC", value = datavalue()[18])
+    updateSliderInput(session, "muA", value = datavalue()[19])
+    updateSliderInput(session, "muU", value = datavalue()[20])
+    updateSliderInput(session, "percfail2018", value = datavalue()[21])
+    updateSliderInput(session, "percfail2019", value = datavalue()[22])
+    updateSliderInput(session, "percfail2020", value = datavalue()[23])
+    updateSliderInput(session, "EDATscale", value = datavalue()[24])
+    updateSliderInput(session, "covEDATi", value = datavalue()[25])
+    updateSliderInput(session, "ITNscale", value = datavalue()[26])
+    updateSliderInput(session, "covITNi", value = datavalue()[27])
     # updateSliderInput(session, "RCDscale", value = datavalue()[27])
     # updateSliderInput(session, "covRCDi", value = datavalue()[28])
     # updateSliderInput(session, "delayRCD", value = datavalue()[29])
@@ -427,29 +428,29 @@ server <- function(input, output, session) {
     # updateSliderInput(session, "RCDsensC", value = datavalue()[32])
     # updateSliderInput(session, "RCDsensA", value = datavalue()[33])
     # updateSliderInput(session, "RCDsensU", value = datavalue()[34])
-    updateSliderInput(session, "IRSscale", value = datavalue()[27])
-    updateSliderInput(session, "covIRSi", value = datavalue()[28])
-    updateSliderInput(session, "cmda_1", value = datavalue()[29])
-    updateSliderInput(session, "cmda_2", value = datavalue()[30])
-    updateSliderInput(session, "cmda_3", value = datavalue()[31])
-    updateSliderInput(session, "tm_1", value = datavalue()[32])
-    updateSliderInput(session, "tm_2", value = datavalue()[33])
-    updateSliderInput(session, "tm_3", value = datavalue()[34])
-    updateSliderInput(session, "dm", value = datavalue()[35])
-    updateSliderInput(session, "lossd", value = datavalue()[36])
-    updateSliderInput(session, "MSATscale", value = datavalue()[37])
-    updateSliderInput(session, "covMSATi", value = datavalue()[38])
-    updateSliderInput(session, "MSATsensC", value = datavalue()[39])
-    updateSliderInput(session, "MSATsensA", value = datavalue()[40])
-    updateSliderInput(session, "MSATsensU", value = datavalue()[41])
+    updateSliderInput(session, "IRSscale", value = datavalue()[28])
+    updateSliderInput(session, "covIRSi", value = datavalue()[29])
+    updateSliderInput(session, "cmda_1", value = datavalue()[30])
+    updateSliderInput(session, "cmda_2", value = datavalue()[31])
+    updateSliderInput(session, "cmda_3", value = datavalue()[32])
+    updateSliderInput(session, "tm_1", value = datavalue()[33])
+    updateSliderInput(session, "tm_2", value = datavalue()[34])
+    updateSliderInput(session, "tm_3", value = datavalue()[35])
+    updateSliderInput(session, "dm", value = datavalue()[36])
+    updateSliderInput(session, "lossd", value = datavalue()[37])
+    updateSliderInput(session, "MSATscale", value = datavalue()[38])
+    updateSliderInput(session, "covMSATi", value = datavalue()[39])
+    updateSliderInput(session, "MSATsensC", value = datavalue()[40])
+    updateSliderInput(session, "MSATsensA", value = datavalue()[41])
+    updateSliderInput(session, "MSATsensU", value = datavalue()[42])
     # updateSliderInput(session, "RCDrad", value = datavalue()[50])
     # updateSliderInput(session, "RCDs", value = datavalue()[51])
     # updateSliderInput(session, "RCDthresh", value = datavalue()[52])
-    updateSliderInput(session, "effv_1", value = datavalue()[42])
-    updateSliderInput(session, "effv_2", value = datavalue()[43])
-    updateSliderInput(session, "effv_3", value = datavalue()[44])
-    updateSliderInput(session, "vh", value = datavalue()[45])
-    updateSliderInput(session, "VACon", value = datavalue()[46])
+    updateSliderInput(session, "effv_1", value = datavalue()[43])
+    updateSliderInput(session, "effv_2", value = datavalue()[44])
+    updateSliderInput(session, "effv_3", value = datavalue()[45])
+    updateSliderInput(session, "vh", value = datavalue()[46])
+    
   })
   
   #testing

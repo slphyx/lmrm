@@ -6,6 +6,7 @@ switch on scale up of IRS,"1: On, 0: Off"
 switch on MDA,"1: On, 0: Off"
 ACT+primaquine for EDAT and MDA,"1: On, 0: Off"
 switch on MSAT for imported cases,"1: On, 0: Off"
+switch on vaccination,"1: On, 0: Off"
 Baseline API,API per 1000 population
 No. of mosquito bites per human per night (peak season),bites per human per night
 % of all infections that are caught outside the village (forest),%
@@ -43,4 +44,3 @@ sensitivity MSAT test (clinical),%
 "% protective efficacy of RTS,S with 2nd dose",%
 "% protective efficacy of RTS,S with 3rd dose",%
 half life of vaccine protection (days),days
-switch on vaccination,"1: On, 0: Off"
