@@ -199,18 +199,18 @@ runGMS<-function(initprev, scenario, param)
                   # effv_3 = 0,                 # protective efficacy of three doses of RTS,S [N]
                   # dv = 1,                      # duration of vaccine protection [N]
                   timei = 2018,
-                  RCDscale	=3,
-                  covRCDi	=90,
-                  delayRCD=	4,
-                  clustRCDrad	=40,
-                  clustRCDcoex	=50,
-                  RCDsensC	=95,
-                  RCDsensA	=85,
-                  RCDsensU	=50,
-                  RCDrad=	50,
-                  RCDs	=10,
-                  RCDthresh=	5,
-                  dRCD = 4,
+                  #RCDscale	=3,
+                  #covRCDi	=90,
+                  #delayRCD=	4,
+                  #clustRCDrad	=40,
+                  #clustRCDcoex	=50,
+                  #RCDsensC	=95,
+                  #RCDsensA	=85,
+                  #RCDsensU	=50,
+                  #RCDrad=	50,
+                  #RCDs	=10,
+                  #RCDthresh=	5,
+                  #dRCD = 4,
                   nuTr = 14,                   # days of infectiosness after treatment ACT [N]
                   nuTrp = 7,                   # days of infectiosness after treatment ACT+primaquine [N]
                   amp = 0.7,                   # relative amplitude seasonality [N]
@@ -220,13 +220,13 @@ runGMS<-function(initprev, scenario, param)
                   b=365/3,                       # per mosquito rate of biting
                   deltam=365/14,                 #
                   gammam=365/10,#Rate of becoming infectious from the latent phase for mosquitos, Kai Matuschewski: Getting infectious
-                  covRCD0 = 0,
-                  kRCD = 0.017,                
-                  cRCD = 105,                
-                  bRCD = 0.024,
-                  gRCD = 230,
-                  muRCDw=4,
-                  sdRCDw=1.5,
+                  #covRCD0 = 0,
+                  #kRCD = 0.017,                
+                  #cRCD = 105,                
+                  #bRCD = 0.024,
+                  #gRCD = 230,
+                  #muRCDw=4,
+                  #sdRCDw=1.5,
                   cm_1=80,
                   cm_2=95,
                   cm_3=95,
@@ -309,8 +309,8 @@ runGMS<-function(initprev, scenario, param)
 server <- function(input, output, session) {
   scenario_0<-c(EDATon = 0,
                 ITNon = 0,
-                RCDon = 0,
-                RCDcoex = 0,
+                #RCDon = 0,
+                #RCDcoex = 0,
                 IRSon = 0,
                 MDAon = 0,
                 primon = 0,
@@ -319,8 +319,8 @@ server <- function(input, output, session) {
   
   scenario_iR<-reactive(c(EDATon = input$EDATon,
                           ITNon = input$ITNon,
-                          RCDon = 0,
-                          RCDcoex = 0,
+                          #RCDon = 0,
+                          #RCDcoex = 0,
                           IRSon = input$IRSon,
                           MDAon = input$MDAon,
                           primon = input$primon,
@@ -393,8 +393,8 @@ server <- function(input, output, session) {
   observeEvent(input$file,{
     updateCheckboxInput(session, "EDATon", value = datavalue()[1])
     updateCheckboxInput(session, "ITNon", value = datavalue()[2])
-    updateCheckboxInput(session, "RCDon", value = datavalue()[3])
-    updateRadioButtons(session, "RCDcoex", selected = datavalue()[4])
+    #updateCheckboxInput(session, "RCDon", value = datavalue()[3])
+    #updateRadioButtons(session, "RCDcoex", selected = datavalue()[4])
     updateCheckboxInput(session, "IRSon", value = datavalue()[5])
     updateCheckboxInput(session, "MDAon", value = datavalue()[6])
     updateCheckboxInput(session, "primon", value = datavalue()[7])

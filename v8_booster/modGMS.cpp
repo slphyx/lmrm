@@ -8,8 +8,8 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   // switches
   double EDATon = parameters["EDATon"];
   double ITNon = parameters["ITNon"];
-  double RCDon = parameters["RCDon"];
-  double RCDcoex = parameters["RCDcoex"];
+  //double RCDon = parameters["RCDon"];
+  //double RCDcoex = parameters["RCDcoex"];
   double IRSon = parameters["IRSon"];
   double MDAon = parameters["MDAon"];
   double primon = parameters["primon"];
@@ -32,18 +32,18 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   covIRS0=covIRS0/100;
   double effIRS = parameters["effIRS"];
   effIRS=effIRS/100;
-  double covRCDi=parameters["covRCDi"];
-  covRCDi=covRCDi/100;
-  double covRCD0=parameters["covRCD0"];
-  covRCD0=covRCD0/100;
-  double RCDs=parameters["RCDs"];
-  RCDs=RCDs/100;
-  double RCDsensC=parameters["RCDsensC"];
-  RCDsensC=RCDsensC/100;
-  double RCDsensA=parameters["RCDsensA"];
-  RCDsensA=RCDsensA/100;
-  double RCDsensU=parameters["RCDsensU"];
-  RCDsensU=RCDsensU/100;
+  //double covRCDi=parameters["covRCDi"];
+  //covRCDi=covRCDi/100;
+  //double covRCD0=parameters["covRCD0"];
+  //covRCD0=covRCD0/100;
+  //double RCDs=parameters["RCDs"];
+  //RCDs=RCDs/100;
+  //double RCDsensC=parameters["RCDsensC"];
+  //RCDsensC=RCDsensC/100;
+  //double RCDsensA=parameters["RCDsensA"];
+  //RCDsensA=RCDsensA/100;
+  //double RCDsensU=parameters["RCDsensU"];
+  //RCDsensU=RCDsensU/100;
   double covMSATi=parameters["covMSATi"];
   covMSATi=covMSATi/100;
   double covMSAT0=parameters["covMSAT0"];
@@ -54,10 +54,10 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   MSATsensA=MSATsensA/100;
   double MSATsensU=parameters["MSATsensU"];
   MSATsensU=MSATsensU/100;
-  double clustRCDrad=parameters["clustRCDrad"];
-  clustRCDrad=clustRCDrad/100;
-  double clustRCDcoex=parameters["clustRCDcoex"];
-  clustRCDcoex=clustRCDcoex/100;
+  //double clustRCDrad=parameters["clustRCDrad"];
+  //clustRCDrad=clustRCDrad/100;
+  //double clustRCDcoex=parameters["clustRCDcoex"];
+  //clustRCDcoex=clustRCDcoex/100;
   double cm_1=parameters["cm_1"];
   cm_1=cm_1/100;
   double cm_2=parameters["cm_2"];
@@ -86,7 +86,7 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   pr=pr/100;
   double eta=parameters["eta"];
   eta=eta/100;
-  double RCDthresh=parameters["RCDthresh"]; //new v12
+  //double RCDthresh=parameters["RCDthresh"]; //new v12
   
   // convert time scales
   double dm=parameters["dm"];
@@ -144,17 +144,17 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   
   double gammam=parameters["gammam"];
   
-  double kRCD = parameters["kRCD"];                
+  //double kRCD = parameters["kRCD"];                
   
-  double cRCD = parameters["cRCD"];                
+  //double cRCD = parameters["cRCD"];                
   
-  double bRCD = parameters["bRCD"];
+  //double bRCD = parameters["bRCD"];
   
-  double gRCD = parameters["gRCD"];
+  //double gRCD = parameters["gRCD"];
   
-  double muRCDw=parameters["muRCDw"];
+  //double muRCDw=parameters["muRCDw"];
   
-  double sdRCDw=parameters["sdRCDw"];
+  //double sdRCDw=parameters["sdRCDw"];
   
   double percfail2018 = parameters["percfail2018"];
   
@@ -166,15 +166,15 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   
   double ITNscale=parameters["ITNscale"] ;
   
-  double RCDscale = parameters["RCDscale"];
+  //double RCDscale = parameters["RCDscale"];
   
-  double delayRCD =parameters["delayRCD"];
+  //double delayRCD =parameters["delayRCD"];
   
   double IRSscale =parameters["IRSscale"];
   
   double MSATscale=parameters["MSATscale"];
   
-  double RCDrad =parameters["RCDrad"];
+  //double RCDrad =parameters["RCDrad"];
   
   double bh_max =parameters["bh_max"];
   
@@ -224,7 +224,7 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   // swtich on doubleerventions
   covEDATi = EDATon*covEDATi+(1-EDATon)*covEDAT0;
   covITNi = ITNon*covITNi+(1-ITNon)*covITN0;
-  covRCDi = RCDon*covRCDi+(1-RCDon)*covRCD0;
+  //covRCDi = RCDon*covRCDi+(1-RCDon)*covRCD0;
   covIRSi = IRSon*covIRSi+(1-IRSon)*covIRS0;
   
   double sS = S_0+S_1+S_2+S_3;
@@ -248,12 +248,12 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   
   double wsiEDAT=(1-(Y<=timei))*(Y<=(timei+EDATscale))*((Y-timei)/EDATscale)+1*(Y>=(timei+EDATscale));
   double wsiITN=(1-(Y<=timei))*(Y<=(timei+ITNscale))*((Y-timei)/ITNscale)+1*(Y>=(timei+ITNscale));
-  double wsiRCD=(1-(Y<=timei))*(Y<=(timei+RCDscale))*((Y-timei)/RCDscale)+1*(Y>=(timei+RCDscale));
+  //double wsiRCD=(1-(Y<=timei))*(Y<=(timei+RCDscale))*((Y-timei)/RCDscale)+1*(Y>=(timei+RCDscale));
   double wsiIRS=(1-(Y<=timei))*(Y<=(timei+IRSscale))*((Y-timei)/IRSscale)+1*(Y>=(timei+IRSscale));
   double wsiMSAT=(1-(Y<=timei))*(Y<=(timei+MSATscale))*((Y-timei)/MSATscale)+1*(Y>=(timei+MSATscale));
   double covEDAT=(1-wsiEDAT)*covEDAT0+wsiEDAT*covEDATi;
   double covITN=(1-wsiITN)*covITN0+wsiITN*covITNi;
-  double covRCD=(1-wsiRCD)*covRCD0+wsiRCD*covRCDi;
+  //double covRCD=(1-wsiRCD)*covRCD0+wsiRCD*covRCDi;
   double covIRS=(1-wsiIRS)*covIRS0+wsiIRS*covIRSi;
   double covMSAT=(1-wsiMSAT)*covMSAT0+wsiMSAT*covMSATi;
   
@@ -279,15 +279,15 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
 
   // set up treatment rate for RCD
   double incm=ps*tau*lam*sS+pr*tau*lam*sR+pr*tau*lam*sIU+pr*tau*lam*sIA;
-  double propRCD=(1-RCDcoex)*((1+exp(-kRCD*cRCD))*((1/(1+exp(-kRCD*(RCDrad-cRCD))))-(1/(1+exp(kRCD*cRCD)))))+RCDcoex*RCDs;
-  double fRCD=exp(-((delayRCD-muRCDw)*(delayRCD-muRCDw))/(2*sdRCDw));
-  double avrad=clustRCDrad/(1+exp(-bRCD*(gRCD-RCDrad)));
-  double eqRCDrad=cRCD-((1/kRCD)*log(((1+exp(kRCD*cRCD))/(1+RCDs*exp(kRCD*cRCD)))-1));
-  double avcoex=clustRCDcoex/(1+exp(-bRCD*(gRCD-eqRCDrad)));
-  double rateRCD=RCDon*covRCD*incm*(propRCD+fRCD*((1-RCDcoex)*(1-eta)*avrad+RCDcoex*avcoex))*((1000*incm/P)<=RCDthresh);
+  //double propRCD=(1-RCDcoex)*((1+exp(-kRCD*cRCD))*((1/(1+exp(-kRCD*(RCDrad-cRCD))))-(1/(1+exp(kRCD*cRCD)))))+RCDcoex*RCDs;
+  //double fRCD=exp(-((delayRCD-muRCDw)*(delayRCD-muRCDw))/(2*sdRCDw));
+  //double avrad=clustRCDrad/(1+exp(-bRCD*(gRCD-RCDrad)));
+  //double eqRCDrad=cRCD-((1/kRCD)*log(((1+exp(kRCD*cRCD))/(1+RCDs*exp(kRCD*cRCD)))-1));
+  //double avcoex=clustRCDcoex/(1+exp(-bRCD*(gRCD-eqRCDrad)));
+  //double rateRCD=RCDon*covRCD*incm*(propRCD+fRCD*((1-RCDcoex)*(1-eta)*avrad+RCDcoex*avcoex))*((1000*incm/P)<=RCDthresh);
   //old rateRCD=RCDon*covRCD*incm*(propRCD+fRCD*((1-RCDcoex)*(1-eta)*avrad+RCDcoex*avcoex));
   //new rateRCD=RCDon*covRCD*incm*(propRCD+fRCD*((1-RCDcoex)*(1-eta)*avrad+RCDcoex*avcoex))*((1000*incm/P)<=RCDthresh);
-  double tauRCD=rateRCD;
+  //double tauRCD=rateRCD;
   
   
   // MDA and RTS,S rounds
@@ -312,11 +312,11 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   double dCinc_det = ps*tau*lam*sS+pr*tau*lam*sR+pr*tau*lam*sIU+pr*tau*lam*sIA;                           //3
   double dCinc_tot = ps*lam*sS+pr*lam*sR+pr*lam*sIU+pr*lam*sIA;                                                                                                 //4
   double dS_0 = mu*P-mu_out*S_0+omega*R_0-lam*S_0+lossd*Sm_0-m_1*S_0;                                                                                         //5
-  double dIC_0 = muC*P-mu_out*IC_0+ps*(1-tau)*lam*S_0+pr*(1-tau)*lam*R_0+pr*(1-tau)*lam*IU_0+pr*(1-tau)*lam*IA_0-nuC*IC_0-m_1*IC_0-RCDsensC*tauRCD*IC_0;        //6 
-  double dIA_0 = muA*P-mu_out*IA_0+(1-ps)*lam*S_0+(1-pr)*lam*R_0+(1-pr)*lam*IU_0-pr*lam*IA_0+nuC*IC_0-nuA*IA_0+fail*nuTr*Tr_0-m_1*IA_0-RCDsensA*tauRCD*IA_0;    //7
-  double dIU_0 = muU*P-mu_out*IU_0-lam*IU_0-nuU*IU_0+nuA*IA_0-m_1*IU_0-RCDsensU*tauRCD*IU_0;                                                                    //8
+  double dIC_0 = muC*P-mu_out*IC_0+ps*(1-tau)*lam*S_0+pr*(1-tau)*lam*R_0+pr*(1-tau)*lam*IU_0+pr*(1-tau)*lam*IA_0-nuC*IC_0-m_1*IC_0;        //6 
+  double dIA_0 = muA*P-mu_out*IA_0+(1-ps)*lam*S_0+(1-pr)*lam*R_0+(1-pr)*lam*IU_0-pr*lam*IA_0+nuC*IC_0-nuA*IA_0+fail*nuTr*Tr_0-m_1*IA_0;    //7
+  double dIU_0 = muU*P-mu_out*IU_0-lam*IU_0-nuU*IU_0+nuA*IA_0-m_1*IU_0;                                                                    //8
   double dR_0 = -mu_out*R_0-omega*R_0-lam*R_0+nuU*IU_0+lossd*Rm_0-m_1*R_0;                                                                                      //9
-  double dTr_0 = -mu_out*Tr_0+ps*tau*lam*S_0+pr*tau*lam*R_0+pr*tau*lam*IU_0+pr*tau*lam*IA_0-nuTr*Tr_0-m_1*Tr_0+tauRCD*(RCDsensC*IC_0+RCDsensA*IA_0+RCDsensU*IU_0); //10
+  double dTr_0 = -mu_out*Tr_0+ps*tau*lam*S_0+pr*tau*lam*R_0+pr*tau*lam*IU_0+pr*tau*lam*IA_0-nuTr*Tr_0-m_1*Tr_0; //10
   double dSm_0 = -mu_out*Sm_0+omega*Rm_0-lossd*Sm_0-m_1*Sm_0;                                                                                                   //11
   double dRm_0 = -mu_out*Rm_0-omega*Rm_0+(1-fail)*nuTr*Tr_0-lossd*Rm_0-m_1*Rm_0;                                                                                //12
   
