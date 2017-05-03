@@ -278,7 +278,7 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   double fail = ((Y+startyear)<2019)*(percfail2018/100)+((Y+startyear)>=2019)*((Y+startyear)<2020)*(percfail2019/100)+((Y+startyear)>=2020)*(percfail2020/100);
 
   // set up treatment rate for RCD
-  double incm=ps*tau*lam*sS+pr*tau*lam*sR+pr*tau*lam*sIU+pr*tau*lam*sIA;
+  //double incm=ps*tau*lam*sS+pr*tau*lam*sR+pr*tau*lam*sIU+pr*tau*lam*sIA;
   //double propRCD=(1-RCDcoex)*((1+exp(-kRCD*cRCD))*((1/(1+exp(-kRCD*(RCDrad-cRCD))))-(1/(1+exp(kRCD*cRCD)))))+RCDcoex*RCDs;
   //double fRCD=exp(-((delayRCD-muRCDw)*(delayRCD-muRCDw))/(2*sdRCDw));
   //double avrad=clustRCDrad/(1+exp(-bRCD*(gRCD-RCDrad)));

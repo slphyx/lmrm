@@ -1,7 +1,5 @@
 switch on scale up of EDAT,"1: On, 0: Off"
 switch on scale up of ITN,"1: On, 0: Off"
-switch on scale up of RCD,"1: On, 0: Off"
-change RCD from radial search to co-exposure search,"1: On, 0: Off"
 switch on scale up of IRS,"1: On, 0: Off"
 switch on MDA,"1: On, 0: Off"
 ACT+primaquine for EDAT and MDA,"1: On, 0: Off"
