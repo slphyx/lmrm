@@ -130,7 +130,7 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   
   double timei = parameters["timei"];
   
-  double amp = parameters["amp"];
+  double alpha = parameters["alpha"];
   
   double phi =  parameters["phi"];
   
@@ -238,9 +238,9 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   
   // define variables
   double P = (sS+sR+sIC+sIA+sIU+sTr+sSm+sRm);
-  double seas=1+amp*cos(2*3.14159*(Y-phi));
+  double seas=1+alpha*cos(2*3.14159*(Y-phi));
   //double nu = 1/((1/nuC)+(1/nuA)+(1/nuU)); //unused
-  double bh=bh_max/(1+amp);
+  double bh=bh_max/(1+alpha);
   double beta=seas*b*epsilonh*epsilonm*bh/((bh*epsilonh+deltam)*(gammam/(gammam+deltam)));
   double mu_out = mu+muC+muA+muU;
   

@@ -213,7 +213,7 @@ runGMS<-function(initprev, scenario, param)
                   #dRCD = 4,
                   nuTr = 14,                   # days of infectiosness after treatment ACT [N]
                   nuTrp = 7,                   # days of infectiosness after treatment ACT+primaquine [N]
-                  amp = 0.7,                   # relative amplitude seasonality [N]
+                  alpha = 0.7,                   # relative amplitude seasonality [N]
                   phi = 0.0,                   # phase angle seasonality [N]
                   epsilonh=0.23,                 # per bite probability of an infectious mosquito infecting a human
                   epsilonm=0.5,                  # per bite probability of an infectious human infecting a mosquito
