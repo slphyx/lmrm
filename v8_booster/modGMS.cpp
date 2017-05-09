@@ -5,197 +5,132 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 List modGMSrcpp(double t, NumericVector state, NumericVector parameters) 
 {
-  // switches
+  // switches for interventions
   double EDATon = parameters["EDATon"];
   double ITNon = parameters["ITNon"];
-  //double RCDon = parameters["RCDon"];
-  //double RCDcoex = parameters["RCDcoex"];
   double IRSon = parameters["IRSon"];
   double MDAon = parameters["MDAon"];
   double primon = parameters["primon"];
   double MSATon = parameters["MSATon"];
   double VACon = parameters["VACon"];
+  
   // convert %s to proportions
   double covEDATi=parameters["covEDATi"];
-        covEDATi = 0.9*covEDATi/100;
+    covEDATi = 0.9*covEDATi/100;
   double covEDAT0=parameters["covEDAT0"];
-        covEDAT0 = 0.9*covEDAT0/100;
+    covEDAT0 = 0.9*covEDAT0/100;
   double covITNi=parameters["covITNi"];
-  covITNi = covITNi/100;
+    covITNi = covITNi/100;
   double covITN0=parameters["covITN0"];
-  covITN0 = covITN0/100;
+    covITN0 = covITN0/100;
   double effITN = parameters["effITN"];
-  effITN =effITN/100;
+    effITN =effITN/100;
   double covIRSi=parameters["covIRSi"];
-  covIRSi=covIRSi/100;
+    covIRSi=covIRSi/100;
   double covIRS0=parameters["covIRS0"];
-  covIRS0=covIRS0/100;
+    covIRS0=covIRS0/100;
   double effIRS = parameters["effIRS"];
-  effIRS=effIRS/100;
-  //double covRCDi=parameters["covRCDi"];
-  //covRCDi=covRCDi/100;
-  //double covRCD0=parameters["covRCD0"];
-  //covRCD0=covRCD0/100;
-  //double RCDs=parameters["RCDs"];
-  //RCDs=RCDs/100;
-  //double RCDsensC=parameters["RCDsensC"];
-  //RCDsensC=RCDsensC/100;
-  //double RCDsensA=parameters["RCDsensA"];
-  //RCDsensA=RCDsensA/100;
-  //double RCDsensU=parameters["RCDsensU"];
-  //RCDsensU=RCDsensU/100;
+    effIRS=effIRS/100;
   double covMSATi=parameters["covMSATi"];
-  covMSATi=covMSATi/100;
+    covMSATi=covMSATi/100;
   double covMSAT0=parameters["covMSAT0"];
-  covMSAT0=covMSAT0/100;
+    covMSAT0=covMSAT0/100;
   double MSATsensC=parameters["MSATsensC"];
-  MSATsensC=MSATsensC/100;
+    MSATsensC=MSATsensC/100;
   double MSATsensA=parameters["MSATsensA"];
-  MSATsensA=MSATsensA/100;
+    MSATsensA=MSATsensA/100;
   double MSATsensU=parameters["MSATsensU"];
-  MSATsensU=MSATsensU/100;
-  //double clustRCDrad=parameters["clustRCDrad"];
-  //clustRCDrad=clustRCDrad/100;
-  //double clustRCDcoex=parameters["clustRCDcoex"];
-  //clustRCDcoex=clustRCDcoex/100;
+    MSATsensU=MSATsensU/100;
   double cm_1=parameters["cm_1"];
-  cm_1=cm_1/100;
+    cm_1=cm_1/100;
   double cm_2=parameters["cm_2"];
-  cm_2=cm_2/100;
+    cm_2=cm_2/100;
   double cm_3=parameters["cm_3"];
-  cm_3=cm_3/100;
+    cm_3=cm_3/100;
   double cmda_1=parameters["cmda_1"];
-  cmda_1=cmda_1/100;
+    cmda_1=cmda_1/100;
   double cmda_2=parameters["cmda_2"];
-  cmda_2=cmda_2/100;
+    cmda_2=cmda_2/100;
   double cmda_3=parameters["cmda_3"];
-  cmda_3=cmda_3/100;
-  
-  // booster vaccine, coverage for MdA is 0
-  double cmda_4=0;
-  
+    cmda_3=cmda_3/100;
+  double cmda_4=0; // booster vaccine, coverage for MdA is 0
   double effv_1=parameters["effv_1"];
-  effv_1=effv_1/100;
+    effv_1=effv_1/100;
   double effv_2=parameters["effv_2"];
-  effv_2=effv_2/100;
+    effv_2=effv_2/100;
   double effv_3=parameters["effv_3"];
-  effv_3=effv_3/100;
-  
-  // booster vaccine, effect of vaccine is assumed to resemble the 3rd dose
-  double effv_4= effv_3;
-  
+    effv_3=effv_3/100;
+  double effv_4= effv_3;  // booster vaccine, effect of vaccine is assumed to resemble the 3rd dose
   double rhoa=parameters["rhoa"];
-  rhoa=rhoa/100;
+    rhoa=rhoa/100;
   double rhou=parameters["rhou"];
-  rhou=rhou/100;
+    rhou=rhou/100;
   double ps=parameters["ps"];
-  ps=ps/100;
+    ps=ps/100;
   double pr=parameters["pr"];
-  pr=pr/100;
+    pr=pr/100;
   double eta=parameters["eta"];
-  eta=eta/100;
-  //double RCDthresh=parameters["RCDthresh"]; //new v12
+    eta=eta/100;
   
   // convert time scales
   double dm=parameters["dm"];
-  dm=dm/12;
+    dm=dm/12;
   double tm_1 = parameters["tm_1"];
-  tm_1=2018+(tm_1/12);
+    tm_1=2018+(tm_1/12);
   double tm_2 = parameters["tm_2"];
-  tm_2=2018+(tm_2/12);
+    tm_2=2018+(tm_2/12);
   double tm_3 = parameters["tm_3"];
-  tm_3=2018+(tm_3/12);
+    tm_3=2018+(tm_3/12);
+  double tm_4=tm_1+1; // booster vaccine
   
-  // booster vaccine
-  double tm_4=tm_1+1;
   
   // convert durations to rates
   double lossd=parameters["lossd"];
-  lossd=365/lossd;
+    lossd=365/lossd;
   double omega=parameters["omega"];
-  omega=1/omega;
+    omega=1/omega;
   double nuC=parameters["nuC"];
-  nuC=365/nuC;
+    nuC=365/nuC;
   double nuA=parameters["nuA"];
-  nuA=365/nuA;
+    nuA=365/nuA;
   double nuU=parameters["nuU"];
-  nuU=365/nuU;
-  
+    nuU=365/nuU;
   double mu=parameters["mu"];
-  mu=1/mu;
+    mu=1/mu;
   double nTr=parameters["nuTr"];
-  nTr=365/nTr;
+    nTr=365/nTr;
   double nTrp=parameters["nuTrp"];
-  nTrp=365/nTrp;
-  //double dRCD=52/parameters["dRCD"]; //unused
-  // imported cases
+    nTrp=365/nTrp;
   double muC=parameters["muC"];
-  muC=muC/1000;
+    muC=muC/1000;
   double muA=parameters["muA"];
-  muA=muA/1000;
+    muA=muA/1000;
   double muU=parameters["muU"];
-  muU=muU/1000;
+    muU=muU/1000;
+  
   //remaining variables
   double vh = parameters["vh"];
-  vh=vh/365;
-  
+    vh=vh/365;
   double timei = parameters["timei"];
-  
   double alpha = parameters["alpha"];
-  
   double phi =  parameters["phi"];
-  
   double epsilonh = parameters["epsilonh"];
-  
   double epsilonm = parameters["epsilonm"];
-  
   double b = parameters["b"];
-  
   double deltam=parameters["deltam"];                 
-  
   double gammam=parameters["gammam"];
-  
-  //double kRCD = parameters["kRCD"];                
-  
-  //double cRCD = parameters["cRCD"];                
-  
-  //double bRCD = parameters["bRCD"];
-  
-  //double gRCD = parameters["gRCD"];
-  
-  //double muRCDw=parameters["muRCDw"];
-  
-  //double sdRCDw=parameters["sdRCDw"];
-  
   double percfail2018 = parameters["percfail2018"];
-  
   double percfail2019 = parameters["percfail2019"];
-  
   double percfail2020 = parameters["percfail2020"];
-  
   double EDATscale =parameters["EDATscale"];
-  
   double ITNscale=parameters["ITNscale"] ;
-  
-  //double RCDscale = parameters["RCDscale"];
-  
-  //double delayRCD =parameters["delayRCD"];
-  
   double IRSscale =parameters["IRSscale"];
-  
   double MSATscale=parameters["MSATscale"];
-  
-  //double RCDrad =parameters["RCDrad"];
-  
   double bh_max =parameters["bh_max"];
-  
-  
   double startyear=2007;
   
-  //state
+  // states
   double Y = state["Y"];
-  //double Cinc_det = state["Cinc_det"]; //unused
-  //double Cinc_tot = state["Cinc_tot"]; //unused
   double S_0 = state["S_0"];
   double IC_0 = state["IC_0"];
   double IA_0 = state["IA_0"];
@@ -220,7 +155,7 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   double Tr_2 = state["Tr_2"];
   double Sm_2 = state["Sm_2"];
   double Rm_2 = state["Rm_2"];
-    double S_3 = state["S_3"];
+  double S_3 = state["S_3"];
   double IC_3 = state["IC_3"];
   double IA_3 = state["IA_3"];
   double IU_3 = state["IU_3"];
@@ -237,13 +172,9 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   double Sm_4 = state["Sm_4"];
   double Rm_4 = state["Rm_4"];
   
-  
-  
-  
-  // swtich on doubleerventions
+  // swtich on double interventions
   covEDATi = EDATon*covEDATi+(1-EDATon)*covEDAT0;
   covITNi = ITNon*covITNi+(1-ITNon)*covITN0;
-  //covRCDi = RCDon*covRCDi+(1-RCDon)*covRCD0;
   covIRSi = IRSon*covIRSi+(1-IRSon)*covIRS0;
   
   double sS = S_0+S_1+S_2+S_3;
@@ -258,7 +189,6 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   // define variables
   double P = (sS+sR+sIC+sIA+sIU+sTr+sSm+sRm);
   double seas=1+alpha*cos(2*3.14159*(Y-phi));
-  //double nu = 1/((1/nuC)+(1/nuA)+(1/nuU)); //unused
   double bh=bh_max/(1+alpha);
   double beta=seas*b*epsilonh*epsilonm*bh/((bh*epsilonh+deltam)*(gammam/(gammam+deltam)));
   double mu_out = mu+muC+muA+muU;
@@ -267,12 +197,10 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   
   double wsiEDAT=(1-(Y<=timei))*(Y<=(timei+EDATscale))*((Y-timei)/EDATscale)+1*(Y>=(timei+EDATscale));
   double wsiITN=(1-(Y<=timei))*(Y<=(timei+ITNscale))*((Y-timei)/ITNscale)+1*(Y>=(timei+ITNscale));
-  //double wsiRCD=(1-(Y<=timei))*(Y<=(timei+RCDscale))*((Y-timei)/RCDscale)+1*(Y>=(timei+RCDscale));
   double wsiIRS=(1-(Y<=timei))*(Y<=(timei+IRSscale))*((Y-timei)/IRSscale)+1*(Y>=(timei+IRSscale));
   double wsiMSAT=(1-(Y<=timei))*(Y<=(timei+MSATscale))*((Y-timei)/MSATscale)+1*(Y>=(timei+MSATscale));
   double covEDAT=(1-wsiEDAT)*covEDAT0+wsiEDAT*covEDATi;
   double covITN=(1-wsiITN)*covITN0+wsiITN*covITNi;
-  //double covRCD=(1-wsiRCD)*covRCD0+wsiRCD*covRCDi;
   double covIRS=(1-wsiIRS)*covIRS0+wsiIRS*covIRSi;
   double covMSAT=(1-wsiMSAT)*covMSAT0+wsiMSAT*covMSATi;
   
@@ -287,7 +215,6 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   double v_2= VACon*((Y>(tm_2-startyear))*(Y<=tm_2-startyear+dm)*effv_2*(1+exp(-((Y+startyear-tm_2)*log(2))/vh))/2+(Y>tm_2-startyear+dm)*effv_2*exp(-((Y+startyear-tm_2-dm)*log(2))/vh));
   double v_3= VACon*((Y>(tm_3-startyear))*(Y<=tm_3-startyear+dm)*effv_3*(1+exp(-((Y+startyear-tm_3)*log(2))/vh))/2+(Y>tm_3-startyear+dm)*effv_3*exp(-((Y+startyear-tm_3-dm)*log(2))/vh));
   double v_4= VACon*((Y>(tm_4-startyear))*(Y<=tm_4-startyear+dm)*effv_4*(1+exp(-((Y+startyear-tm_4)*log(2))/vh))/2+(Y>tm_4-startyear+dm)*effv_4*exp(-((Y+startyear-tm_4-dm)*log(2))/vh));
-  // add variables for above
   
   double lam_1 = (1-v_1)*lam;
   double lam_2 = (1-v_2)*lam;
@@ -298,19 +225,6 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   
   double fail = ((Y+startyear)<2019)*(percfail2018/100)+((Y+startyear)>=2019)*((Y+startyear)<2020)*(percfail2019/100)+((Y+startyear)>=2020)*(percfail2020/100);
 
-  // set up treatment rate for RCD
-  //double incm=ps*tau*lam*sS+pr*tau*lam*sR+pr*tau*lam*sIU+pr*tau*lam*sIA;
-  //double propRCD=(1-RCDcoex)*((1+exp(-kRCD*cRCD))*((1/(1+exp(-kRCD*(RCDrad-cRCD))))-(1/(1+exp(kRCD*cRCD)))))+RCDcoex*RCDs;
-  //double fRCD=exp(-((delayRCD-muRCDw)*(delayRCD-muRCDw))/(2*sdRCDw));
-  //double avrad=clustRCDrad/(1+exp(-bRCD*(gRCD-RCDrad)));
-  //double eqRCDrad=cRCD-((1/kRCD)*log(((1+exp(kRCD*cRCD))/(1+RCDs*exp(kRCD*cRCD)))-1));
-  //double avcoex=clustRCDcoex/(1+exp(-bRCD*(gRCD-eqRCDrad)));
-  //double rateRCD=RCDon*covRCD*incm*(propRCD+fRCD*((1-RCDcoex)*(1-eta)*avrad+RCDcoex*avcoex))*((1000*incm/P)<=RCDthresh);
-  //old rateRCD=RCDon*covRCD*incm*(propRCD+fRCD*((1-RCDcoex)*(1-eta)*avrad+RCDcoex*avcoex));
-  //new rateRCD=RCDon*covRCD*incm*(propRCD+fRCD*((1-RCDcoex)*(1-eta)*avrad+RCDcoex*avcoex))*((1000*incm/P)<=RCDthresh);
-  //double tauRCD=rateRCD;
-  
-  
   // MDA and RTS,S rounds
   double m_1= MDAon*(Y>(tm_1-startyear))*(Y<=(tm_1+dm-startyear))*(-log((1-cm_1))/dm);
   double m_2= MDAon*(Y>(tm_2-startyear))*(Y<=(tm_2+dm-startyear))*(-log((1-cm_2))/dm);
@@ -318,19 +232,15 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   double m_4= MDAon*(Y>(tm_3-startyear))*(Y<=(tm_3+dm-startyear))*(-log((1-cm_3))/dm); // m4 is the same as m3
   double m_5= 0;
   
-  //double treat = ((ps*tau*lam*sS+pr*tau*lam*sR+pr*tau*lam*sIU+pr*tau*lam*sIA)+m_1*cmda_1*(IC_0+IA_0+IU_0)+m_2*cmda_2*(IC_1+IA_1+IU_1)+m_3*cmda_3*(IC_2+IA_2+IU_2)+tauRCD*(RCDsensC*sIC+RCDsensA*sIA+RCDsensU*sIU));
     
   muC = (1-MSATon*MSATsensC*covMSAT)*muC;
   muA = (1-MSATon*MSATsensA*covMSAT)*muA;
   muU = (1-MSATon*MSATsensU*covMSAT)*muU;
   
   
-  
-  
   // rate of change
   double dY = 1;
   
-  //dCinc_det = ((ps*tau*lam*sS+pr*tau*lam*sR+pr*tau*lam*sIU+pr*tau*lam*sIA)+tauRCD*(RCDsensC*sIC+RCDsensA*sIA+RCDsensU*sIU));                             //3
   double dCinc_det = ps*tau*lam*sS+pr*tau*lam*sR+pr*tau*lam*sIU+pr*tau*lam*sIA;                           //3
   double dCinc_tot = ps*lam*sS+pr*lam*sR+pr*lam*sIU+pr*lam*sIA;                                                                                                 //4
   double dS_0 = mu*P-mu_out*S_0+omega*R_0-lam*S_0+lossd*Sm_0-m_1*S_0;                                                                                         //5
@@ -429,4 +339,3 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
     
 }
 
-//out = ode(y = state, times = times, func = modGMS, parms = parameters)
