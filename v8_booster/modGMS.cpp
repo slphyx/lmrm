@@ -70,12 +70,20 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   cmda_2=cmda_2/100;
   double cmda_3=parameters["cmda_3"];
   cmda_3=cmda_3/100;
+  
+  // booster vaccine, coverage for MdA is 0
+  double cmda_4=0;
+  
   double effv_1=parameters["effv_1"];
   effv_1=effv_1/100;
   double effv_2=parameters["effv_2"];
   effv_2=effv_2/100;
   double effv_3=parameters["effv_3"];
   effv_3=effv_3/100;
+  
+  // booster vaccine, effect of vaccine is assumed to resemble the 3rd dose
+  double effv_4= effv_3;
+  
   double rhoa=parameters["rhoa"];
   rhoa=rhoa/100;
   double rhou=parameters["rhou"];
@@ -97,6 +105,9 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   tm_2=2018+(tm_2/12);
   double tm_3 = parameters["tm_3"];
   tm_3=2018+(tm_3/12);
+  
+  // booster vaccine
+  double tm_4=tm_1+1;
   
   // convert durations to rates
   double lossd=parameters["lossd"];
@@ -217,6 +228,14 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   double Tr_3 = state["Tr_3"];
   double Sm_3 = state["Sm_3"];
   double Rm_3 = state["Rm_3"];
+  double S_4 = state["S_4"];
+  double IC_4 = state["IC_4"];
+  double IA_4 = state["IA_4"];
+  double IU_4 = state["IU_4"];
+  double R_4 = state["R_4"];
+  double Tr_4 = state["Tr_4"];
+  double Sm_4 = state["Sm_4"];
+  double Rm_4 = state["Rm_4"];
   
   
   
@@ -267,11 +286,13 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   double v_1= VACon*((Y>(tm_1-startyear))*(Y<=tm_1-startyear+dm)*effv_1*(1+exp(-((Y+startyear-tm_1)*log(2))/vh))/2+(Y>tm_1-startyear+dm)*effv_1*exp(-((Y+startyear-tm_1-dm)*log(2))/vh));
   double v_2= VACon*((Y>(tm_2-startyear))*(Y<=tm_2-startyear+dm)*effv_2*(1+exp(-((Y+startyear-tm_2)*log(2))/vh))/2+(Y>tm_2-startyear+dm)*effv_2*exp(-((Y+startyear-tm_2-dm)*log(2))/vh));
   double v_3= VACon*((Y>(tm_3-startyear))*(Y<=tm_3-startyear+dm)*effv_3*(1+exp(-((Y+startyear-tm_3)*log(2))/vh))/2+(Y>tm_3-startyear+dm)*effv_3*exp(-((Y+startyear-tm_3-dm)*log(2))/vh));
-  
+  double v_4= VACon*((Y>(tm_4-startyear))*(Y<=tm_4-startyear+dm)*effv_4*(1+exp(-((Y+startyear-tm_4)*log(2))/vh))/2+(Y>tm_4-startyear+dm)*effv_4*exp(-((Y+startyear-tm_4-dm)*log(2))/vh));
+  // add variables for above
   
   double lam_1 = (1-v_1)*lam;
   double lam_2 = (1-v_2)*lam;
   double lam_3 = (1-v_3)*lam;
+  double lam_4 = (1-v_4)*lam;
   
   double tau = covEDAT;
   
@@ -294,7 +315,8 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   double m_1= MDAon*(Y>(tm_1-startyear))*(Y<=(tm_1+dm-startyear))*(-log((1-cm_1))/dm);
   double m_2= MDAon*(Y>(tm_2-startyear))*(Y<=(tm_2+dm-startyear))*(-log((1-cm_2))/dm);
   double m_3= MDAon*(Y>(tm_3-startyear))*(Y<=(tm_3+dm-startyear))*(-log((1-cm_3))/dm); 
-  double m_4=0;
+  double m_4= MDAon*(Y>(tm_3-startyear))*(Y<=(tm_3+dm-startyear))*(-log((1-cm_3))/dm); // m4 is the same as m3
+  double m_5= 0;
   
   //double treat = ((ps*tau*lam*sS+pr*tau*lam*sR+pr*tau*lam*sIU+pr*tau*lam*sIA)+m_1*cmda_1*(IC_0+IA_0+IU_0)+m_2*cmda_2*(IC_1+IA_1+IU_1)+m_3*cmda_3*(IC_2+IA_2+IU_2)+tauRCD*(RCDsensC*sIC+RCDsensA*sIA+RCDsensU*sIU));
     
@@ -348,6 +370,15 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   double dSm_3 = -mu_out*Sm_3+omega*Rm_3-lossd*Sm_3+m_3*(cmda_3*S_2+Sm_2)-m_4*Sm_3;                                                                             //35
   double dRm_3 = -mu_out*Rm_3-omega*Rm_3+(1-fail)*nuTr*Tr_3-lossd*Rm_3+m_3*(cmda_3*R_2+Rm_2)-m_4*Rm_3;                                                          //36
   
+  double dS_4 = -mu_out*S_4+omega*R_4-lam_4*S_4+lossd*Sm_4+(1-cmda_4)*m_4*S_3-m_5*S_4;                                                                          //37
+  double dIC_4 = -mu_out*IC_4+ps*(1-tau)*lam_4*S_4+pr*(1-tau)*lam_4*R_4+pr*(1-tau)*lam_4*IU_4+pr*(1-tau)*lam_4*IA_4-nuC*IC_4+(1-cmda_4)*m_4*IC_3-m_5*IC_4;      //38
+  double dIA_4 = -mu_out*IA_4+(1-ps)*lam_4*S_4+(1-pr)*lam_4*R_4+(1-pr)*lam_4*IU_4-pr*lam_4*IA_4+nuC*IC_4-nuA*IA_4+fail*nuTr*Tr_4+(1-cmda_4)*m_4*IA_3-m_5*IA_4;  //39
+  double dIU_4 = -mu_out*IU_4-lam_4*IU_4-nuU*IU_4+nuA*IA_4+(1-cmda_4)*m_4*IU_3-m_5*IU_4;                                                                        //40
+  double dR_4 = -mu_out*R_4-omega*R_4-lam_4*R_4+nuU*IU_4 +lossd*Rm_4+(1-cmda_4)*m_4*R_3-m_5*R_4;                                                                //41
+  double dTr_4 = -mu_out*Tr_4+ps*tau*lam_4*S_4+pr*tau*lam_4*R_4+pr*tau*lam_4*IU_4+pr*tau*lam_4*IA_4-nuTr*Tr_4+m_4*(cmda_4*(IC_3+IA_3+IU_3)+Tr_3)-m_5*Tr_4;      //42
+  double dSm_4 = -mu_out*Sm_4+omega*Rm_4-lossd*Sm_4+m_4*(cmda_4*S_3+Sm_3)-m_5*Sm_4;                                                                             //43
+  double dRm_4 = -mu_out*Rm_4-omega*Rm_4+(1-fail)*nuTr*Tr_4-lossd*Rm_4+m_4*(cmda_4*R_3+Rm_3)-m_5*Rm_4;                                                          //44
+  
   // return the rate of change
   List output;
   output["dY"]=dY;
@@ -385,6 +416,14 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   output["dTr_3"]=dTr_3;
   output["dSm_3"]=dSm_3;
   output["dRm_3"]=dRm_3;
+  output["dS_4"]=dS_4;
+  output["dIC_4"]=dIC_4;
+  output["dIA_4"]=dIA_4;
+  output["dIU_4"]=dIU_4;
+  output["dR_4"]=dR_4;
+  output["dTr_4"]=dTr_4;
+  output["dSm_4"]=dSm_4;
+  output["dRm_4"]=dRm_4;
 
   return output;
     
