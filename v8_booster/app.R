@@ -244,7 +244,7 @@ runGMS<-function(initprev, scenario, param)
   
   
   # % prevalence
-  prevalence <- 100*rowSums(out[,iprev])/pop
+  prevalence <- 100*rowSums(out[,iprev])/pop # Additional file: Equation no.13
   GMSout<-matrix(NA,nrow=length(times),ncol=4)
   GMSout[,1]<-times
   GMSout[,2]<-clinmonth_det

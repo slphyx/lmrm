@@ -190,11 +190,15 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   double P = (sS+sR+sIC+sIA+sIU+sTr+sSm+sRm);
   double seas=1+alpha*cos(2*3.14159*(Y-phi));
   double bh=bh_max/(1+alpha);
+  
+  // Additional file: Equation no.10
   double beta=seas*b*epsilonh*epsilonm*bh/((bh*epsilonh+deltam)*(gammam/(gammam+deltam)));
+  
   double mu_out = mu+muC+muA+muU;
   
   timei=timei-startyear;
   
+  // Additional file: Equation no.14
   double wsiEDAT=(1-(Y<=timei))*(Y<=(timei+EDATscale))*((Y-timei)/EDATscale)+1*(Y>=(timei+EDATscale));
   double wsiITN=(1-(Y<=timei))*(Y<=(timei+ITNscale))*((Y-timei)/ITNscale)+1*(Y>=(timei+ITNscale));
   double wsiIRS=(1-(Y<=timei))*(Y<=(timei+IRSscale))*((Y-timei)/IRSscale)+1*(Y>=(timei+IRSscale));
@@ -207,15 +211,17 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   double nuTr= primon*((Y<timei)*nTr+(Y>timei)*nTrp)+(1-primon)*nTr;
   lossd=1/((1/lossd)-(1/nuTr));
   
+  // Additional file: Equation no.9
   double lam = (1-(1-eta)*effIRS*covIRS)*(1-effITN*covITN)*beta*(sIC+sTr+rhoa*sIA+rhou*sIU)/P;
   
   // vaccine effects
-  
+  // Additional file: Equation no.17
   double v_1= VACon*((Y>(tm_1-startyear))*(Y<=tm_1-startyear+dm)*effv_1*(1+exp(-((Y+startyear-tm_1)*log(2))/vh))/2+(Y>tm_1-startyear+dm)*effv_1*exp(-((Y+startyear-tm_1-dm)*log(2))/vh));
   double v_2= VACon*((Y>(tm_2-startyear))*(Y<=tm_2-startyear+dm)*effv_2*(1+exp(-((Y+startyear-tm_2)*log(2))/vh))/2+(Y>tm_2-startyear+dm)*effv_2*exp(-((Y+startyear-tm_2-dm)*log(2))/vh));
   double v_3= VACon*((Y>(tm_3-startyear))*(Y<=tm_3-startyear+dm)*effv_3*(1+exp(-((Y+startyear-tm_3)*log(2))/vh))/2+(Y>tm_3-startyear+dm)*effv_3*exp(-((Y+startyear-tm_3-dm)*log(2))/vh));
   double v_4= VACon*((Y>(tm_4-startyear))*(Y<=tm_4-startyear+dm)*effv_4*(1+exp(-((Y+startyear-tm_4)*log(2))/vh))/2+(Y>tm_4-startyear+dm)*effv_4*exp(-((Y+startyear-tm_4-dm)*log(2))/vh));
   
+  // Additional file: Equation no.16
   double lam_1 = (1-v_1)*lam;
   double lam_2 = (1-v_2)*lam;
   double lam_3 = (1-v_3)*lam;
@@ -226,23 +232,25 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   double fail = ((Y+startyear)<2019)*(percfail2018/100)+((Y+startyear)>=2019)*((Y+startyear)<2020)*(percfail2019/100)+((Y+startyear)>=2020)*(percfail2020/100);
 
   // MDA and RTS,S rounds
+  // Additional file: Equation no.15
   double m_1= MDAon*(Y>(tm_1-startyear))*(Y<=(tm_1+dm-startyear))*(-log((1-cm_1))/dm);
   double m_2= MDAon*(Y>(tm_2-startyear))*(Y<=(tm_2+dm-startyear))*(-log((1-cm_2))/dm);
   double m_3= MDAon*(Y>(tm_3-startyear))*(Y<=(tm_3+dm-startyear))*(-log((1-cm_3))/dm); 
   double m_4= MDAon*(Y>(tm_3-startyear))*(Y<=(tm_3+dm-startyear))*(-log((1-cm_3))/dm); // m4 is the same as m3
   double m_5= 0;
   
-    
+  // Additional file: Equation no.18 
   muC = (1-MSATon*MSATsensC*covMSAT)*muC;
   muA = (1-MSATon*MSATsensA*covMSAT)*muA;
   muU = (1-MSATon*MSATsensU*covMSAT)*muU;
   
   
   // rate of change
+  // Additional file: Equation no. 1 - 8
   double dY = 1;
   
-  double dCinc_det = ps*tau*lam*sS+pr*tau*lam*sR+pr*tau*lam*sIU+pr*tau*lam*sIA;                           //3
-  double dCinc_tot = ps*lam*sS+pr*lam*sR+pr*lam*sIU+pr*lam*sIA;                                                                                                 //4
+  double dCinc_det = ps*tau*lam*sS+pr*tau*lam*sR+pr*tau*lam*sIU+pr*tau*lam*sIA;                           //3 // Additional file: Equation no.12
+  double dCinc_tot = ps*lam*sS+pr*lam*sR+pr*lam*sIU+pr*lam*sIA;                                                                                                 //4 // Additional file: Equation no.11
   double dS_0 = mu*P-mu_out*S_0+omega*R_0-lam*S_0+lossd*Sm_0-m_1*S_0;                                                                                         //5
   double dIC_0 = muC*P-mu_out*IC_0+ps*(1-tau)*lam*S_0+pr*(1-tau)*lam*R_0+pr*(1-tau)*lam*IU_0+pr*(1-tau)*lam*IA_0-nuC*IC_0-m_1*IC_0;        //6 
   double dIA_0 = muA*P-mu_out*IA_0+(1-ps)*lam*S_0+(1-pr)*lam*R_0+(1-pr)*lam*IU_0-pr*lam*IA_0+nuC*IC_0-nuA*IA_0+fail*nuTr*Tr_0-m_1*IA_0;    //7
