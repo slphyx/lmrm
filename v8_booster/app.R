@@ -75,7 +75,6 @@ ui <- fluidPage(
                      ),
                      column(3,
                             radioButtons(inputId="VACon", label = "With vaccination: ", choices = c("No"=0, "Yes"=1), selected = 0, inline=TRUE),
-                            #checkboxInput(inputId="VACon", label = "switch on vaccination", value = FALSE), 
                             sliderInput(inputId="effv_1", label = "% protective efficacy of RTS,S with 1st dose", value = 75, min=0, max=100),
                             sliderInput(inputId="effv_2", label = "% protective efficacy of RTS,S with 2nd dose", value = 80, min=0, max=100),
                             sliderInput(inputId="effv_3", label = "% protective efficacy of RTS,S with 3rd dose", value = 92, min=0, max=100),
@@ -415,14 +414,14 @@ server <- function(input, output, session) {
     polygon(c(x,rev(x)),c(y2,rev(y1)),col=rgb(0,0,1,alpha=0.4),border=NA)
     
     lines(c(2018,2018),c(-maxy,2*maxy),col="dark grey",lty=3,lwd=2)
-    lines(c(2021,2021),c(-maxy,2*maxy),col="dark grey",lty=3,lwd=2)
+    
     abline(h=input$API/12,col="dark blue",lty=1,lwd=1)
     abline(h=1/12,col="red",lty=3,lwd=3)
     maxy<-finprev
     plot(times[(runin:length(prevalence[,1]))],prevalence[(runin:length(prevalence[,1])),1], type='l',lty=1,col=rgb(0,0,0,alpha=0.25),xlab = "Time",ylab="% prevalence",main="Predicted true prevalence",ylim=c(0,maxy),lwd=6)
     lines(times[(runin:length(prevalence[,1]))],prevalence[(runin:length(prevalence[,1])),2], type='l',lty=1,col=rgb(0,0,1,alpha=0.6),xlab = "Time",ylab="% prevalence",main="Predicted true prevalence",ylim=c(0,maxy),lwd=6)
     lines(c(2018,2018),c(-maxy,2*maxy),col="dark grey",lty=3,lwd=2)
-    lines(c(2021,2021),c(-maxy,2*maxy),col="dark grey",lty=3,lwd=2)
+    
   }
   
   output$MODEL <- renderPlot({
