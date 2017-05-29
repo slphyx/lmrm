@@ -199,10 +199,10 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   timei=timei-startyear;
   
   // Additional file: Equation no.14
-  double wsiEDAT=(1-(Y<=timei))*(Y<=(timei+EDATscale))*((Y-timei)/EDATscale)+1*(Y>=(timei+EDATscale));
-  double wsiITN=(1-(Y<=timei))*(Y<=(timei+ITNscale))*((Y-timei)/ITNscale)+1*(Y>=(timei+ITNscale));
-  double wsiIRS=(1-(Y<=timei))*(Y<=(timei+IRSscale))*((Y-timei)/IRSscale)+1*(Y>=(timei+IRSscale));
-  double wsiMSAT=(1-(Y<=timei))*(Y<=(timei+MSATscale))*((Y-timei)/MSATscale)+1*(Y>=(timei+MSATscale));
+  double wsiEDAT=(1-(Y<=timei))*(Y<=(timei+EDATscale))*((Y-timei)/EDATscale)+1*(Y>(timei+EDATscale));
+  double wsiITN=(1-(Y<=timei))*(Y<=(timei+ITNscale))*((Y-timei)/ITNscale)+1*(Y>(timei+ITNscale));
+  double wsiIRS=(1-(Y<=timei))*(Y<=(timei+IRSscale))*((Y-timei)/IRSscale)+1*(Y>(timei+IRSscale));
+  double wsiMSAT=(1-(Y<=timei))*(Y<=(timei+MSATscale))*((Y-timei)/MSATscale)+1*(Y>(timei+MSATscale));
   double covEDAT=(1-wsiEDAT)*covEDAT0+wsiEDAT*covEDATi;
   double covITN=(1-wsiITN)*covITN0+wsiITN*covITNi;
   double covIRS=(1-wsiIRS)*covIRS0+wsiIRS*covIRSi;
@@ -216,10 +216,10 @@ List modGMSrcpp(double t, NumericVector state, NumericVector parameters)
   
   // vaccine effects
   // Additional file: Equation no.17
-  double v_1= VACon*((Y>(tm_1-startyear))*(Y<=tm_1-startyear+dm)*effv_1*(1+exp(-((Y+startyear-tm_1)*log(2))/vh))/2+(Y>tm_1-startyear+dm)*effv_1*exp(-((Y+startyear-tm_1-dm)*log(2))/vh));
-  double v_2= VACon*((Y>(tm_2-startyear))*(Y<=tm_2-startyear+dm)*effv_2*(1+exp(-((Y+startyear-tm_2)*log(2))/vh))/2+(Y>tm_2-startyear+dm)*effv_2*exp(-((Y+startyear-tm_2-dm)*log(2))/vh));
-  double v_3= VACon*((Y>(tm_3-startyear))*(Y<=tm_3-startyear+dm)*effv_3*(1+exp(-((Y+startyear-tm_3)*log(2))/vh))/2+(Y>tm_3-startyear+dm)*effv_3*exp(-((Y+startyear-tm_3-dm)*log(2))/vh));
-  double v_4= VACon*((Y>(tm_4-startyear))*(Y<=tm_4-startyear+dm)*effv_4*(1+exp(-((Y+startyear-tm_4)*log(2))/vh))/2+(Y>tm_4-startyear+dm)*effv_4*exp(-((Y+startyear-tm_4-dm)*log(2))/vh));
+  double v_1= VACon*((Y>(tm_1-startyear))*(Y<=tm_1-startyear+dm)*effv_1*(1+exp(-((Y+startyear-tm_1)*log(2))/vh))/2+(Y>tm_1-startyear+dm)*effv_1*exp(-((Y+startyear-tm_1-dm)*log(2))/vh)/2);
+  double v_2= VACon*((Y>(tm_2-startyear))*(Y<=tm_2-startyear+dm)*effv_2*(1+exp(-((Y+startyear-tm_2)*log(2))/vh))/2+(Y>tm_2-startyear+dm)*effv_2*exp(-((Y+startyear-tm_2-dm)*log(2))/vh)/2);
+  double v_3= VACon*((Y>(tm_3-startyear))*(Y<=tm_3-startyear+dm)*effv_3*(1+exp(-((Y+startyear-tm_3)*log(2))/vh))/2+(Y>tm_3-startyear+dm)*effv_3*exp(-((Y+startyear-tm_3-dm)*log(2))/vh)/2);
+  double v_4= VACon*((Y>(tm_4-startyear))*(Y<=tm_4-startyear+dm)*effv_4*(1+exp(-((Y+startyear-tm_4)*log(2))/vh))/2+(Y>tm_4-startyear+dm)*effv_4*exp(-((Y+startyear-tm_4-dm)*log(2))/vh)/2);
   
   // Additional file: Equation no.16
   double lam_1 = (1-v_1)*lam;
