@@ -43,10 +43,10 @@ ui <- fluidPage(
                       sliderInput(inputId="covEDATi", label = "new % of all clinical cases treated", value = 70, min=0, max=100,step=5)
                     )), 
              column(4,wellPanel(
-                      h3("Insecticide Treated Net"),
-                      checkboxInput(inputId="ITNon", label = "switch on scale up of ITN ", value = FALSE),
-                      sliderInput(inputId="ITNscale", label = "years to scale up ITN ", value = 1, min=.25, max=3, step=.25),
-                      sliderInput(inputId="covITNi", label = "new coverage of ITN (%) ", value = 90, min=0, max=90,step=5)
+                      h3("Insecticide Treated Net (LLIN)"),
+                      checkboxInput(inputId="ITNon", label = "switch on scale up of LLIN", value = FALSE),
+                      sliderInput(inputId="ITNscale", label = "years to universal access to LLIN", value = 1, min=.25, max=3, step=.25),
+                      sliderInput(inputId="covITNi", label = "new bed-net use of LLIN (%)", value = 90, min=0, max=90,step=5)
                     )),
              column(4,wellPanel(
                h3("Indoor Residual Spray"),
@@ -78,7 +78,7 @@ ui <- fluidPage(
                             sliderInput(inputId="effv_1", label = "% protective efficacy of RTS,S with 1st dose", value = 75, min=0, max=100),
                             sliderInput(inputId="effv_2", label = "% protective efficacy of RTS,S with 2nd dose", value = 80, min=0, max=100),
                             sliderInput(inputId="effv_3", label = "% protective efficacy of RTS,S with 3rd dose", value = 92, min=0, max=100),
-                            sliderInput(inputId="vh", label = "half life of vaccine protection (days)", value = 90, min=10, max=500,step=10)
+                            sliderInput(inputId="vh", label = "half-life of vaccine protection (days)", value = 90, min=10, max=500,step=10)
                      )
             ),
             tabPanel(title = strong("Interventions under trial: Focal MSAT (mobile)"),
@@ -88,9 +88,9 @@ ui <- fluidPage(
                             sliderInput(inputId="covMSATi", label = "new coverage of MSAT (%)", value = 90, min=0, max=100,step=10)
                      ),
                      column(3,
-                            sliderInput(inputId="MSATsensC", label = "sensitivity MSAT test (clinical) ", value = 99, min=0, max=100,step=5),
-                            sliderInput(inputId="MSATsensA", label = "sensitivity MSAT test (micro detectable, asym)", value = 87, min=0, max=100,step=5),
-                            sliderInput(inputId="MSATsensU", label = "sensitivity MSAT test (micro undetectable, asym)", value = 4, min=0, max=100,step=5)
+                            sliderInput(inputId="MSATsensC", label = "sensitivity HS RDT (clinical) ", value = 99, min=0, max=100,step=5),
+                            sliderInput(inputId="MSATsensA", label = "sensitivity HS RDT (micro detectable, asym)", value = 87, min=0, max=100,step=5),
+                            sliderInput(inputId="MSATsensU", label = "sensitivity HS RDT (micro undetectable, asym)", value = 4, min=0, max=100,step=5)
                      )
             ),
             tabPanel(title= strong("Download"),
